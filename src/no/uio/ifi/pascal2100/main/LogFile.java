@@ -43,7 +43,7 @@ public class LogFile {
             PrintWriter log = (nLogLines == 0 ? new PrintWriter(logFileName) :
                             new PrintWriter(new FileOutputStream(logFileName, true)));
             log.println(data);
-            ++ nLogLines;
+            ++nLogLines;
             log.close();
         } catch (FileNotFoundException e) {
             String lName = logFileName;
@@ -119,7 +119,7 @@ public class LogFile {
     public void enterParser(String name) {
         if (doLogParser) {
             noteParserInfo(name);
-            ++ parseLevel;
+            ++parseLevel;
         }
     }
 
@@ -131,14 +131,14 @@ public class LogFile {
      */
     public void leaveParser(String name) {
         if (doLogParser) {
-            -- parseLevel;
+            --parseLevel;
             noteParserInfo("/" + name);
         }
     }
 
     private void noteParserInfo(String name) {
         String logLine = "Parser:   ";
-        for (int i = 1; i <= parseLevel; ++ i)
+        for (int i = 1; i <= parseLevel; ++i)
             logLine += "  ";
         writeLogLine(logLine + "<" + name + ">");
     }

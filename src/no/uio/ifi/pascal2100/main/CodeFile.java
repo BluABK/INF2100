@@ -31,18 +31,18 @@ public class CodeFile {
 
 
     public String getLabel(String origName) {
-        return origName + "_" + (++ numLabels);
+        return origName + "_" + (++numLabels);
     }
 
     public String getLocalLabel() {
-        return String.format(".L%04d", ++ numLabels);
+        return String.format(".L%04d", ++numLabels);
     }
 
 
     private void printLabel(String lab, boolean justALabel) {
         if (lab.length() > 6) {
             code.print(lab + ":");
-            if (! justALabel)
+            if (!justALabel)
                 code.print("\n        ");
         } else if (lab.length() > 0) {
             code.printf("%-8s", lab + ":");
