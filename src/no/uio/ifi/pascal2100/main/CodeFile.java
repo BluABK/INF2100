@@ -1,6 +1,7 @@
 package no.uio.ifi.pascal2100.main;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class CodeFile {
             Main.error("Cannot create code file " + fName + "!");
         }
         code.println("# Code file created by Pascal2100 compiler " +
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     }
 
     void finish() {
@@ -30,21 +31,21 @@ public class CodeFile {
 
 
     public String getLabel(String origName) {
-        return origName + "_" + (++numLabels);
+        return origName + "_" + (++ numLabels);
     }
 
     public String getLocalLabel() {
-        return String.format(".L%04d", ++numLabels);
+        return String.format(".L%04d", ++ numLabels);
     }
 
 
     private void printLabel(String lab, boolean justALabel) {
         if (lab.length() > 6) {
             code.print(lab + ":");
-            if (!justALabel)
+            if (! justALabel)
                 code.print("\n        ");
         } else if (lab.length() > 0) {
-            code.printf("%-8s", lab+":");
+            code.printf("%-8s", lab + ":");
         } else {
             code.print("        ");
         }
@@ -58,8 +59,8 @@ public class CodeFile {
 
 
     public void genInstr(String lab, String instr,
-            String arg, String comment) {
-        printLabel(lab, (instr+arg+comment).equals(""));
+                         String arg, String comment) {
+        printLabel(lab, (instr + arg + comment).equals(""));
         code.printf("%-7s %-23s ", instr, arg);
         if (comment.length() > 0) {
             code.print("# " + comment);

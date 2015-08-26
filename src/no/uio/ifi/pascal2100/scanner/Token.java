@@ -13,48 +13,71 @@ public class Token {
     }
 
     Token(String s, int lNum) {
-        if (s.equals("and"))
-            kind = andToken;
-        else if (s.equals("array"))
-            kind = arrayToken;
-        else if (s.equals("begin"))
-            kind = beginToken;
-        else if (s.equals("const"))
-            kind = constToken;
-        else if (s.equals("div"))
-            kind = divToken;
-        else if (s.equals("do"))
-            kind = doToken;
-        else if (s.equals("else"))
-            kind = elseToken;
-        else if (s.equals("end"))
-            kind = endToken;
-        else if (s.equals("function"))
-            kind = functionToken;
-        else if (s.equals("if"))
-            kind = ifToken;
-        else if (s.equals("mod"))
-            kind = modToken;
-        else if (s.equals("not"))
-            kind = notToken;
-        else if (s.equals("of"))
-            kind = ofToken;
-        else if (s.equals("or"))
-            kind = orToken;
-        else if (s.equals("procedure"))
-            kind = procedureToken;
-        else if (s.equals("program"))
-            kind = programToken;
-        else if (s.equals("then"))
-            kind = thenToken;
-        else if (s.equals("type"))
-            kind = typeToken;
-        else if (s.equals("var"))
-            kind = varToken;
-        else if (s.equals("while"))
-            kind = whileToken;
-        else
-            kind = nameToken;
+        switch (s) {
+            case "and":
+                kind = andToken;
+                break;
+            case "array":
+                kind = arrayToken;
+                break;
+            case "begin":
+                kind = beginToken;
+                break;
+            case "const":
+                kind = constToken;
+                break;
+            case "div":
+                kind = divToken;
+                break;
+            case "do":
+                kind = doToken;
+                break;
+            case "else":
+                kind = elseToken;
+                break;
+            case "end":
+                kind = endToken;
+                break;
+            case "function":
+                kind = functionToken;
+                break;
+            case "if":
+                kind = ifToken;
+                break;
+            case "mod":
+                kind = modToken;
+                break;
+            case "not":
+                kind = notToken;
+                break;
+            case "of":
+                kind = ofToken;
+                break;
+            case "or":
+                kind = orToken;
+                break;
+            case "procedure":
+                kind = procedureToken;
+                break;
+            case "program":
+                kind = programToken;
+                break;
+            case "then":
+                kind = thenToken;
+                break;
+            case "type":
+                kind = typeToken;
+                break;
+            case "var":
+                kind = varToken;
+                break;
+            case "while":
+                kind = whileToken;
+                break;
+            default:
+                kind = nameToken;
+                break;
+        }
 
         id = s;
         lineNum = lNum;
@@ -78,9 +101,15 @@ public class Token {
             t += " on line " + lineNum;
 
         switch (kind) {
-            case nameToken:		t += ": " + id;			break;
-            case intValToken:	t += ": " + intVal;		break;
-            case stringValToken:	t += ": '" + strVal + "'";	break;
+            case nameToken:
+                t += ": " + id;
+                break;
+            case intValToken:
+                t += ": " + intVal;
+                break;
+            case stringValToken:
+                t += ": '" + strVal + "'";
+                break;
         }
         return t;
     }

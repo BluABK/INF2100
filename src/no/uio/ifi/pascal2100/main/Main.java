@@ -1,10 +1,11 @@
 package no.uio.ifi.pascal2100.main;
 
-import no.uio.ifi.pascal2100.parser.*;
-import no.uio.ifi.pascal2100.scanner.*;
-import static no.uio.ifi.pascal2100.scanner.TokenKind.*;
+import no.uio.ifi.pascal2100.scanner.Scanner;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import static no.uio.ifi.pascal2100.scanner.TokenKind.eofToken;
 
 public class Main {
     public static final String version = "2015-08-18";
@@ -43,9 +44,7 @@ public class Main {
     }
 
     private static void readArgs(String arg[]) {
-        for (int i = 0; i < arg.length; i++) {
-            String a = arg[i];
-
+        for (String a : arg) {
             if (a.equals("-logB")) {
                 log.doLogBinding = true;
             } else if (a.equals("-logP")) {
@@ -71,8 +70,8 @@ public class Main {
         if (sourceFileName == null) usage();
 
         baseFileName = sourceFileName;
-        if (baseFileName.length()>4 && baseFileName.endsWith(".pas"))
-            baseFileName = baseFileName.substring(0,baseFileName.length()-4);
+        if (baseFileName.length() > 4 && baseFileName.endsWith(".pas"))
+            baseFileName = baseFileName.substring(0, baseFileName.length() - 4);
     }
 
 
@@ -131,7 +130,7 @@ public class Main {
         cmd[7] = "-lpas2100";
 
         System.out.print("Running");
-        for (String s: cmd) {
+        for (String s : cmd) {
             if (s.contains(" "))
                 System.out.print(" '" + s + "'");
             else
@@ -143,9 +142,9 @@ public class Main {
             String line;
             Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader out = new BufferedReader
-                (new InputStreamReader(p.getInputStream()));
+                            (new InputStreamReader(p.getInputStream()));
             BufferedReader err = new BufferedReader
-                (new InputStreamReader(p.getErrorStream()));
+                            (new InputStreamReader(p.getErrorStream()));
 
             while ((line = out.readLine()) != null) {
                 System.out.println(line);
@@ -175,15 +174,15 @@ public class Main {
 
     private static void usage() {
         error("Usage: java -jar pascal2100.jar " +
-                "[-log{B|P|S|T|Y}] [-test{parser|scanner}] file");
-    }
-
-    public void panic(String where) {
-        error("PANIC! Programming error in " + where);
+                        "[-log{B|P|S|T|Y}] [-test{parser|scanner}] file");
     }
 
     public static void warning(String message) {
         log.noteError(message);
         System.err.println(message);
+    }
+
+    public void panic(String where) {
+        error("PANIC! Programming error in " + where);
     }
 }

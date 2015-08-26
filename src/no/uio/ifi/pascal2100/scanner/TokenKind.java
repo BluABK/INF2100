@@ -79,27 +79,28 @@ public enum TokenKind {
         return image + " token";
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return image;
     }
 
 
     public boolean isFactorOpr() {
-        return this==multiplyToken || this==divToken ||
-            this==modToken || this==andToken;
+        return this == multiplyToken || this == divToken ||
+                        this == modToken || this == andToken;
     }
 
     public boolean isPrefixOpr() {
-        return this==addToken || this==subtractToken;
+        return this == addToken || this == subtractToken;
     }
 
     public boolean isRelOpr() {
-        return this==equalToken || this==notEqualToken ||
-            this==lessToken || this==lessEqualToken ||
-            this==greaterToken || this==greaterEqualToken;
+        return this == equalToken || this == notEqualToken ||
+                        this == lessToken || this == lessEqualToken ||
+                        this == greaterToken || this == greaterEqualToken;
     }
 
     public boolean isTermOpr() {
-        return isPrefixOpr() || this==orToken;
+        return isPrefixOpr() || this == orToken;
     }
 }

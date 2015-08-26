@@ -1,13 +1,16 @@
 package no.uio.ifi.pascal2100.main;
 
-import no.uio.ifi.pascal2100.parser.*;
+import no.uio.ifi.pascal2100.parser.PascalDecl;
+import no.uio.ifi.pascal2100.parser.PascalSyntax;
 import no.uio.ifi.pascal2100.scanner.Token;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 public class LogFile {
     boolean doLogBinding = false, doLogParser = false, doLogPrettyPrint = false,
-            doLogScanner = false, doLogTypeChecks = false;
+                    doLogScanner = false, doLogTypeChecks = false;
 
     private String logFileName = null;
     private int nLogLines = 0;
@@ -37,10 +40,10 @@ public class LogFile {
         if (logFileName == null) return;
 
         try {
-            PrintWriter log = (nLogLines==0 ? new PrintWriter(logFileName) :
-                    new PrintWriter(new FileOutputStream(logFileName,true)));
+            PrintWriter log = (nLogLines == 0 ? new PrintWriter(logFileName) :
+                            new PrintWriter(new FileOutputStream(logFileName, true)));
             log.println(data);
-            ++nLogLines;
+            ++ nLogLines;
             log.close();
         } catch (FileNotFoundException e) {
             String lName = logFileName;
@@ -56,7 +59,7 @@ public class LogFile {
      * Make a note in the log file that an error has occured.
      * (If the log file is not in use, request is ignored.)
      *
-     * @param message	The error message
+     * @param message The error message
      */
     public void noteError(String message) {
         if (nLogLines > 0)
@@ -68,12 +71,12 @@ public class LogFile {
      * Make a note in the log file that a source line has been read.
      * This note is only made if the user has requested appropriate logging.
      *
-     * @param lineNum	The line number
-     * @param line		The actual line
+     * @param lineNum The line number
+     * @param line    The actual line
      */
     public void noteSourceLine(int lineNum, String line) {
         if (doLogParser || doLogScanner)
-            writeLogLine(String.format("%4d: %s",lineNum,line));
+            writeLogLine(String.format("%4d: %s", lineNum, line));
     }
 
 
@@ -103,7 +106,7 @@ public class LogFile {
     public void noteBinding(String id, PascalSyntax where, PascalDecl decl) {
         if (doLogBinding)
             writeLogLine("Binding on line " + where.lineNum + ": " + id +
-                    " was declared in " + decl.identify());
+                            " was declared in " + decl.identify());
     }
 
 
@@ -116,7 +119,7 @@ public class LogFile {
     public void enterParser(String name) {
         if (doLogParser) {
             noteParserInfo(name);
-            ++parseLevel;
+            ++ parseLevel;
         }
     }
 
@@ -128,14 +131,14 @@ public class LogFile {
      */
     public void leaveParser(String name) {
         if (doLogParser) {
-            --parseLevel;
-            noteParserInfo("/"+name);
+            -- parseLevel;
+            noteParserInfo("/" + name);
         }
     }
 
     private void noteParserInfo(String name) {
         String logLine = "Parser:   ";
-        for (int i = 1; i <= parseLevel; ++i)
+        for (int i = 1; i <= parseLevel; ++ i)
             logLine += "  ";
         writeLogLine(logLine + "<" + name + ">");
     }

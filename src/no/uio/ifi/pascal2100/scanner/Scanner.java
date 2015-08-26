@@ -1,9 +1,11 @@
 package no.uio.ifi.pascal2100.scanner;
 
-import no.uio.ifi.pascal2100.main.*;
-import static no.uio.ifi.pascal2100.scanner.TokenKind.*;
+import no.uio.ifi.pascal2100.main.Main;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 
 public class Scanner {
     public Token curToken = null, nextToken = null;
@@ -68,18 +70,18 @@ public class Scanner {
 
 
     private int getFileLineNum() {
-        return (sourceFile!=null ? sourceFile.getLineNumber() : 0);
+        return (sourceFile != null ? sourceFile.getLineNumber() : 0);
     }
 
 
     // Character test utilities:
     private boolean isLetterAZ(char c) {
-        return 'A'<=c && c<='Z' || 'a'<=c && c<='z';
+        return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z';
     }
 
 
     private boolean isDigit(char c) {
-        return '0'<=c && c<='9';
+        return '0' <= c && c <= '9';
     }
 
 
