@@ -22,6 +22,7 @@ public class Main {
         int exitStatus = 0;
         try {
             readArgs(arg);
+
             log.init(baseFileName + ".log");
 
             Scanner s = new Scanner(sourceFileName);
@@ -67,19 +68,18 @@ public class Main {
                 sourceFileName = a;
             }
         }
-        if (sourceFileName == null) usage();
+        if (sourceFileName == null)
+            usage();
 
         baseFileName = sourceFileName;
         if (baseFileName.length() > 4 && baseFileName.endsWith(".pas"))
             baseFileName = baseFileName.substring(0, baseFileName.length() - 4);
     }
 
-
     private static void doTestScanner(Scanner s) {
         while (s.nextToken.kind != eofToken)
             s.readNextToken();
     }
-
 
     /* Del 2:
        private static void doTestParser(Scanner s) {

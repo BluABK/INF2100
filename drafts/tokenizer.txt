@@ -1,0 +1,13 @@
+1: Cut whitespace,
+2: if string is empty, read a new line -> step 1
+3: If no new line is available, eof token -> step 1
+4: Check if it is a comment, in that case, search until the matching or eof -> Step 1
+
+5: Find the length of name, number and each token as well as string
+    Length 0 if no match
+    If there are multiple values, there are multiple ways to interpret.
+        - Longest wins
+        - If tie, predefined, then number, then name
+        - String will always be separate because it has to start with '
+    Then make a token and increment the string, repeat step 1^
+

@@ -44,6 +44,8 @@ public class Scanner {
 
     public void readNextToken() {
         // Del 1 her
+        readNextLine();
+        nextToken = new Token(TokenKind.eofToken, getFileLineNum(), 1);
         Main.log.noteToken(nextToken);
     }
 

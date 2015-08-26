@@ -5,14 +5,15 @@ import static no.uio.ifi.pascal2100.scanner.TokenKind.*;
 public class Token {
     public TokenKind kind;
     public String id, strVal;
-    public int intVal, lineNum;
+    public int intVal, lineNum, colNum;
 
-    Token(TokenKind k, int lNum) {
+    Token(TokenKind k, int lNum, int cNum) {
         kind = k;
         lineNum = lNum;
+        colNum = cNum;
     }
 
-    Token(String s, int lNum) {
+    Token(String s, int lNum, int cNum) {
         switch (s) {
             case "and":
                 kind = andToken;
@@ -81,6 +82,7 @@ public class Token {
 
         id = s;
         lineNum = lNum;
+        colNum = cNum;
     }
 
     Token(String any, String s, int lNum) {
@@ -98,7 +100,7 @@ public class Token {
     public String identify() {
         String t = kind.identify();
         if (lineNum > 0)
-            t += " on line " + lineNum;
+            t += " on line " + lineNum + " column " + colNum;
 
         switch (kind) {
             case nameToken:
