@@ -1,5 +1,6 @@
 /testbuild
 /build
 .idea/
+.idea.old/
 src/classes
 src/pascal2100.jar

@@ -60,7 +60,7 @@ public class Scanner {
             char c = sourceLine.charAt(i);
             // PS: ' ' is not a normal space. It has the
             // hexadecimal value 0xa0c2 (stored in Big Endian)
-            if(c != ' ' && c != '\n' && c != '\t' && c != ' ' && c != '\r')
+            if (c != ' ' && c != '\n' && c != '\t' && c != ' ' && c != '\r')
                 break;
         }
         // i: number of chars cut, or offset to start from in sourceLine
@@ -68,7 +68,7 @@ public class Scanner {
         sourceLine = sourceLine.substring(i, sourceLine.length());
     }
 
-    private void setToken(Token t){
+    private void setToken(Token t) {
         nextToken = t;
         Main.log.noteToken(t);
     }
@@ -82,7 +82,7 @@ public class Scanner {
         // A loop that goes to the beginning if any of the cases occur.
         // If no cases occur, the loop ends.
         while (true) {
-            if (sourceLine.length() == 0){
+            if (sourceLine.length() == 0) {
                 if (sourceFile == null) {
                     setToken(new Token(TokenKind.eofToken, getFileLineNum(), sourceCol));
                     return;
@@ -92,16 +92,18 @@ public class Scanner {
 
             // Eat whitespace and go back if line runs out
             trimLine();
-            if(sourceLine.length() == 0) continue;
+            if (sourceLine.length() == 0)
+                continue;
 
             // 3.9: Search for the end of an ongoing comment
-            if(inComment > 0) {
-                String tgt;
-                if(inComment == 1)
-                    tgt = "*/";
-                else if(inComment == 2)
-                    tgt = "}";
-                // TODO: Search for tgt, reset inComment, modify sourceLine and sourceCol and do a continue;
+            if (inComment > 0) {
+                String target;
+                if (inComment == 1)
+                    target = "*/";
+                else
+                    target = "}";
+
+                // TODO: Search for target, reset inComment, modify sourceLine and sourceCol and do a continue;
                 // If target is not found, set sourceLine="" and continue;
                 // Some stuff goes here....
 
@@ -114,9 +116,7 @@ public class Scanner {
 
             // NOTE: To check if a comment went unclosed for the rest of the file, check if inComment != 0 on eof
 
-            // TODO: Should we split some of this functionality into separate functions?
-
-
+            // TODO: Should we split some of this functionality into separate methods?
             break;
         }
 
@@ -126,7 +126,7 @@ public class Scanner {
         //  - There are no comments
         // Only part 5 remains.
         //
-        // Part 5 subparts:
+        // Part 5 sub-parts:
         //  - StringParser to find out if it is a string or not
         //  - RegexParser to find out if it is a number or name
         //  - StaticParser to find out if it matches a static string
@@ -140,7 +140,8 @@ public class Scanner {
         //  For StringParser:
         //  - checkError: We might not need it if it can do it by itself. Intend to use on unclosed strings.
         //
-        // Run every one of the parsers. Keep the ones with the highest number of charsClaimed()
+        // Run every one of the parsers.
+        // Keep the ones with the highest number of charsClaimed()
         // Then keep the ones with the highest priority.
         // If we end up with multiple here, there is a tie. If this happens,
         // we have probably made an implementation error.

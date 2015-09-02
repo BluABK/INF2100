@@ -87,7 +87,7 @@ public enum TokenKind {
 
     public boolean isFactorOpr() {
         return this == multiplyToken || this == divToken ||
-                        this == modToken || this == andToken;
+                this == modToken || this == andToken;
     }
 
     public boolean isPrefixOpr() {
@@ -96,8 +96,8 @@ public enum TokenKind {
 
     public boolean isRelOpr() {
         return this == equalToken || this == notEqualToken ||
-                        this == lessToken || this == lessEqualToken ||
-                        this == greaterToken || this == greaterEqualToken;
+                this == lessToken || this == lessEqualToken ||
+                this == greaterToken || this == greaterEqualToken;
     }
 
     public boolean isTermOpr() {
