@@ -1,3 +1,5 @@
+// TODO: ALL CLASSES MUST HAVE AN public String identify() METHOD RETURNING SOME DEBUG INFO ABOUT SELF
+
 package no.uio.ifi.pascal2100.scanner;
 
 import no.uio.ifi.pascal2100.main.Main;
@@ -11,7 +13,7 @@ public class Scanner {
     public Token curToken = null, nextToken = null;
 
     private LineNumberReader sourceFile = null;
-    private String sourceFileName, sourceLine = "";
+    private String sourceFileName, sourceLine = "", originalSourceLine = "";
     private int sourceCol = 1;
 
     /* inComment: Indicates if we are currently looking for the end of a comment.
@@ -73,6 +75,40 @@ public class Scanner {
         Main.log.noteToken(t);
     }
 
+    private void checkCommentEnd() {
+        String target;
+        if (inComment == 1)
+            target = "*/";
+        else
+            target = "}";
+
+        int pos = sourceLine.indexOf(target);
+        if (pos >= 0) {
+            sourceLine = sourceLine.substring(pos + target.length(), sourceLine.length());
+            sourceCol += pos + target.length();
+            inComment = 0;
+        } else {
+            sourceCol = -1;
+            sourceLine = "";
+        }
+    }
+
+    /* Returns: true if there was a positive match, false otherwise */
+    private boolean checkComment() {
+        if (sourceLine.startsWith("/*")) {
+            inComment = 1;
+            sourceLine = sourceLine.substring(2, sourceLine.length());
+            sourceCol += 2;
+            return true;
+        } else if (sourceLine.startsWith("{")) {
+            inComment = 2;
+            sourceLine = sourceLine.substring(1, sourceLine.length());
+            sourceCol += 1;
+            return true;
+        }
+        return false;
+    }
+
     public void readNextToken() {
         // Covers the following:
         // 1: Cut whitespace,
@@ -97,71 +133,73 @@ public class Scanner {
 
             // 3.9: Search for the end of an ongoing comment
             if (inComment > 0) {
-                String target;
-                if (inComment == 1)
-                    target = "*/";
-                else
-                    target = "}";
-
-                // TODO: Search for target, reset inComment, modify sourceLine and sourceCol and do a continue;
-                // If target is not found, set sourceLine="" and continue;
-                // Some stuff goes here....
-
-                inComment = 0;
+                checkCommentEnd();
                 continue;
             }
 
-            // 4: Check for comments
-            // TODO: Pattern matching, set inComment and continue;
+            if (checkComment())
+                continue;
 
             // NOTE: To check if a comment went unclosed for the rest of the file, check if inComment != 0 on eof
-
             // TODO: Should we split some of this functionality into separate methods?
             break;
         }
-
         // At this stage:
         //  - Line is not empty
         //  - Line does not start with whitespace
         //  - There are no comments
         // Only part 5 remains.
-        //
-        // Part 5 sub-parts:
-        //  - StringParser to find out if it is a string or not
-        //  - RegexParser to find out if it is a number or name
-        //  - StaticParser to find out if it matches a static string
-        //  They should all be subclasses of Parser and should have
-        //  - Parser(priority): In ties, higher priority wins
-        //  - parse(String): Run it against a string to match
-        //  - getPriority()
-        //  - TokenKind getKind() - So we don't have to do it by ourselves
-        //  - getString() - Get the token data
-        //  - charsClaimed: Return the number of chars it wants to consume of the input string. 0 if no match
-        //  For StringParser:
-        //  - checkError: We might not need it if it can do it by itself. Intend to use on unclosed strings.
-        //
-        // Run every one of the parsers.
-        // Keep the ones with the highest number of charsClaimed()
-        // Then keep the ones with the highest priority.
-        // If we end up with multiple here, there is a tie. If this happens,
-        // we have probably made an implementation error.
-        //
-        // Then generate a token and do setToken()
-        //
-        //
-        // TADAAAH! That's part 1!
-    }
 
+
+        // 1: Run string matcher. If this matches, actually return
+        // Takes care of text strings, they always start with '.
+        // If it is a match, it cannot be anything else.
+        StringMatcher stringMatch = new StringMatcher(sourceLine, getFileLineNum(), sourceCol);
+        if (stringMatch.getConsumed() > 0) {
+            if (!stringMatch.getTerminated()) {
+                Main.panic(getFileLineNum(), sourceCol, originalSourceLine, "Unterminated string");
+            } else {
+                setToken(stringMatch.getToken());
+                sourceCol += stringMatch.getConsumed();
+                sourceLine = sourceLine.substring(stringMatch.getConsumed(), sourceLine.length());
+                return;
+            }
+        }
+
+        // Numeric matcher
+        int numConsumed = scanDigit();
+        if (numConsumed > 0) {
+            int n = Integer.parseInt(sourceLine.substring(0, numConsumed));
+            setToken(new Token(n, getFileLineNum(), sourceCol));
+            sourceLine = sourceLine.substring(numConsumed, sourceLine.length());
+            sourceCol += numConsumed;
+            return;
+        }
+
+        numConsumed = scanName();
+        if (numConsumed > 0) {
+            String s = sourceLine.substring(0, numConsumed).toLowerCase();
+            // Token does the work of splitting this into the static tags
+            setToken(new Token(s, getFileLineNum(), sourceCol));
+            sourceLine = sourceLine.substring(numConsumed, sourceLine.length());
+            sourceCol += numConsumed;
+            return;
+        }
+        // Match all of the small things
+
+        Main.panic(getFileLineNum(), sourceCol, originalSourceLine, "Unexpected data found");
+    }
 
     private void readNextLine() {
         if (sourceFile != null) {
             try {
-                sourceLine = sourceFile.readLine();
+                originalSourceLine = sourceLine = sourceFile.readLine();
                 if (sourceLine == null) {
                     sourceFile.close();
                     sourceFile = null;
                     sourceLine = "";
                 } else {
+                    // TODO why do you do this? If it affects unterminated string recovery, it has to go away.
                     sourceLine += " ";
                 }
                 sourceCol = 1;
@@ -173,20 +211,34 @@ public class Scanner {
             Main.log.noteSourceLine(getFileLineNum(), sourceLine);
     }
 
-
     private int getFileLineNum() {
         return (sourceFile != null ? sourceFile.getLineNumber() : 0);
     }
 
-
     // Character test utilities:
-    private boolean isLetterAZ(char c) {
-        return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z';
+    private int scanName() {
+        int i;
+        for (i = 0; i < sourceLine.length(); i++) {
+            char c = Character.toLowerCase(sourceLine.charAt(i));
+            if ((c < '0' || c > '9') &&
+                    (c < 'a' || c > 'z'))
+                break;
+        }
+        return i;
     }
 
-
-    private boolean isDigit(char c) {
-        return '0' <= c && c <= '9';
+    /*
+    * Return number of characters from start of sourceLine are digit characters.
+    * Anything above zero is a digit
+    * */
+    private int scanDigit() {
+        int i;
+        for (i = 0; i < sourceLine.length(); i++) {
+            char c = sourceLine.charAt(i);
+            if (c < '0' || c > '9')
+                break;
+        }
+        return i;
     }
 
 

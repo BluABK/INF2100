@@ -142,9 +142,9 @@ public class Main {
             String line;
             Process p = Runtime.getRuntime().exec(cmd);
             BufferedReader out = new BufferedReader
-                            (new InputStreamReader(p.getInputStream()));
+                    (new InputStreamReader(p.getInputStream()));
             BufferedReader err = new BufferedReader
-                            (new InputStreamReader(p.getErrorStream()));
+                    (new InputStreamReader(p.getErrorStream()));
 
             while ((line = out.readLine()) != null) {
                 System.out.println(line);
@@ -174,7 +174,7 @@ public class Main {
 
     private static void usage() {
         error("Usage: java -jar pascal2100.jar " +
-                        "[-log{B|P|S|T|Y}] [-test{parser|scanner}] file");
+                "[-log{B|P|S|T|Y}] [-test{parser|scanner}] file");
     }
 
     public static void warning(String message) {
@@ -182,7 +182,18 @@ public class Main {
         System.err.println(message);
     }
 
-    public void panic(String where) {
-        error("PANIC! Programming error in " + where);
+    public static void panic(int lineNum, int colNum, String originalLine, String explanation) {
+        String ascii = "";
+        // Follow tabs to get correct alignment in tabbed files
+        for (int i = 0; i < colNum - 1; i++) {
+            char c = originalLine.charAt(i);
+            if (c == '\t')
+                ascii += "\t";
+            else
+                ascii += " ";
+        }
+        ascii += "↑";
+
+        error("Syntax error in line " + lineNum + ", column " + colNum + ":\n" + originalLine + "\n" + ascii + "\n" + explanation);
     }
 }

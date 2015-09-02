@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 public class LogFile {
     boolean doLogBinding = false, doLogParser = false, doLogPrettyPrint = false,
-                    doLogScanner = false, doLogTypeChecks = false;
+            doLogScanner = false, doLogTypeChecks = false;
 
     private String logFileName = null;
     private int nLogLines = 0;
@@ -41,7 +41,7 @@ public class LogFile {
 
         try {
             PrintWriter log = (nLogLines == 0 ? new PrintWriter(logFileName) :
-                            new PrintWriter(new FileOutputStream(logFileName, true)));
+                    new PrintWriter(new FileOutputStream(logFileName, true)));
             log.println(data);
             ++nLogLines;
             log.close();
@@ -106,7 +106,7 @@ public class LogFile {
     public void noteBinding(String id, PascalSyntax where, PascalDecl decl) {
         if (doLogBinding)
             writeLogLine("Binding on line " + where.lineNum + ": " + id +
-                            " was declared in " + decl.identify());
+                    " was declared in " + decl.identify());
     }
 
 

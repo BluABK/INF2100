@@ -7,12 +7,14 @@ public class Token {
     public String id, strVal;
     public int intVal, lineNum, colNum;
 
+    // Other initializer
     Token(TokenKind k, int lNum, int cNum) {
         kind = k;
         lineNum = lNum;
         colNum = cNum;
     }
 
+    // Name initializer
     Token(String s, int lNum, int cNum) {
         switch (s) {
             case "and":
@@ -85,16 +87,20 @@ public class Token {
         colNum = cNum;
     }
 
-    Token(String any, String s, int lNum) {
+    // String initializer
+    Token(String any, String s, int lNum, int cNum) {
         kind = stringValToken;
         strVal = s;
         lineNum = lNum;
+        colNum = cNum;
     }
 
-    Token(int n, int lNum) {
+    // Digit initializer
+    Token(int n, int lNum, int cNum) {
         kind = intValToken;
         intVal = n;
         lineNum = lNum;
+        colNum = cNum;
     }
 
     public String identify() {

@@ -18,7 +18,7 @@ public class CodeFile {
             Main.error("Cannot create code file " + fName + "!");
         }
         code.println("# Code file created by Pascal2100 compiler " +
-                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     }
 
     void finish() {
