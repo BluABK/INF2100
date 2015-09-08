@@ -1,5 +1,8 @@
 package no.uio.ifi.pascal2100.scanner;
 
+/**
+ * Takes an input line, and parses for a text string.
+ */
 public class StringMatcher {
     private int consumed;
     private int colNum, lineNum;
@@ -15,6 +18,9 @@ public class StringMatcher {
         parse();
     }
 
+    /**
+     * Parses the stored string and saves the results for retreival.
+     * */
     public void parse() {
         consumed = 0;
         terminated = true;
@@ -49,15 +55,27 @@ public class StringMatcher {
             terminated = false;
     }
 
+    /**
+     * Check if the string is valid.
+     * @return true if the string is properly terminated. False otherwise.
+     */
     public boolean getTerminated() {
         return terminated;
     }
 
+    /**
+     * Check how many bytes the string takes of the input.
+     * If 0, this is not a string.
+     * @return number of bytes of input consumed.
+     * */
     public int getConsumed() {
         return consumed;
     }
 
-    /* Assumes that it actually parsed a valid string.. Otherwise.. I don't know... */
+    /**
+     * Call this only if getConsumed() and getTerminated()
+     * @return Token for the matched string
+     */
     public Token getToken() {
         return new Token("", stringVal, lineNum, colNum);
     }

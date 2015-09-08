@@ -77,8 +77,9 @@ public class Main {
     }
 
     private static void doTestScanner(Scanner s) {
-        while (s.nextToken.kind != eofToken)
+        while (s.nextToken.kind != eofToken) {
             s.readNextToken();
+        }
     }
 
     /* Del 2:
@@ -126,7 +127,7 @@ public class Main {
         cmd[3] = pName;
         cmd[4] = sName;
         cmd[5] = "-L.";
-        cmd[6] = "-L/hom/inf2100"; /* TODO: NEI NEI! DETTE GÅR IKKE!! */
+        cmd[6] = "-L.."; /* TODO: Take a lib dir from compiler parameters */
         cmd[7] = "-lpas2100";
 
         System.out.print("Running");
@@ -162,14 +163,13 @@ public class Main {
 
 
     // Error message utilities:
-
     public static void error(String message) {
         log.noteError(message);
         throw new PascalError(message);
     }
 
-    public static void error(int lineNum, String message) {
-        error("Error in line " + lineNum + ": " + message);
+    public static void error(int lineNum, int colNum, String message) {
+        error("Error in line " + lineNum + ", column "+colNum+":\n" + message);
     }
 
     private static void usage() {
@@ -193,7 +193,6 @@ public class Main {
                 ascii += " ";
         }
         ascii += "↑";
-
-        error("Syntax error in line " + lineNum + ", column " + colNum + ":\n" + originalLine + "\n" + ascii + "\n" + explanation);
+        error(lineNum, colNum, originalLine + "\n" + ascii + "\n" + "Syntax/scanner error: " + explanation);
     }
 }
