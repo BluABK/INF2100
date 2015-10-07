@@ -1,0 +1,3 @@
+Part 1: Scanner
+- Check for error detection for unclosed comments
+- Character.isWhitespace(...)
