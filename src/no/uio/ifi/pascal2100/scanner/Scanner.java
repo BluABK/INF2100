@@ -28,6 +28,8 @@ public class Scanner {
      *  2 - Looking for }
      */
     private int inComment = 0;
+    private int commentStartLine = 0;
+    private int commentStartCol = 0;
 
     public Scanner(String fileName) {
         sourceFileName = fileName;
@@ -74,10 +76,15 @@ public class Scanner {
         int i;
         for (i = 0; i < sourceLine.length(); i++) {
             char c = sourceLine.charAt(i);
+            if(Character.isWhitespace(c))
+                continue;
+
             // PS: ' ' is not a normal space. It has the
             // hexadecimal value utf-8: 0xc2a0, utf-16: 0x00a0
-            if (c != ' ' && c != '\n' && c != '\t' && c != 0xa0 && c != '\r')
-                break;
+            if(c == 0xa0)
+                continue;
+
+            break;
         }
         // i: number of chars cut, or offset to start from in sourceLine
         sourceCol += i;
@@ -120,17 +127,25 @@ public class Scanner {
      * */
     private boolean checkComment() {
         if (sourceLine.startsWith("/*")) {
+            commentStartLine = getFileLineNum();
+            commentStartCol = sourceCol;
+
             inComment = 1;
+
             sourceLine = sourceLine.substring(2, sourceLine.length());
             sourceCol += 2;
-            return true;
         } else if (sourceLine.startsWith("{")) {
+            commentStartLine = getFileLineNum();
+            commentStartCol = sourceCol;
+
             inComment = 2;
+
             sourceLine = sourceLine.substring(1, sourceLine.length());
             sourceCol += 1;
-            return true;
+        } else {
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -197,6 +212,10 @@ public class Scanner {
         while (true) {
             if (sourceLine.length() == 0) {
                 if (sourceFile == null) {
+                    if(inComment > 0) {
+                        Main.error(commentStartLine, commentStartCol, "Unclosed comment starts here");
+                    }
+
                     setToken(new Token(TokenKind.eofToken, getFileLineNum(), sourceCol));
                     return;
                 }
