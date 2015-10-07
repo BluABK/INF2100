@@ -192,7 +192,7 @@ public class Main {
             else
                 ascii += " ";
         }
-        ascii += "↑";
+        ascii += "^";
         error(lineNum, colNum, originalLine + "\n" + ascii + "\n" + "Syntax/scanner error: " + explanation);
     }
 }
