@@ -5,9 +5,9 @@ public abstract class PascalDecl extends PascalSyntax {
     int declLevel = 0, declOffset = 0;
     // Del 3: Type type = null;
 
-    PascalDecl(String id, int lNum) {
-        super(lNum);
-        name = id;
+    PascalDecl(String name, int n, int c) {
+        super(n, c);
+        this.name = name;
     }
 
     /**
@@ -24,15 +24,17 @@ public abstract class PascalDecl extends PascalSyntax {
      *	If the declaration is indeed assignable, checkWhetherAssignable will do
      *	nothing, but if it is not, the method will give an error message.
      * </ul>
-     * Examples
+     *
+     * Examples:
      * <dl>
      *	<dt>VarDecl.checkWhetherAssignable(...)</dt>
      *	<dd>will do nothing, as everything is all right.</dd>
      *	<dt>TypeDecl.checkWhetherAssignable(...)</dt>
      *	<dd>will give an error message.</dd>
      * </dl>
-     */
-    /* Del 3: */
+     * @return fuck
+     * */
+    // part 3
     // abstract void checkWhetherAssignable(PascalSyntax where);
     // abstract void checkWhetherFunction(PascalSyntax where);
     // abstract void checkWhetherProcedure(PascalSyntax where);
