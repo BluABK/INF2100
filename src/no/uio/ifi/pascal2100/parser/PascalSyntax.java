@@ -3,6 +3,8 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.main.Main;
 
 public abstract class PascalSyntax {
+    public PascalSyntax context;
+
     public int lineNum;
     public int colNum;
 
@@ -17,7 +19,6 @@ public abstract class PascalSyntax {
     static void leaveParser(String nonTerm) {
         Main.log.leaveParser(nonTerm);
     }
-    //Del 2: abstract void prettyPrint();
 
     boolean isInLibrary() {
         return lineNum < 0;

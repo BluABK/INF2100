@@ -21,7 +21,7 @@ public class Program extends PascalDecl {
     }
 
     public static Program parse(Scanner s) {
-        enterParser("program");
+        enterParser("Program");
         s.skip(TokenKind.programToken);
         s.test(TokenKind.nameToken);
 
@@ -32,7 +32,7 @@ public class Program extends PascalDecl {
         p.child.context = p;
         s.skip(TokenKind.dotToken);
 
-        leaveParser("program");
+        leaveParser("Program");
         return p;
     }
 }
