@@ -11,6 +11,11 @@ public abstract class PascalDecl extends PascalSyntax {
         this.name = name;
     }
 
+    @Override
+    public String identifyTemplate() {
+        return "<" + this.getClass().getSimpleName() + "> with name " + name +
+                " on line " + lineNum + ", col " + colNum;
+    }
 
     /**
      * checkWhetherAssignable: Utility method to check whether this PascalDecl is

@@ -84,7 +84,7 @@ public class Main {
     }
 
     private static void doTestParser(Scanner s) {
-        Program prog = Program.parse(s);
+        Program prog = Program.parse(s, null);
         if (s.curToken.kind != eofToken)
             error("Scanner error: Garbage after the program!");
 

@@ -18,6 +18,10 @@ public class StringMatcher {
         parse();
     }
 
+    public String identify() {
+        return "StringMatcher running on line " + lineNum + ", col " + colNum;
+    }
+
     /**
      * Parses the stored string and saves the results for retreival.
      * */

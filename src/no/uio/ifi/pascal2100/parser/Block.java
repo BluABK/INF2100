@@ -1,82 +1,80 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
 public class Block extends PascalSyntax {
-    public ArrayList<ConstantDecl> constants;
-    public ArrayList<TypeDecl> types;
-    public ArrayList<VariableDecl> vars;
-    public ArrayList<Function> functions;
-    public ArrayList<Procedure> procedures;
-    public StatementList statements;
+    public ConstDeclPart constants;
+    public TypeDeclPart  types;
+    public VarDeclPart   variables;
+    public ArrayList<FuncDecl> functions;
+    public ArrayList<ProcDecl> procedures;
+
+    public StatmList statements;
 
 
     Block(int n, int c) {
         super(n, c);
-        constants  = new ArrayList<ConstantDecl>();
-        types      = new ArrayList<TypeDecl>();
-        vars       = new ArrayList<VariableDecl>();
-        functions  = new ArrayList<Function>();
-        procedures = new ArrayList<Procedure>();
+        functions  = new ArrayList<FuncDecl>();
+        procedures = new ArrayList<ProcDecl>();
     }
 
     @Override
     public String identify() {
-        return "<block> on line " + lineNum + ", col " + colNum;
+        return identifyTemplate();
     }
 
     @Override
     public void prettyPrint() {
-        System.out.println("Fancy! Print! Wow!");
+        if(constants != null)
+            constants.prettyPrint();
+        if(types != null)
+            types.prettyPrint();
+        if(variables != null)
+            variables.prettyPrint();
+
+        for(FuncDecl f : functions) {
+            f.prettyPrint();
+        }
+        for(ProcDecl p : procedures) {
+            p.prettyPrint();
+        }
+        Main.log.prettyPrintLn("begin");
+        Main.log.prettyIndent();
+        statements.prettyPrint();
+        Main.log.prettyOutdent();
+        Main.log.prettyPrint("end");
     }
 
-    public static Block parse(Scanner s) {
+    public static Block parse(Scanner s, PascalSyntax context) {
         enterParser("Block");
 
         Block b = new Block(s.curLineNum(), s.curColNum());
+        b.context = context;
 
         if(s.curToken.kind == TokenKind.constToken) {
-            s.readNextToken();
-            while(s.curToken.kind == TokenKind.nameToken) {
-                ConstantDecl c = ConstantDecl.parse(s);
-                c.context = b;
-                b.constants.add(c);
-            }
+            b.constants = ConstDeclPart.parse(s, b);
         }
+
         if(s.curToken.kind == TokenKind.typeToken) {
-            while(s.curToken.kind == TokenKind.nameToken) {
-                TypeDecl t = TypeDecl.parse(s);
-                t.context = b;
-                b.types.add(t);
-            }
+            b.types = TypeDeclPart.parse(s, b);
         }
         if(s.curToken.kind == TokenKind.varToken) {
-            while(s.curToken.kind == TokenKind.nameToken) {
-                VariableDecl v = VariableDecl.parse(s);
-                v.context = b;
-                b.vars.add(v);
-            }
+            b.variables = VarDeclPart.parse(s, b);
         }
 
         while(s.curToken.kind == TokenKind.functionToken || s.curToken.kind == TokenKind.procedureToken) {
-            if(s.curToken.kind==TokenKind.functionToken) {
-                Function f = Function.parse(s);
-                f.context = b;
-                b.functions.add(f);
-            } else {
-                Procedure p = Procedure.parse(p);
-                p.context = b;
-                b.procedures.add(p);
-            }
+            if(s.curToken.kind==TokenKind.functionToken)
+                b.functions.add(FuncDecl.parse(s, b));
+            else
+                b.procedures.add(ProcDecl.parse(s, b));
         }
 
         s.skip(TokenKind.beginToken);
-        b.statements = StatementList.parse(s);
-        b.statements.context = b;
-        // fill with statements
+        b.statements = StatmList.parse(s, b);
         s.skip(TokenKind.endToken);
 
         leaveParser("Block");

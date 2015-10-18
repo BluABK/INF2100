@@ -1,5 +1,3 @@
-// TODO: ALL CLASSES MUST HAVE AN public String identify() METHOD RETURNING SOME DEBUG INFO ABOUT SELF
-
 package no.uio.ifi.pascal2100.scanner;
 
 import no.uio.ifi.pascal2100.main.Main;

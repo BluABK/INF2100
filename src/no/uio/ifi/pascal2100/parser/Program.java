@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
@@ -12,24 +13,35 @@ public class Program extends PascalDecl {
 
     @Override
     public String identify() {
-        return "<program> "+name+" on line " + lineNum + ", col " + colNum;
+        return identifyTemplate();
     }
 
     @Override
     public void prettyPrint() {
-        System.out.println("Fancy! Print! Wow!");
+        Main.log.prettyPrintLn("Program "+name+";");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(".");
     }
 
-    public static Program parse(Scanner s) {
+    public static Program parse(Scanner s, PascalSyntax context) {
         enterParser("Program");
-        s.skip(TokenKind.programToken);
-        s.test(TokenKind.nameToken);
 
+        // Program
+        s.skip(TokenKind.programToken);
+
+        // <name>
+        s.test(TokenKind.nameToken);
         Program p = new Program(s.curToken.id, s.curLineNum(), s.curColNum());
+        p.context = context;
         s.readNextToken();
+
+        // ;
         s.skip(TokenKind.semicolonToken);
-        p.child = Block.parse(s);
-        p.child.context = p;
+
+        // <block>
+        p.child = Block.parse(s, p);
+
+        // .
         s.skip(TokenKind.dotToken);
 
         leaveParser("Program");

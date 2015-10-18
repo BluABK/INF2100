@@ -3,37 +3,37 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
-public class Statement extends PascalSyntax {
-    public Block child;
-
+/** Statement
+ * Note: Does not include or support empty statement, these are skipped by StatmList.
+ * */
+public abstract class Statement extends PascalSyntax {
     Statement(int n, int c) {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return "<Statement> on line " + lineNum + ", col " + colNum;
-    }
-
-    @Override
-    public void prettyPrint() {
-        System.out.println("Fancy! Print! Wow!");
-    }
-
-    public static Statement parse(Scanner s) {
+    public static Statement parse(Scanner s, PascalSyntax context) {
         enterParser("Statement");
 
-        Statement st = new Statement(s.curLineNum(), s.curColNum());
-        if(s.curToken.kind == TokenKind.semicolonToken) {
-            // empty stmt
-            s.readNextToken();
+        Statement st = null;
+
+        if(s.curToken.kind == TokenKind.beginToken) {
+            st = CompoundStatm.parse(s, context);
+        } else if(s.curToken.kind == TokenKind.ifToken) {
+            st = IfStatm.parse(s, context);
+        } else if(s.curToken.kind == TokenKind.whileToken) {
+            st = WhileStatm.parse(s, context);
         } else if(s.curToken.kind == TokenKind.nameToken) {
-            // assign statm / variable
-            // proc call
-            //
+            if(s.nextToken.kind == TokenKind.assignToken ||
+               s.nextToken.kind == TokenKind.leftBracketToken) {
+                st = AssignStatm.parse(s, context);
+            } else {
+                st = ProcCallStatm.parse(s, context);
+            }
+        } else {
+            s.testError("any valid statement");
         }
 
         leaveParser("Statement");
-        return f;
+        return st;
     }
 }

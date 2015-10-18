@@ -26,7 +26,14 @@ public abstract class PascalSyntax {
 
     //Del 3: abstract void check(Block curScope, Library lib);
     //Del 4: abstract void genCode(CodeFile f);
+
     abstract public String identify();
+
+    public String identifyTemplate() {
+        return "<" + this.getClass().getSimpleName() + "> on line "
+                + lineNum + ", col " + colNum;
+    }
+
     abstract public void prettyPrint();
 
     void error(String message) {
