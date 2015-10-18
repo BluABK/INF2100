@@ -1,4 +1,3 @@
-// TODO: Lowercase on enums. Actually, make subclasses instead.
 package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.Main;

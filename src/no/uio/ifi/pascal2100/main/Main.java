@@ -127,7 +127,7 @@ public class Main {
         cmd[3] = pName;
         cmd[4] = sName;
         cmd[5] = "-L.";
-        cmd[6] = "-L.."; /* TODO: Take a lib dir from compiler parameters */
+        cmd[6] = "-L.."; /* TODO: Part 4, Take a lib dir from compiler parameters */
         cmd[7] = "-lpas2100";
 
         System.out.print("Running");
