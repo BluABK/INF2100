@@ -376,7 +376,6 @@ public class Scanner {
             testError(t.toString());
     }
 
-
     public void testError(String message) {
         Main.error(curLineNum(), curColNum(), "Expected a " + message + " but found a " + curToken.kind + "!");
     }

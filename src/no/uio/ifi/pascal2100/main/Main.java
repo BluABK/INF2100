@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 
 import static no.uio.ifi.pascal2100.scanner.TokenKind.eofToken;
 
+// TODO: Part 2: Make error lines/cols work as well as possible, improve helpfulness
+// TODO: Part 2: Verify multiline comments are fine
+// TODO: Part 2: Fucktons of javadoc + comments
+
 public class Main {
     public static final String version = "2015-08-18";
 
