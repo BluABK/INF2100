@@ -11,20 +11,6 @@ public class ParamDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(stringCast());
-    }
-
-    public String stringCast() {
-        return name + " : " + type;
-    }
-
     public static ParamDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ParamDecl");
 
@@ -41,5 +27,19 @@ public class ParamDecl extends PascalDecl {
 
         leaveParser("ParamDecl");
         return p;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(stringCast());
+    }
+
+    public String stringCast() {
+        return name + " : " + type;
     }
 }

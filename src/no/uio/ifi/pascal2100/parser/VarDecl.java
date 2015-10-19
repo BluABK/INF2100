@@ -11,18 +11,6 @@ public class VarDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(name + " = ");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(";");
-    }
-
     public static VarDecl parse(Scanner s, PascalSyntax context) {
         enterParser("VarDecl");
 
@@ -43,5 +31,17 @@ public class VarDecl extends PascalDecl {
 
         leaveParser("VarDecl");
         return t;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(name + " = ");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(";");
     }
 }

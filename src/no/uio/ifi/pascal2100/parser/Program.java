@@ -11,18 +11,6 @@ public class Program extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrintLn("Program "+name+";");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(".");
-    }
-
     public static Program parse(Scanner s, PascalSyntax context) {
         enterParser("Program");
 
@@ -46,5 +34,17 @@ public class Program extends PascalDecl {
 
         leaveParser("Program");
         return p;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrintLn("Program " + name + ";");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(".");
     }
 }

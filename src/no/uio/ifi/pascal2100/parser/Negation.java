@@ -11,17 +11,6 @@ public class Negation extends Factor {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("not ");
-        factor.prettyPrint();
-    }
-
     public static Negation parse(Scanner s, PascalSyntax context) {
         enterParser("Negation");
 
@@ -34,5 +23,16 @@ public class Negation extends Factor {
 
         leaveParser("Negation");
         return n;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("not ");
+        factor.prettyPrint();
     }
 }

@@ -12,21 +12,6 @@ public class WhileStatm extends Statement {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("while ");
-        test.prettyPrint();
-        Main.log.prettyPrintLn(" do");
-        Main.log.prettyIndent();
-        statm.prettyPrint();
-        Main.log.prettyOutdent();
-    }
-
     public static WhileStatm parse(Scanner s, PascalSyntax context) {
         enterParser("WhileStatm");
 
@@ -40,5 +25,20 @@ public class WhileStatm extends Statement {
 
         leaveParser("WhileStatm");
         return w;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("while ");
+        test.prettyPrint();
+        Main.log.prettyPrintLn(" do");
+        Main.log.prettyIndent();
+        statm.prettyPrint();
+        Main.log.prettyOutdent();
     }
 }

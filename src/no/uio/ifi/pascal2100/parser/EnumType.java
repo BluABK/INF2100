@@ -12,7 +12,30 @@ public class EnumType extends Type {
 
     EnumType(int n, int c) {
         super(n, c);
-        literals = new ArrayList<String>();
+        literals = new ArrayList<>();
+    }
+
+    public static EnumType parse(Scanner s, PascalSyntax context) {
+        enterParser("EnumType");
+
+        EnumType e = new EnumType(s.curLineNum(), s.curColNum());
+        e.context = context;
+
+        s.skip(TokenKind.leftParToken);
+
+        while (s.curToken.kind != TokenKind.rightParToken) {
+            s.test(TokenKind.nameToken);
+            e.literals.add(s.curToken.id);
+            s.readNextToken();
+
+            if (s.curToken.kind != TokenKind.commaToken)
+                break;
+            s.readNextToken();
+        }
+        s.skip(TokenKind.rightParToken);
+
+        leaveParser("EnumType");
+        return e;
     }
 
     @Override
@@ -27,28 +50,5 @@ public class EnumType extends Type {
 
     public String stringCast() {
         return "(" + Tools.implode(", ", literals) + ")";
-    }
-
-    public static EnumType parse(Scanner s, PascalSyntax context) {
-        enterParser("EnumType");
-
-        EnumType e = new EnumType(s.curLineNum(), s.curColNum());
-        e.context = context;
-
-        s.skip(TokenKind.leftParToken);
-
-        while(s.curToken.kind != TokenKind.rightParToken) {
-            s.test(TokenKind.nameToken);
-            e.literals.add(s.curToken.id);
-            s.readNextToken();
-
-            if(s.curToken.kind != TokenKind.commaToken)
-                break;
-            s.readNextToken();
-        }
-        s.skip(TokenKind.rightParToken);
-
-        leaveParser("EnumType");
-        return e;
     }
 }

@@ -10,20 +10,6 @@ public class ConstantInt extends Constant {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public String toString() {
-        return Integer.toString(integer);
-    }
-
-    public int getInt() {
-        return integer;
-    }
-
     public static ConstantInt parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantInt");
 
@@ -36,5 +22,19 @@ public class ConstantInt extends Constant {
 
         leaveParser("ConstantInt");
         return c;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(integer);
+    }
+
+    public int getInt() {
+        return integer;
     }
 }

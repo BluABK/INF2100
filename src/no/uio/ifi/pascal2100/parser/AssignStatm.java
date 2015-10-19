@@ -12,18 +12,6 @@ public class AssignStatm extends Statement {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        var.prettyPrint();
-        Main.log.prettyPrint(" := ");
-        expr.prettyPrint();
-    }
-
     public static AssignStatm parse(Scanner s, PascalSyntax context) {
         enterParser("AssignStatm");
 
@@ -36,5 +24,17 @@ public class AssignStatm extends Statement {
 
         leaveParser("AssignStatm");
         return a;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        var.prettyPrint();
+        Main.log.prettyPrint(" := ");
+        expr.prettyPrint();
     }
 }

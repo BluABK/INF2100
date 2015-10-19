@@ -9,7 +9,8 @@ public abstract class PascalSyntax {
     public int colNum;
 
     public PascalSyntax(int n, int c) {
-        lineNum = n; colNum = c;
+        lineNum = n;
+        colNum = c;
     }
 
     static void enterParser(String nonTerm) {

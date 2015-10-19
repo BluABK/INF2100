@@ -12,21 +12,6 @@ public class Variable extends Factor {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(name);
-        if(expr != null) {
-            Main.log.prettyPrint("[");
-            expr.prettyPrint();
-            Main.log.prettyPrint("]");
-        }
-    }
-
     public static Variable parse(Scanner s, PascalSyntax context) {
         enterParser("Variable");
 
@@ -37,7 +22,7 @@ public class Variable extends Factor {
         v.name = s.curToken.id;
         s.readNextToken();
 
-        if(s.curToken.kind == TokenKind.leftBracketToken) {
+        if (s.curToken.kind == TokenKind.leftBracketToken) {
             v.expr = Expression.parse(s, v);
             s.skip(TokenKind.rightBracketToken);
         } else {
@@ -46,5 +31,20 @@ public class Variable extends Factor {
 
         leaveParser("Variable");
         return v;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(name);
+        if (expr != null) {
+            Main.log.prettyPrint("[");
+            expr.prettyPrint();
+            Main.log.prettyPrint("]");
+        }
     }
 }

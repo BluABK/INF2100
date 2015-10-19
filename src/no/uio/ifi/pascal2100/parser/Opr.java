@@ -3,8 +3,20 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.main.Main;
 
 public abstract class Opr extends PascalSyntax {
+    public Op op;
+
     public Opr(int n, int c) {
         super(n, c);
+    }
+
+    @Override
+    public String identifyTemplate() {
+        return "<" + this.getClass().getSimpleName() + "> (" + op + ") on line " + lineNum + ", col " + colNum;
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(op.toString());
     }
 
     public enum Op {
@@ -34,17 +46,6 @@ public abstract class Opr extends PascalSyntax {
         public String toString() {
             return this.name;
         }
-    }
-    public Op op;
-
-    @Override
-    public String identifyTemplate() {
-        return "<" + this.getClass().getSimpleName() + "> (" + op + ") on line " + lineNum + ", col " + colNum;
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(op.toString());
     }
 
 }

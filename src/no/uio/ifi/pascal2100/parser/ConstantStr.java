@@ -10,20 +10,6 @@ public class ConstantStr extends Constant {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public String toString() {
-        return "'"+str+"'";
-    }
-
-    public String getString() {
-        return str;
-    }
-
     public static ConstantStr parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantStr");
 
@@ -36,5 +22,19 @@ public class ConstantStr extends Constant {
 
         leaveParser("ConstantStr");
         return c;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public String toString() {
+        return "'" + str + "'";
+    }
+
+    public String getString() {
+        return str;
     }
 }

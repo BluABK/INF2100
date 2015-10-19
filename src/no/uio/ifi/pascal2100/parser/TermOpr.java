@@ -8,21 +8,22 @@ public class TermOpr extends Opr {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
     public static TermOpr parse(Scanner s, PascalSyntax context) {
         enterParser("TermOpr");
 
         TermOpr p = new TermOpr(s.curLineNum(), s.curColNum());
         p.context = context;
 
-        switch(s.curToken.kind) {
-            case addToken:      p.op = Op.add;      break;
-            case subtractToken: p.op = Op.subtract; break;
-            case orToken:       p.op = Op.or;       break;
+        switch (s.curToken.kind) {
+            case addToken:
+                p.op = Op.add;
+                break;
+            case subtractToken:
+                p.op = Op.subtract;
+                break;
+            case orToken:
+                p.op = Op.or;
+                break;
             default:
                 s.testError("+, -, or");
         }
@@ -30,5 +31,10 @@ public class TermOpr extends Opr {
 
         leaveParser("TermOpr");
         return p;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
     }
 }

@@ -11,7 +11,25 @@ public class TypeDeclPart extends PascalSyntax {
 
     TypeDeclPart(int n, int c) {
         super(n, c);
-        types = new ArrayList<TypeDecl>();
+        types = new ArrayList<>();
+    }
+
+    public static TypeDeclPart parse(Scanner s, PascalSyntax context) {
+        enterParser("TypeDeclPart");
+
+        TypeDeclPart t = new TypeDeclPart(s.curLineNum(), s.curColNum());
+        t.context = context;
+
+        s.skip(TokenKind.typeToken);
+
+
+        while (s.curToken.kind == TokenKind.nameToken &&
+                s.nextToken.kind == TokenKind.equalToken) {
+            t.types.add(TypeDecl.parse(s, t));
+        }
+
+        leaveParser("TypeDeclPart");
+        return t;
     }
 
     @Override
@@ -24,27 +42,9 @@ public class TypeDeclPart extends PascalSyntax {
         Main.log.prettyPrintLn("type");
 
         Main.log.prettyIndent();
-        for(TypeDecl t : types) {
+        for (TypeDecl t : types) {
             t.prettyPrint();
         }
         Main.log.prettyOutdent();
-    }
-
-    public static TypeDeclPart parse(Scanner s, PascalSyntax context) {
-        enterParser("TypeDeclPart");
-
-        TypeDeclPart t = new TypeDeclPart(s.curLineNum(), s.curColNum());
-        t.context = context;
-
-        s.skip(TokenKind.typeToken);
-
-
-        while(s.curToken.kind == TokenKind.nameToken &&
-              s.nextToken.kind == TokenKind.equalToken) {
-            t.types.add(TypeDecl.parse(s, t));
-        }
-
-        leaveParser("TypeDeclPart");
-        return t;
     }
 }

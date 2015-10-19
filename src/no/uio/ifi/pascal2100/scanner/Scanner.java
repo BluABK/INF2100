@@ -9,21 +9,22 @@ import java.io.LineNumberReader;
 
 /**
  * Scanner takes a filename and parses it for tokens.
- * */
+ */
 public class Scanner {
     /**
      * curToken stores the current token, nextToken stores the next token to be shifted in.
-     * */
+     */
     public Token curToken = null, nextToken = null;
 
     private LineNumberReader sourceFile = null;
     private String sourceFileName, sourceLine = "", originalSourceLine = "";
     private int sourceCol = 1;
 
-    /** inComment: Indicates if we are currently looking for the end of a comment.
-     *  0 - Normal operation
-     *  1 - Looking for * / (without the space)
-     *  2 - Looking for }
+    /**
+     * inComment: Indicates if we are currently looking for the end of a comment.
+     * 0 - Normal operation
+     * 1 - Looking for * / (without the space)
+     * 2 - Looking for }
      */
     private int inComment = 0;
     private int commentStartLine = 0;
@@ -43,22 +44,23 @@ public class Scanner {
 
     /**
      * Identifies the scanner
+     *
      * @return identifying string
-     * */
+     */
     public String identify() {
         return "Scanner reading " + sourceFileName;
     }
 
     /**
      * @return Current line number
-     * */
+     */
     public int curLineNum() {
         return curToken.lineNum;
     }
 
     /**
      * @return Current column number
-     * */
+     */
     public int curColNum() {
         return curToken.colNum;
     }
@@ -67,19 +69,19 @@ public class Scanner {
      * Modifies sourceLine and sourceCol.
      * Trims whitespace from the beginning of sourceLine. Updates sourceCol with the current
      * position in the source file.
-     *
+     * <p/>
      * If the line is empty, it does nothing.
      */
     private void trimLine() {
         int i;
         for (i = 0; i < sourceLine.length(); i++) {
             char c = sourceLine.charAt(i);
-            if(Character.isWhitespace(c))
+            if (Character.isWhitespace(c))
                 continue;
 
             // PS: ' ' is not a normal space. It has the
             // hexadecimal value utf-8: 0xc2a0, utf-16: 0x00a0
-            if(c == 0xa0)
+            if (c == 0xa0)
                 continue;
 
             break;
@@ -91,7 +93,7 @@ public class Scanner {
 
     /**
      * Sets the next token on behalf of readNextToken
-     * */
+     */
     private void setToken(Token t) {
         nextToken = t;
         Main.log.noteToken(t);
@@ -100,7 +102,7 @@ public class Scanner {
     /**
      * Called if we are in a comment (inComment is positive)
      * Will skip forward until it finds the termination of the comment
-     * */
+     */
     private void checkCommentEnd() {
         String target;
         if (inComment == 1)
@@ -121,8 +123,9 @@ public class Scanner {
 
     /**
      * Check if we are at a comment. If yes, sets inComment
+     *
      * @return true if there was a positive match, false otherwise
-     * */
+     */
     private boolean checkComment() {
         if (sourceLine.startsWith("/*")) {
             commentStartLine = getFileLineNum();
@@ -148,48 +151,64 @@ public class Scanner {
 
     /**
      * Match symbols of length 1.
+     *
      * @return TokenKind or null
-     * */
+     */
     private TokenKind matchSym1(char c) {
-        switch(c) {
-            case '+': return TokenKind.addToken;
-            case ':': return TokenKind.colonToken;
-            case ',': return TokenKind.commaToken;
-            case '.': return TokenKind.dotToken;
-            case '=': return TokenKind.equalToken;
-            case '>': return TokenKind.greaterToken;
-            case '[': return TokenKind.leftBracketToken;
-            case '(': return TokenKind.leftParToken;
-            case '<': return TokenKind.lessToken;
-            case '*': return TokenKind.multiplyToken;
-            case ']': return TokenKind.rightBracketToken;
-            case ')': return TokenKind.rightParToken;
-            case ';': return TokenKind.semicolonToken;
-            case '-': return TokenKind.subtractToken;
+        switch (c) {
+            case '+':
+                return TokenKind.addToken;
+            case ':':
+                return TokenKind.colonToken;
+            case ',':
+                return TokenKind.commaToken;
+            case '.':
+                return TokenKind.dotToken;
+            case '=':
+                return TokenKind.equalToken;
+            case '>':
+                return TokenKind.greaterToken;
+            case '[':
+                return TokenKind.leftBracketToken;
+            case '(':
+                return TokenKind.leftParToken;
+            case '<':
+                return TokenKind.lessToken;
+            case '*':
+                return TokenKind.multiplyToken;
+            case ']':
+                return TokenKind.rightBracketToken;
+            case ')':
+                return TokenKind.rightParToken;
+            case ';':
+                return TokenKind.semicolonToken;
+            case '-':
+                return TokenKind.subtractToken;
         }
         return null;
     }
 
     /**
      * Match symbols of length 2.
+     *
      * @return TokenKind or null
-     * */
+     */
     private TokenKind matchSym2(String s) {
         char a = s.charAt(0), b = s.charAt(1);
-        switch(a) {
+        switch (a) {
             case ':':
-                if(b == '=')
+                if (b == '=')
                     return TokenKind.assignToken;
             case '<':
-                if(b == '=')
+                if (b == '=')
                     return TokenKind.lessEqualToken;
-                else if(b == '>')
+                else if (b == '>')
                     return TokenKind.notEqualToken;
             case '>':
-                if(b == '=')
+                if (b == '=')
                     return TokenKind.greaterEqualToken;
             case '.':
-                if(b == '.')
+                if (b == '.')
                     return TokenKind.rangeToken;
         }
         return null;
@@ -197,7 +216,7 @@ public class Scanner {
 
     /**
      * Method to read the next token from the file. Will increment curToken.
-     * */
+     */
     public void readNextToken() {
         // Covers the following:
         // 1: Cut whitespace,
@@ -210,7 +229,7 @@ public class Scanner {
         while (true) {
             if (sourceLine.length() == 0) {
                 if (sourceFile == null) {
-                    if(inComment > 0) {
+                    if (inComment > 0) {
                         Main.error(commentStartLine, commentStartCol, "Unclosed comment starts here");
                     }
 
@@ -280,14 +299,14 @@ public class Scanner {
 
         // Symbol matcher of length 2 and 1.
         TokenKind t;
-        if(sourceLine.length() >= 2 && (t = matchSym2(sourceLine.substring(0, 2))) != null) {
+        if (sourceLine.length() >= 2 && (t = matchSym2(sourceLine.substring(0, 2))) != null) {
             setToken(new Token(t, getFileLineNum(), sourceCol));
             sourceLine = sourceLine.substring(2, sourceLine.length());
             sourceCol += 2;
             return;
         }
 
-        if((t = matchSym1(sourceLine.charAt(0))) != null) {
+        if ((t = matchSym1(sourceLine.charAt(0))) != null) {
             setToken(new Token(t, getFileLineNum(), sourceCol));
             sourceLine = sourceLine.substring(1, sourceLine.length());
             sourceCol++;
@@ -299,7 +318,7 @@ public class Scanner {
 
     /**
      * Reads the next line from the file.
-     * */
+     */
     private void readNextLine() {
         if (sourceFile != null) {
             try {
@@ -320,14 +339,14 @@ public class Scanner {
 
     /**
      * @return line number in input file. Applies to sourceLine.
-     * */
+     */
     private int getFileLineNum() {
         return (sourceFile != null ? sourceFile.getLineNumber() : 0);
     }
 
     /**
      * @return number of chars in sourceLine matching a name.
-     * */
+     */
     private int scanName() {
         int i;
         for (i = 0; i < sourceLine.length(); i++) {
@@ -340,8 +359,8 @@ public class Scanner {
     }
 
     /**
-    * @return number of characters from start of sourceLine matching a digit.
-    * */
+     * @return number of characters from start of sourceLine matching a digit.
+     */
     private int scanDigit() {
         int i;
         for (i = 0; i < sourceLine.length(); i++) {

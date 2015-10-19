@@ -3,7 +3,6 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.ArrayList;
 
@@ -25,8 +24,34 @@ public class SimpleExpr extends PascalSyntax {
 
     SimpleExpr(int n, int c) {
         super(n, c);
-        terms = new ArrayList<Term>();
-        termOprs = new ArrayList<TermOpr>();
+        terms = new ArrayList<>();
+        termOprs = new ArrayList<>();
+    }
+
+    public static SimpleExpr parse(Scanner s, PascalSyntax context) {
+        enterParser("SimpleExpr");
+
+        SimpleExpr e = new SimpleExpr(s.curLineNum(), s.curColNum());
+        e.context = context;
+
+        if (s.curToken.kind == TokenKind.addToken ||
+                s.curToken.kind == TokenKind.subtractToken) {
+            e.prefix = PrefixOpr.parse(s, e);
+        } else {
+            e.prefix = null;
+        }
+
+        while (true) {
+            e.terms.add(Term.parse(s, e));
+            if (s.curToken.kind == TokenKind.addToken ||
+                    s.curToken.kind == TokenKind.subtractToken ||
+                    s.curToken.kind == TokenKind.orToken) {
+                e.termOprs.add(TermOpr.parse(s, e));
+            } else break;
+        }
+
+        leaveParser("SimpleExpr");
+        return e;
     }
 
     @Override
@@ -36,45 +61,19 @@ public class SimpleExpr extends PascalSyntax {
 
     @Override
     public void prettyPrint() {
-        if(prefix != null) {
+        if (prefix != null) {
             prefix.prettyPrint();
             Main.log.prettyPrint(" ");
         }
-        for(int i = 0; i < terms.size(); i++) {
+        for (int i = 0; i < terms.size(); i++) {
             terms.get(i).prettyPrint();
-            if(i < termOprs.size()) {
+            if (i < termOprs.size()) {
                 Main.log.prettyPrint(" ");
                 termOprs.get(i).prettyPrint();
                 Main.log.prettyPrint(" ");
             }
         }
 
-    }
-
-    public static SimpleExpr parse(Scanner s, PascalSyntax context) {
-        enterParser("SimpleExpr");
-
-        SimpleExpr e = new SimpleExpr(s.curLineNum(), s.curColNum());
-        e.context = context;
-
-        if(s.curToken.kind == TokenKind.addToken ||
-           s.curToken.kind == TokenKind.subtractToken) {
-            e.prefix = PrefixOpr.parse(s, e);
-        } else {
-            e.prefix = null;
-        }
-
-        while(true) {
-            e.terms.add(Term.parse(s, e));
-            if(s.curToken.kind == TokenKind.addToken ||
-               s.curToken.kind == TokenKind.subtractToken ||
-               s.curToken.kind == TokenKind.orToken) {
-                e.termOprs.add(TermOpr.parse(s, e));
-            } else break;
-        }
-
-        leaveParser("SimpleExpr");
-        return e;
     }
 
 

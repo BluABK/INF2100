@@ -14,23 +14,6 @@ public class FuncDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("function " + name);
-        if(params != null) {
-            Main.log.prettyPrint(" ");
-            params.prettyPrint();
-        }
-        Main.log.prettyPrintLn(" : " + returnType + ";");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(";");
-    }
-
     public static FuncDecl parse(Scanner s, PascalSyntax context) {
         enterParser("FuncDecl");
 
@@ -41,7 +24,7 @@ public class FuncDecl extends PascalDecl {
         f.context = context;
         s.readNextToken();
 
-        if(s.curToken.kind != TokenKind.colonToken) {
+        if (s.curToken.kind != TokenKind.colonToken) {
             f.params = ParamDeclList.parse(s, f);
         } else {
             f.params = null;
@@ -61,5 +44,22 @@ public class FuncDecl extends PascalDecl {
 
         leaveParser("FuncDecl");
         return f;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("function " + name);
+        if (params != null) {
+            Main.log.prettyPrint(" ");
+            params.prettyPrint();
+        }
+        Main.log.prettyPrintLn(" : " + returnType + ";");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(";");
     }
 }

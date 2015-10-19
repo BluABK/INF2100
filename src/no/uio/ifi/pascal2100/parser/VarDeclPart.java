@@ -11,23 +11,7 @@ public class VarDeclPart extends PascalSyntax {
 
     VarDeclPart(int n, int c) {
         super(n, c);
-        vars = new ArrayList<VarDecl>();
-    }
-
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-    
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrintLn("var");
-
-        Main.log.prettyIndent();
-        for(VarDecl v : vars) {
-            v.prettyPrint();
-        }
-        Main.log.prettyOutdent();
+        vars = new ArrayList<>();
     }
 
     public static VarDeclPart parse(Scanner s, PascalSyntax context) {
@@ -38,12 +22,28 @@ public class VarDeclPart extends PascalSyntax {
 
         s.skip(TokenKind.varToken);
 
-        while(s.curToken.kind == TokenKind.nameToken &&
-              s.nextToken.kind == TokenKind.colonToken) {
+        while (s.curToken.kind == TokenKind.nameToken &&
+                s.nextToken.kind == TokenKind.colonToken) {
             v.vars.add(VarDecl.parse(s, v));
         }
 
         leaveParser("VarDeclPart");
         return v;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrintLn("var");
+
+        Main.log.prettyIndent();
+        for (VarDecl v : vars) {
+            v.prettyPrint();
+        }
+        Main.log.prettyOutdent();
     }
 }

@@ -10,20 +10,6 @@ public class ConstantName extends Constant {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public static ConstantName parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantName");
 
@@ -36,5 +22,19 @@ public class ConstantName extends Constant {
 
         leaveParser("ConstantName");
         return c;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

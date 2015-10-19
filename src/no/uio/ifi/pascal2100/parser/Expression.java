@@ -13,22 +13,6 @@ public class Expression extends PascalSyntax {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        lhs.prettyPrint();
-        if(op != null || rhs != null) {
-            Main.log.prettyPrint(" ");
-            op.prettyPrint();
-            Main.log.prettyPrint(" ");
-            rhs.prettyPrint();
-        }
-    }
-
     public static Expression parse(Scanner s, PascalSyntax context) {
         enterParser("Expression");
 
@@ -37,12 +21,12 @@ public class Expression extends PascalSyntax {
 
         e.lhs = SimpleExpr.parse(s, e);
 
-        if(s.curToken.kind == TokenKind.equalToken ||
-           s.curToken.kind == TokenKind.notEqualToken ||
-           s.curToken.kind == TokenKind.lessEqualToken ||
-           s.curToken.kind == TokenKind.lessToken ||
-           s.curToken.kind == TokenKind.greaterToken ||
-           s.curToken.kind == TokenKind.greaterEqualToken) {
+        if (s.curToken.kind == TokenKind.equalToken ||
+                s.curToken.kind == TokenKind.notEqualToken ||
+                s.curToken.kind == TokenKind.lessEqualToken ||
+                s.curToken.kind == TokenKind.lessToken ||
+                s.curToken.kind == TokenKind.greaterToken ||
+                s.curToken.kind == TokenKind.greaterEqualToken) {
             e.op = RelOpr.parse(s, e);
             e.rhs = SimpleExpr.parse(s, e);
         } else {
@@ -52,5 +36,21 @@ public class Expression extends PascalSyntax {
 
         leaveParser("Expression");
         return e;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        lhs.prettyPrint();
+        if (op != null || rhs != null) {
+            Main.log.prettyPrint(" ");
+            op.prettyPrint();
+            Main.log.prettyPrint(" ");
+            rhs.prettyPrint();
+        }
     }
 }

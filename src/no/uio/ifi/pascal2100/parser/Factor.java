@@ -13,15 +13,15 @@ public abstract class Factor extends PascalSyntax {
 
         Factor f = null;
 
-        if(s.curToken.kind == TokenKind.notToken) {
+        if (s.curToken.kind == TokenKind.notToken) {
             f = Negation.parse(s, context);
-        } else if(s.curToken.kind == TokenKind.leftParToken) {
+        } else if (s.curToken.kind == TokenKind.leftParToken) {
             f = InnerExpr.parse(s, context);
-        } else if(s.curToken.kind == TokenKind.intValToken ||
-                  s.curToken.kind == TokenKind.stringValToken) {
+        } else if (s.curToken.kind == TokenKind.intValToken ||
+                s.curToken.kind == TokenKind.stringValToken) {
             f = Constant.parse(s, context);
-        } else if(s.curToken.kind == TokenKind.nameToken) {
-            if(s.nextToken.kind == TokenKind.leftParToken) {
+        } else if (s.curToken.kind == TokenKind.nameToken) {
+            if (s.nextToken.kind == TokenKind.leftParToken) {
                 // TODO for part 3: Correct function calls that should be  variable/constant/function call + innerExpr
                 f = FuncCall.parse(s, context);
             } else {

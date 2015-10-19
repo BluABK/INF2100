@@ -11,18 +11,6 @@ public class TypeDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(name + " = ");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(";");
-    }
-
     public static TypeDecl parse(Scanner s, PascalSyntax context) {
         enterParser("TypeDecl");
 
@@ -43,5 +31,17 @@ public class TypeDecl extends PascalDecl {
 
         leaveParser("TypeDecl");
         return t;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(name + " = ");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(";");
     }
 }

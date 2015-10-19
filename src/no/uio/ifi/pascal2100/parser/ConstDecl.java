@@ -11,18 +11,6 @@ public class ConstDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(name + " = ");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(";");
-    }
-
     public static ConstDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ConstDecl");
 
@@ -43,5 +31,17 @@ public class ConstDecl extends PascalDecl {
 
         leaveParser("ConstDecl");
         return c;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(name + " = ");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(";");
     }
 }

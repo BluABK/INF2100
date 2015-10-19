@@ -29,7 +29,7 @@ public class Main {
             Scanner s = new Scanner(sourceFileName);
             if (testScanner)
                 doTestScanner(s);
-            //Del 2:
+                //Del 2:
             else if (testParser)
                 doTestParser(s);
             // else
@@ -169,7 +169,7 @@ public class Main {
     }
 
     public static void error(int lineNum, int colNum, String message) {
-        error("Error in line " + lineNum + ", column "+colNum+":\n" + message);
+        error("Error in line " + lineNum + ", column " + colNum + ":\n" + message);
     }
 
     private static void usage() {

@@ -11,17 +11,6 @@ public class NameType extends Type {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return "<" + this.getClass().getSimpleName() + "> with type " + name
-                 + " on line " + lineNum + ", col " + colNum;
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint(name);
-    }
-
     public static NameType parse(Scanner s, PascalSyntax context) {
         enterParser("NameType");
 
@@ -34,5 +23,16 @@ public class NameType extends Type {
 
         leaveParser("NameType");
         return r;
+    }
+
+    @Override
+    public String identify() {
+        return "<" + this.getClass().getSimpleName() + "> with type " + name
+                + " on line " + lineNum + ", col " + colNum;
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint(name);
     }
 }

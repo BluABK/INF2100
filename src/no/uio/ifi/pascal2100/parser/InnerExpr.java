@@ -11,18 +11,6 @@ public class InnerExpr extends Factor {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("(");
-        expr.prettyPrint();
-        Main.log.prettyPrint(")");
-    }
-
     public static InnerExpr parse(Scanner s, PascalSyntax context) {
         enterParser("InnerExpr");
 
@@ -37,5 +25,17 @@ public class InnerExpr extends Factor {
 
         leaveParser("InnerExpr");
         return i;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("(");
+        expr.prettyPrint();
+        Main.log.prettyPrint(")");
     }
 }

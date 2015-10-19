@@ -12,19 +12,6 @@ public class RangeType extends Type {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return "<" + this.getClass().getSimpleName() + "> from " +
-                start + " to " + stop + " on line " + lineNum + ", col " + colNum;
-    }
-
-    @Override
-    public void prettyPrint() {
-        start.prettyPrint();
-        Main.log.prettyPrint("..");
-        stop.prettyPrint();
-    }
-
     public static RangeType parse(Scanner s, PascalSyntax context) {
         enterParser("RangeType");
 
@@ -36,5 +23,18 @@ public class RangeType extends Type {
 
         leaveParser("RangeType");
         return r;
+    }
+
+    @Override
+    public String identify() {
+        return "<" + this.getClass().getSimpleName() + "> from " +
+                start + " to " + stop + " on line " + lineNum + ", col " + colNum;
+    }
+
+    @Override
+    public void prettyPrint() {
+        start.prettyPrint();
+        Main.log.prettyPrint("..");
+        stop.prettyPrint();
     }
 }

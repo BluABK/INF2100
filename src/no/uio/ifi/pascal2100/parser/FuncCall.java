@@ -14,6 +14,37 @@ public class FuncCall extends Factor {
         super(n, c);
     }
 
+    public static FuncCall parse(Scanner s, PascalSyntax context) {
+        enterParser("FuncCall");
+
+        FuncCall f = new FuncCall(s.curLineNum(), s.curColNum());
+        f.context = context;
+
+        s.test(TokenKind.nameToken);
+        f.name = s.curToken.id;
+        s.readNextToken();
+
+        if (s.curToken.kind == TokenKind.leftParToken) {
+            f.expressions = new ArrayList<>();
+            s.skip(TokenKind.leftParToken);
+
+            while (s.curToken.kind != TokenKind.rightParToken) {
+                f.expressions.add(Expression.parse(s, f));
+
+                if (s.curToken.kind != TokenKind.commaToken) {
+                    break;
+                }
+                s.readNextToken();
+            }
+            s.skip(TokenKind.rightParToken);
+        } else {
+            f.expressions = null;
+        }
+
+        leaveParser("FuncCall");
+        return f;
+    }
+
     @Override
     public String identify() {
         return identifyTemplate();
@@ -22,7 +53,7 @@ public class FuncCall extends Factor {
     @Override
     public void prettyPrint() {
         Main.log.prettyPrint(name);
-        if(expressions != null) {
+        if (expressions != null) {
             Main.log.prettyPrint("(");
             boolean first = true;
             for (Expression e : expressions) {
@@ -36,36 +67,5 @@ public class FuncCall extends Factor {
             }
             Main.log.prettyPrint(")");
         }
-    }
-
-    public static FuncCall parse(Scanner s, PascalSyntax context) {
-        enterParser("FuncCall");
-
-        FuncCall f = new FuncCall(s.curLineNum(), s.curColNum());
-        f.context = context;
-
-        s.test(TokenKind.nameToken);
-        f.name = s.curToken.id;
-        s.readNextToken();
-
-        if(s.curToken.kind == TokenKind.leftParToken) {
-            f.expressions = new ArrayList<Expression>();
-            s.skip(TokenKind.leftParToken);
-
-            while(s.curToken.kind != TokenKind.rightParToken) {
-                f.expressions.add(Expression.parse(s, f));
-
-                if(s.curToken.kind != TokenKind.commaToken) {
-                    break;
-                }
-                s.readNextToken();
-            }
-            s.skip(TokenKind.rightParToken);
-        } else {
-            f.expressions = null;
-        }
-
-        leaveParser("FuncCall");
-        return f;
     }
 }

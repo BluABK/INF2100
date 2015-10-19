@@ -11,7 +11,24 @@ public class ConstDeclPart extends PascalSyntax {
 
     ConstDeclPart(int n, int c) {
         super(n, c);
-        constants = new ArrayList<ConstDecl>();
+        constants = new ArrayList<>();
+    }
+
+    public static ConstDeclPart parse(Scanner s, PascalSyntax context) {
+        enterParser("ConstDeclPart");
+
+        ConstDeclPart c = new ConstDeclPart(s.curLineNum(), s.curColNum());
+        c.context = context;
+
+        s.skip(TokenKind.constToken);
+
+        while (s.curToken.kind == TokenKind.nameToken &&
+                s.nextToken.kind == TokenKind.equalToken) {
+            c.constants.add(ConstDecl.parse(s, c));
+        }
+
+        leaveParser("ConstDeclPart");
+        return c;
     }
 
     @Override
@@ -24,26 +41,9 @@ public class ConstDeclPart extends PascalSyntax {
         Main.log.prettyPrintLn("const");
 
         Main.log.prettyIndent();
-        for(ConstDecl c : constants) {
+        for (ConstDecl c : constants) {
             c.prettyPrint();
         }
         Main.log.prettyOutdent();
-    }
-
-    public static ConstDeclPart parse(Scanner s, PascalSyntax context) {
-        enterParser("ConstDeclPart");
-
-        ConstDeclPart c = new ConstDeclPart(s.curLineNum(), s.curColNum());
-        c.context = context;
-
-        s.skip(TokenKind.constToken);
-
-        while(s.curToken.kind == TokenKind.nameToken &&
-              s.nextToken.kind == TokenKind.equalToken) {
-            c.constants.add(ConstDecl.parse(s, c));
-        }
-
-        leaveParser("ConstDeclPart");
-        return c;
     }
 }

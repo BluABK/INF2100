@@ -14,13 +14,13 @@ public abstract class Type extends PascalSyntax {
 
         Type t = null;
 
-        if(s.curToken.kind == TokenKind.arrayToken) {
+        if (s.curToken.kind == TokenKind.arrayToken) {
             t = ArrayType.parse(s, context);
-        } else if(s.curToken.kind == TokenKind.leftParToken) {
+        } else if (s.curToken.kind == TokenKind.leftParToken) {
             t = EnumType.parse(s, context);
-        } else if(s.nextToken.kind == TokenKind.rangeToken) {
+        } else if (s.nextToken.kind == TokenKind.rangeToken) {
             t = RangeType.parse(s, context);
-        } else if(s.curToken.kind == TokenKind.nameToken) {
+        } else if (s.curToken.kind == TokenKind.nameToken) {
             t = NameType.parse(s, context);
         } else {
             s.testError("name, range, enum or array");

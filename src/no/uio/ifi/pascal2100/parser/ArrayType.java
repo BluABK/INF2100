@@ -12,19 +12,6 @@ public class ArrayType extends Type {
         super(n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("array[");
-        number.prettyPrint();
-        Main.log.prettyPrint("] of ");
-        type.prettyPrint();
-    }
-
     public static ArrayType parse(Scanner s, PascalSyntax context) {
         enterParser("ArrayType");
 
@@ -40,5 +27,18 @@ public class ArrayType extends Type {
 
         leaveParser("ArrayType");
         return t;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("array[");
+        number.prettyPrint();
+        Main.log.prettyPrint("] of ");
+        type.prettyPrint();
     }
 }

@@ -24,7 +24,7 @@ public class StringMatcher {
 
     /**
      * Parses the stored string and saves the results for retreival.
-     * */
+     */
     public void parse() {
         consumed = 0;
         terminated = true;
@@ -61,6 +61,7 @@ public class StringMatcher {
 
     /**
      * Check if the string is valid.
+     *
      * @return true if the string is properly terminated. False otherwise.
      */
     public boolean getTerminated() {
@@ -70,14 +71,16 @@ public class StringMatcher {
     /**
      * Check how many bytes the string takes of the input.
      * If 0, this is not a string.
+     *
      * @return number of bytes of input consumed.
-     * */
+     */
     public int getConsumed() {
         return consumed;
     }
 
     /**
      * Call this only if getConsumed() and getTerminated()
+     *
      * @return Token for the matched string
      */
     public Token getToken() {

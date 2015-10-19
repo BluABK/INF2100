@@ -13,23 +13,6 @@ public class ProcDecl extends PascalDecl {
         super(name, n, c);
     }
 
-    @Override
-    public String identify() {
-        return identifyTemplate();
-    }
-
-    @Override
-    public void prettyPrint() {
-        Main.log.prettyPrint("procedure " + name);
-        if(params != null) {
-            Main.log.prettyPrint(" ");
-            params.prettyPrint();
-        }
-        Main.log.prettyPrintLn(";");
-        child.prettyPrint();
-        Main.log.prettyPrintLn(";");
-    }
-
     public static ProcDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ProcDecl");
         s.skip(TokenKind.procedureToken);
@@ -39,7 +22,7 @@ public class ProcDecl extends PascalDecl {
         p.context = context;
         s.readNextToken();
 
-        if(s.curToken.kind != TokenKind.semicolonToken) {
+        if (s.curToken.kind != TokenKind.semicolonToken) {
             p.params = ParamDeclList.parse(s, p);
         } else {
             p.params = null;
@@ -52,5 +35,22 @@ public class ProcDecl extends PascalDecl {
 
         leaveParser("ProcDecl");
         return p;
+    }
+
+    @Override
+    public String identify() {
+        return identifyTemplate();
+    }
+
+    @Override
+    public void prettyPrint() {
+        Main.log.prettyPrint("procedure " + name);
+        if (params != null) {
+            Main.log.prettyPrint(" ");
+            params.prettyPrint();
+        }
+        Main.log.prettyPrintLn(";");
+        child.prettyPrint();
+        Main.log.prettyPrintLn(";");
     }
 }
