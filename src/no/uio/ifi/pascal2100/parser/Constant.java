@@ -5,6 +5,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * {@link ConstantName} | {@link ConstantInt} | {@link ConstantStr}
+ */
 public abstract class Constant extends Factor {
     Constant(int n, int c) {
         super(n, c);

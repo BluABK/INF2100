@@ -7,6 +7,10 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * 'begin' {@link StatmList} 'end'
+ */
+
 public class CompoundStatm extends Statement {
     public ArrayList<Statement> statements;
 

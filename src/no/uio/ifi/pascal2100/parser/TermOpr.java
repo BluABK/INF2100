@@ -2,8 +2,12 @@ package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
+/**
+ * '+' | '-' | 'or'
+ * <br />
+ * Subset of {@link Opr}
+ */
 public class TermOpr extends Opr {
-
     TermOpr(int n, int c) {
         super(n, c);
     }

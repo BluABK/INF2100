@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * Numeric literal
+ */
 public class ConstantInt extends Constant {
     public int integer;
 
@@ -34,6 +37,9 @@ public class ConstantInt extends Constant {
         return Integer.toString(integer);
     }
 
+    /**
+     * @return The numeric value
+     */
     public int getInt() {
         return integer;
     }

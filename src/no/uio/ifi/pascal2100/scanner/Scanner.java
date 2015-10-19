@@ -35,7 +35,7 @@ public class Scanner {
         try {
             sourceFile = new LineNumberReader(new FileReader(fileName));
         } catch (FileNotFoundException e) {
-            Main.error("Cannot read " + fileName + "!");
+            Main.error("Scanner error: Cannot read " + fileName + "!");
         }
 
         readNextToken();
@@ -63,6 +63,13 @@ public class Scanner {
      */
     public int curColNum() {
         return curToken.colNum;
+    }
+
+    /**
+     * @return Source line of current token
+     */
+    public String curLine() {
+        return curToken.origLine;
     }
 
     /**
@@ -230,10 +237,10 @@ public class Scanner {
             if (sourceLine.length() == 0) {
                 if (sourceFile == null) {
                     if (inComment > 0) {
-                        Main.error(commentStartLine, commentStartCol, "Unclosed comment starts here");
+                        Main.error(commentStartLine, commentStartCol, "Scanner error: Unclosed comment starts here");
                     }
 
-                    setToken(new Token(TokenKind.eofToken, getFileLineNum(), sourceCol));
+                    setToken(new Token(TokenKind.eofToken, getFileLineNum(), sourceCol, originalSourceLine));
                     return;
                 }
                 readNextLine();
@@ -264,10 +271,10 @@ public class Scanner {
 
         // Run string matcher.
         // Takes care of text strings, they always start with '.
-        StringMatcher stringMatch = new StringMatcher(sourceLine, getFileLineNum(), sourceCol);
+        StringMatcher stringMatch = new StringMatcher(sourceLine, getFileLineNum(), sourceCol, originalSourceLine);
         if (stringMatch.getConsumed() > 0) {
             if (!stringMatch.getTerminated()) {
-                Main.panic(getFileLineNum(), sourceCol, originalSourceLine, "Unterminated string");
+                panic(getFileLineNum(), sourceCol, originalSourceLine, "Scanner error: Unterminated string");
             } else {
                 setToken(stringMatch.getToken());
                 sourceCol += stringMatch.getConsumed();
@@ -280,7 +287,7 @@ public class Scanner {
         int numConsumed = scanDigit();
         if (numConsumed > 0) {
             int n = Integer.parseInt(sourceLine.substring(0, numConsumed));
-            setToken(new Token(n, getFileLineNum(), sourceCol));
+            setToken(new Token(n, getFileLineNum(), sourceCol, originalSourceLine));
             sourceLine = sourceLine.substring(numConsumed, sourceLine.length());
             sourceCol += numConsumed;
             return;
@@ -291,7 +298,7 @@ public class Scanner {
         if (numConsumed > 0) {
             String s = sourceLine.substring(0, numConsumed).toLowerCase();
             // Token does the work of splitting this into the static tags
-            setToken(new Token(s, getFileLineNum(), sourceCol));
+            setToken(new Token(s, getFileLineNum(), sourceCol, originalSourceLine));
             sourceLine = sourceLine.substring(numConsumed, sourceLine.length());
             sourceCol += numConsumed;
             return;
@@ -300,20 +307,20 @@ public class Scanner {
         // Symbol matcher of length 2 and 1.
         TokenKind t;
         if (sourceLine.length() >= 2 && (t = matchSym2(sourceLine.substring(0, 2))) != null) {
-            setToken(new Token(t, getFileLineNum(), sourceCol));
+            setToken(new Token(t, getFileLineNum(), sourceCol, originalSourceLine));
             sourceLine = sourceLine.substring(2, sourceLine.length());
             sourceCol += 2;
             return;
         }
 
         if ((t = matchSym1(sourceLine.charAt(0))) != null) {
-            setToken(new Token(t, getFileLineNum(), sourceCol));
+            setToken(new Token(t, getFileLineNum(), sourceCol, originalSourceLine));
             sourceLine = sourceLine.substring(1, sourceLine.length());
             sourceCol++;
             return;
         }
 
-        Main.panic(getFileLineNum(), sourceCol, originalSourceLine, "Unexpected data found");
+        panic(getFileLineNum(), sourceCol, originalSourceLine, "Scanner error: Unexpected data found");
     }
 
     /**
@@ -330,7 +337,7 @@ public class Scanner {
                 }
                 sourceCol = 1;
             } catch (IOException e) {
-                Main.error("Scanner error: unspecified I/O error!");
+                Main.error("Scanner error: Unspecified I/O error!");
             }
         }
         if (sourceFile != null)
@@ -377,11 +384,15 @@ public class Scanner {
     }
 
     public void testError(String message) {
-        Main.error(curLineNum(), curColNum(), "Expected a " + message + " but found a " + curToken.kind + "!");
+        panic(curLineNum(), curColNum(), curLine(), "Parser error: Expected " + message + ", found " + curToken.kind);
     }
 
     public void skip(TokenKind t) {
         test(t);
         readNextToken();
+    }
+
+    public static void panic(int lineNum, int colNum, String originalLine, String explanation) {
+        Main.error(lineNum, colNum, originalLine + "\n" + Main.asciiArt(colNum, originalLine) + "\n" + explanation);
     }
 }

@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * 'type' {@link TypeDecl}...
+ */
 public class TypeDeclPart extends PascalSyntax {
     public ArrayList<TypeDecl> types;
 

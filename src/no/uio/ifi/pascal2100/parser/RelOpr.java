@@ -2,6 +2,11 @@ package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
+/**
+ * '=' | '&lt;&gt;' | '&lt;' | '&lt;=' | '&gt;' | '&gt;='
+ * <br />
+ * Subset of {@link Opr}
+ */
 public class RelOpr extends Opr {
     RelOpr(int n, int c) {
         super(n, c);

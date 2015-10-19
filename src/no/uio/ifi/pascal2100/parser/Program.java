@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * 'program' Name ';' {@link Block} '.'
+ */
 public class Program extends PascalDecl {
     public Block child;
 

@@ -7,6 +7,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * {@link Statement} [ ';' {@link Statement} ]...
+ */
 public class StatmList extends PascalSyntax {
 
     public ArrayList<Statement> statements;

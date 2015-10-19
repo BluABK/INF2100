@@ -4,7 +4,8 @@ import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 /**
- * Statement
+ * {@link AssignStatm} | {@link CompoundStatm} | {@link IfStatm} | {@link ProcCallStatm} | {@link WhileStatm}
+ * <br />
  * Note: Does not include or support empty statement, these are skipped by StatmList.
  */
 public abstract class Statement extends PascalSyntax {

@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * {@link Variable} ':=' {@link Expression}
+ */
 public class AssignStatm extends Statement {
     public Variable var;
     public Expression expr;

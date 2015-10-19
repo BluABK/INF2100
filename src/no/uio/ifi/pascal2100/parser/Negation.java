@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * 'not' {@link Factor}
+ */
 public class Negation extends Factor {
     public Factor factor;
 

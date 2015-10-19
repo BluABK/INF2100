@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * 'var' {@link VarDecl}...
+ */
 public class VarDeclPart extends PascalSyntax {
     public ArrayList<VarDecl> vars;
 

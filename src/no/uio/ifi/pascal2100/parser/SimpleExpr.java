@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * [ {@link PrefixOpr} ] {@link Term} [ {@link TermOpr} {@link Term} ]...
+ */
 public class SimpleExpr extends PascalSyntax {
     public PrefixOpr prefix;
     public ArrayList<Term> terms;

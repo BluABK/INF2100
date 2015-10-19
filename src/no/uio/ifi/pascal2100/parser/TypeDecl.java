@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * Name '=' {@link Type} ';'
+ */
 public class TypeDecl extends PascalDecl {
     public Type child;
 

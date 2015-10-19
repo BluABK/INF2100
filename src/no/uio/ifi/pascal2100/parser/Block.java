@@ -6,6 +6,13 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * [ {@link ConstDeclPart} ]
+ * [ {@link TypeDeclPart} ]
+ * [ {@link VarDeclPart} ]
+ * [ {@link FuncDecl} | {@link ProcDecl} ]*
+ * 'begin' {@link StatmList} 'end'
+ */
 public class Block extends PascalSyntax {
     public ConstDeclPart constants;
     public TypeDeclPart types;
@@ -35,6 +42,7 @@ public class Block extends PascalSyntax {
         if (s.curToken.kind == TokenKind.typeToken) {
             b.types = TypeDeclPart.parse(s, b);
         }
+
         if (s.curToken.kind == TokenKind.varToken) {
             b.variables = VarDeclPart.parse(s, b);
         }

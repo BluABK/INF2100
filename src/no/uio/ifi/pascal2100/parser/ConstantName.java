@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * Name
+ */
 public class ConstantName extends Constant {
     public String name;
 
@@ -34,6 +37,9 @@ public class ConstantName extends Constant {
         return name;
     }
 
+    /**
+     * @return The name
+     */
     public String getName() {
         return name;
     }

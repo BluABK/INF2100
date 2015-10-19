@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * Name [ '(' {@link Expression} [ ',' {@link Expression} ]... ')' ]
+ */
 public class FuncCall extends Factor {
     public String name;
     public ArrayList<Expression> expressions;

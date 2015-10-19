@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 
 import static no.uio.ifi.pascal2100.scanner.TokenKind.eofToken;
 
-// TODO: Part 2: Make error lines/cols work as well as possible, improve helpfulness
-// TODO: Part 2: Verify multiline comments are fine
 // TODO: Part 2: Fucktons of javadoc + comments
 
 public class Main {
@@ -186,7 +184,7 @@ public class Main {
         System.err.println(message);
     }
 
-    public static void panic(int lineNum, int colNum, String originalLine, String explanation) {
+    public static String asciiArt(int colNum, String originalLine) {
         String ascii = "";
         // Follow tabs to get correct alignment in tabbed files
         for (int i = 0; i < colNum - 1; i++) {
@@ -197,6 +195,6 @@ public class Main {
                 ascii += " ";
         }
         ascii += "^";
-        error(lineNum, colNum, originalLine + "\n" + ascii + "\n" + "Syntax/scanner error: " + explanation);
+        return ascii;
     }
 }

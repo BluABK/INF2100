@@ -1,5 +1,8 @@
 package no.uio.ifi.pascal2100.parser;
 
+/**
+ * Abstract class for declarations with a Name argument
+ */
 public abstract class PascalDecl extends PascalSyntax {
     String name, progProcFuncName;
 

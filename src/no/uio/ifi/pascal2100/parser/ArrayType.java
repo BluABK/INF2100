@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * 'array [' {@link Type} '] of' {@link Type}
+ */
 public class ArrayType extends Type {
     public Type number;
     public Type type;
@@ -12,6 +15,11 @@ public class ArrayType extends Type {
         super(n, c);
     }
 
+    /**
+     * @param s : Scanner object
+     * @param context : Parent object
+     * @return ArrayType node
+     */
     public static ArrayType parse(Scanner s, PascalSyntax context) {
         enterParser("ArrayType");
 

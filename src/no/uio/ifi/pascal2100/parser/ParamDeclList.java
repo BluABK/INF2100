@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * '(' {@link ParamDecl} [ ';' {@link ParamDecl} ]... ')'
+ */
 public class ParamDeclList extends PascalSyntax {
     public ArrayList<ParamDecl> parameters;
 

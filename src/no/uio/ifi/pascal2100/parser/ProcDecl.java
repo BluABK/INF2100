@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * 'procedure' Name [ {@link ParamDeclList} ] ';' {@link Block} ';'
+ */
 public class ProcDecl extends PascalDecl {
     public Block child;
 

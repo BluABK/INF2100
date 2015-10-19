@@ -2,6 +2,9 @@ package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.Main;
 
+/**
+ * Superclass of all parser classes
+ */
 public abstract class PascalSyntax {
     public PascalSyntax context;
 
@@ -28,13 +31,22 @@ public abstract class PascalSyntax {
     //Del 3: abstract void check(Block curScope, Library lib);
     //Del 4: abstract void genCode(CodeFile f);
 
+    /**
+     * @return String identifying the object (for debugging)
+     */
     abstract public String identify();
 
+    /**
+     * @return Standard identify template
+     */
     public String identifyTemplate() {
         return "<" + this.getClass().getSimpleName() + "> on line "
                 + lineNum + ", col " + colNum;
     }
 
+    /**
+     * Prints the source code of the current node
+     */
     abstract public void prettyPrint();
 
     void error(String message) {

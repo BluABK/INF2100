@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * 'const' {@link ConstDecl}...
+ */
 public class ConstDeclPart extends PascalSyntax {
     public ArrayList<ConstDecl> constants;
 

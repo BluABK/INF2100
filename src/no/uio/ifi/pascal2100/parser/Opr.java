@@ -2,6 +2,9 @@ package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.Main;
 
+/**
+ * Superclass of all the operator classes
+ */
 public abstract class Opr extends PascalSyntax {
     public Op op;
 

@@ -2,9 +2,12 @@ package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
+/**
+ * '+' | '-'
+ * <br />
+ * Subset of {@link Opr}
+ */
 public class PrefixOpr extends Opr {
-
-
     PrefixOpr(int n, int c) {
         super(n, c);
     }

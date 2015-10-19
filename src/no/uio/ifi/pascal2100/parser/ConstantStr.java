@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * String literal
+ */
 public class ConstantStr extends Constant {
     public String str;
 
@@ -34,6 +37,9 @@ public class ConstantStr extends Constant {
         return "'" + str + "'";
     }
 
+    /**
+     * @return The value of the string
+     */
     public String getString() {
         return str;
     }

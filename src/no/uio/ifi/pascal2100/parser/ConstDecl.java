@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * Name '=' {@link Constant} ';'
+ */
 public class ConstDecl extends PascalDecl {
     public Constant child;
 

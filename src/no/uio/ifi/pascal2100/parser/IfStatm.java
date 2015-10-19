@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * 'if' {@link Expression} then {@link Statement} [ 'else' {@link Statement} ]
+ */
 public class IfStatm extends Statement {
     public Expression test;
     public Statement thenStatm;

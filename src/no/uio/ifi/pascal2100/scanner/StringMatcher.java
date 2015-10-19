@@ -10,10 +10,15 @@ public class StringMatcher {
     private String line;
     private boolean terminated;
 
-    StringMatcher(String l, int lNum, int cNum) {
+    private String origLine;
+
+    StringMatcher(String l, int lNum, int cNum, String origLine) {
         lineNum = lNum;
         colNum = cNum;
         line = l;
+
+        this.origLine = origLine;
+
         // Immediately run
         parse();
     }
@@ -84,6 +89,6 @@ public class StringMatcher {
      * @return Token for the matched string
      */
     public Token getToken() {
-        return new Token("", stringVal, lineNum, colNum);
+        return new Token("", stringVal, lineNum, colNum, origLine);
     }
 }

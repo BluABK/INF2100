@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * {@link NameType} | {@link RangeType} | {@link EnumType} | {@link ArrayType}
+ */
 public abstract class Type extends PascalSyntax {
 
     Type(int n, int c) {

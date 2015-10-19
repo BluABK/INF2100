@@ -4,6 +4,10 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+
+/**
+ * {@link SimpleExpr} [ {@link RelOpr} {@link SimpleExpr} ]
+ */
 public class Expression extends PascalSyntax {
     public SimpleExpr lhs;
     public RelOpr op; // if op != null, then rhs != null

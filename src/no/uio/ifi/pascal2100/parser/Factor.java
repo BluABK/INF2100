@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * {@link Constant} | {@link Variable} | {@link FuncCall} | {@link InnerExpr} | {@link Negation}
+ */
 public abstract class Factor extends PascalSyntax {
     Factor(int n, int c) {
         super(n, c);

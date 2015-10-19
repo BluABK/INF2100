@@ -6,6 +6,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
 
+/**
+ * {@link Factor} [ {@link FactorOpr} {@link Factor} ]...
+ */
 public class Term extends PascalSyntax {
     // See SimpleExpr, same thing there.
     public ArrayList<Factor> factors;

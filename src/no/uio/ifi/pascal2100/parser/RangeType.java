@@ -4,6 +4,9 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+/**
+ * {@link Constant} '..' {@link Constant}
+ */
 public class RangeType extends Type {
     public Constant start;
     public Constant stop;
