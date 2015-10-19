@@ -31,6 +31,7 @@ public class StatmList extends PascalSyntax {
                 s.curToken.kind == TokenKind.ifToken ||
                 s.curToken.kind == TokenKind.whileToken) {
 
+            /* This will skip empty statements instead of parsing them further */
             if (s.curToken.kind != TokenKind.semicolonToken) {
                 p.statements.add(Statement.parse(s, p));
             }

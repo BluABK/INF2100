@@ -22,6 +22,9 @@ public abstract class Opr extends PascalSyntax {
         Main.log.prettyPrint(op.toString());
     }
 
+    /**
+     * Available operators
+     */
     public enum Op {
         multiply("*"),
         div("div"),

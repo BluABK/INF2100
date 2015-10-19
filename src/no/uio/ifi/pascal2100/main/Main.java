@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 
 import static no.uio.ifi.pascal2100.scanner.TokenKind.eofToken;
 
-// TODO: Part 2: Fucktons of javadoc + comments
-
 public class Main {
     public static final String version = "2015-08-18";
 

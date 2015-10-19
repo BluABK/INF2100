@@ -6,7 +6,7 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 /**
  * {@link AssignStatm} | {@link CompoundStatm} | {@link IfStatm} | {@link ProcCallStatm} | {@link WhileStatm}
  * <br />
- * Note: Does not include or support empty statement, these are skipped by StatmList.
+ * Note: Does not include empty statement, these are skipped in StatmList.
  */
 public abstract class Statement extends PascalSyntax {
     Statement(int n, int c) {
