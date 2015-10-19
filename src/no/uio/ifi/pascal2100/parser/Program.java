@@ -11,7 +11,7 @@ public class Program extends PascalDecl {
         super(name, n, c);
     }
 
-    public static Program parse(Scanner s, PascalSyntax context) {
+    public static Program parse(Scanner s) {
         enterParser("Program");
 
         // Program
@@ -20,7 +20,7 @@ public class Program extends PascalDecl {
         // <name>
         s.test(TokenKind.nameToken);
         Program p = new Program(s.curToken.id, s.curLineNum(), s.curColNum());
-        p.context = context;
+        p.context = null;
         s.readNextToken();
 
         // ;
