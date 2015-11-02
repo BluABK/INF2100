@@ -16,7 +16,6 @@ public class VarDecl extends PascalDecl {
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-
     }
 
     @Override
@@ -31,7 +30,6 @@ public class VarDecl extends PascalDecl {
 
     @Override
     void checkWhetherValue(PascalSyntax where) {
-
     }
 
 

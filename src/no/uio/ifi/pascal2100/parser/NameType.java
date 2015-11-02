@@ -10,12 +10,18 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class NameType extends Type {
     public String name;
 
+    TypeDecl decl;
+
     NameType(int n, int c) {
         super(n, c);
     }
 
     @Override
     public void check(Block scope, Library lib) {
+        PascalDecl pd = scope.findDecl(name, this);
+        if(!(pd instanceof TypeDecl))
+            error("NameType points to a non-type declaration");
+        decl = (TypeDecl)pd;
     }
 
     public static NameType parse(Scanner s, PascalSyntax context) {

@@ -11,6 +11,8 @@ public class Variable extends Factor {
     public ConstantName name;
     public Expression expr;
 
+    public VarDecl varDecl;
+
     Variable(int n, int c) {
         super(n, c);
     }
@@ -18,7 +20,10 @@ public class Variable extends Factor {
     @Override
     public void check(Block scope, Library lib) {
         PascalDecl p = scope.findDecl(name.name, this);
-        p.checkWhetherValue(this);
+        if(!(p instanceof VarDecl)) {
+            error("Variable instance is not declared as a variable");
+        }
+        varDecl = (VarDecl)p;
 
         if(expr != null) {
             expr.check(scope, lib);

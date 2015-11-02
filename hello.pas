@@ -5,10 +5,11 @@ const
 
 type
     bigass = array[1..100] of integer;
-    nummy = (a, b, c, d);
+    nummy = (a, b, c, ddd);
 
 var
     n: Integer;
+    iii: nummy;
 
 function fib1(x: Integer): Integer;
 var
@@ -34,7 +35,7 @@ begin
         fib2 := 1
     else
         fib2 := - fib2(x - 2) + fib2(x - 1) * fib2(x - 3);
-    fib2 := not (a + b);
+    /* fib2 := not (a + b); */
 
 end; {fib2}
 
@@ -50,5 +51,6 @@ begin
     n := 40;
     write('fib1(', n, ') =', fib1(n), eol);
     write('fib2(', n, ') =', fib2(n), eol);
+    iii := ddd;
 end.
 

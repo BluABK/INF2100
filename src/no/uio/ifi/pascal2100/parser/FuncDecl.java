@@ -34,7 +34,7 @@ public class FuncDecl extends PascalDecl {
     // Return value:
     @Override
     void checkWhetherValue(PascalSyntax where) {
-        where.error("Function must be called to return a value");
+        // Allow setting return value (sin := 0.5)
     }
 
     @Override

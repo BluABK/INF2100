@@ -62,10 +62,11 @@ public class ProcDecl extends PascalDecl {
 
     @Override
     public void check(Block scope, Library lib) {
-        params.check(scope, lib);
-
-        // Params.addDecls adds the parameters to the Block of the function
-        params.addDecls(child);
+        if(params != null) {
+            params.check(scope, lib);
+            // Params.addDecls adds the parameters to the Block of the function
+            params.addDecls(child);
+        }
 
         child.check(scope, lib);
     }

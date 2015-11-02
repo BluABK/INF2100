@@ -24,10 +24,10 @@ public class ProcCallStatm extends Statement {
         if(!(pd instanceof ProcDecl))
             error("ProcCall tried to call something which is not a ProcDecl");
 
-        // TODO: Check that the number and types of arguments match
-        for(Expression e: expressions) {
-            e.check(scope, lib);
-        }
+        if(expressions != null)
+            for(Expression e: expressions) {
+                e.check(scope, lib);
+            }
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {

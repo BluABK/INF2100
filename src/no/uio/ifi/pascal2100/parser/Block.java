@@ -61,32 +61,34 @@ public class Block extends PascalSyntax {
     public void check(Block curScope, Library lib) {
         outerScope = curScope;
 
-        if(constants != null) {
-            constants.check(this, lib);
-            for(ConstDecl cd: constants.constants) {
+        if(constants != null)
+            for(ConstDecl cd: constants.constants)
                 addDecl(cd.name, cd);
-            }
-        }
-        if(types != null) {
-            types.check(this, lib);
+        if(types != null)
             for(TypeDecl td: types.types) {
                 addDecl(td.name, td);
+                if(td.child instanceof EnumType) {
+                    // TODO: How to solve the enum problem
+                }
             }
-        }
-        if(variables != null) {
-            variables.check(this, lib);
-            for(VarDecl vd: variables.vars) {
+        if(variables != null)
+            for(VarDecl vd: variables.vars)
                 addDecl(vd.name, vd);
-            }
-        }
-        for(FuncDecl fd: functions) {
-            fd.check(this, lib);
+        for(FuncDecl fd: functions)
             addDecl(fd.name, fd);
-        }
-        for(ProcDecl pd: procedures) {
-            pd.check(this, lib);
+        for(ProcDecl pd: procedures)
             addDecl(pd.name, pd);
-        }
+
+        if(constants != null)
+            constants.check(this, lib);
+        if(variables != null)
+            variables.check(this, lib);
+        if(types != null)
+            types.check(this, lib);
+        for(ProcDecl pd: procedures)
+            pd.check(this, lib);
+        for(FuncDecl fd: functions)
+            fd.check(this, lib);
 
         statements.check(this, lib);
     }

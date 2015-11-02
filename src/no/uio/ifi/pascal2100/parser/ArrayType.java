@@ -20,6 +20,11 @@ public class ArrayType extends Type {
     @Override
     public void check(Block scope, Library lib) {
         number.check(scope, lib);
+        if(!(number instanceof RangeType) || (number instanceof NameType
+                && ((NameType)number).decl.child instanceof RangeType)) {
+            error("Array: Number must be of RangeType");
+            // TODO: Assume type A = B; B = C; C = D; D = 1..100; var test: array[A] of Boolean; How to solve
+        }
         type.check(scope, lib);
     }
 

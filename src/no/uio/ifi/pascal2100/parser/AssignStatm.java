@@ -18,6 +18,7 @@ public class AssignStatm extends Statement {
     @Override
     public void check(Block scope, Library lib) {
         var.check(scope, lib);
+        var.varDecl.checkWhetherAssignable(this);
         expr.check(scope, lib);
     }
 
