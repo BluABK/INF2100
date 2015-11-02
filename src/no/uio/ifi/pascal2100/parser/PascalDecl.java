@@ -7,7 +7,8 @@ public abstract class PascalDecl extends PascalSyntax {
     String name, progProcFuncName;
 
     int declLevel = 0, declOffset = 0;
-    // Del 3: Type type = null;
+    // TODO ????
+    Type type = null;
 
     PascalDecl(String name, int n, int c) {
         super(n, c);
@@ -45,8 +46,8 @@ public abstract class PascalDecl extends PascalSyntax {
      * @return fuck
      * */
     // part 3
-    // abstract void checkWhetherAssignable(PascalSyntax where);
-    // abstract void checkWhetherFunction(PascalSyntax where);
-    // abstract void checkWhetherProcedure(PascalSyntax where);
-    // abstract void checkWhetherValue(PascalSyntax where);
+    abstract void checkWhetherAssignable(PascalSyntax where);
+    abstract void checkWhetherFunction(PascalSyntax where);
+    abstract void checkWhetherProcedure(PascalSyntax where);
+    abstract void checkWhetherValue(PascalSyntax where);
 }

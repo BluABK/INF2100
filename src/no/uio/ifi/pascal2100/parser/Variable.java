@@ -8,11 +8,21 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name [ '[' {@link Expression} ']' ]
  */
 public class Variable extends Factor {
-    public String name;
+    public ConstantName name;
     public Expression expr;
 
     Variable(int n, int c) {
         super(n, c);
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        PascalDecl p = scope.findDecl(name.name, this);
+        p.checkWhetherValue(this);
+
+        if(expr != null) {
+            expr.check(scope, lib);
+        }
     }
 
     public static Variable parse(Scanner s, PascalSyntax context) {
@@ -21,9 +31,7 @@ public class Variable extends Factor {
         Variable v = new Variable(s.curLineNum(), s.curColNum());
         v.context = context;
 
-        s.test(TokenKind.nameToken);
-        v.name = s.curToken.id;
-        s.readNextToken();
+        v.name = ConstantName.parse(s, v);
 
         if (s.curToken.kind == TokenKind.leftBracketToken) {
             v.expr = Expression.parse(s, v);
@@ -43,7 +51,7 @@ public class Variable extends Factor {
 
     @Override
     public void prettyPrint() {
-        Main.log.prettyPrint(name);
+        name.prettyPrint();
         if (expr != null) {
             Main.log.prettyPrint("[");
             expr.prettyPrint();

@@ -13,6 +13,10 @@ public class ConstantInt extends Constant {
         super(n, c);
     }
 
+    // Nothing to check
+    @Override
+    public void check(Block scope, Library lib) {}
+
     public static ConstantInt parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantInt");
 

@@ -28,7 +28,7 @@ public abstract class PascalSyntax {
         return lineNum < 0;
     }
 
-    //Del 3: abstract void check(Block curScope, Library lib);
+    public abstract void check(Block curScope, Library lib);
     //Del 4: abstract void genCode(CodeFile f);
 
     /**

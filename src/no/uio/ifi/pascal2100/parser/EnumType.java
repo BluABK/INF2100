@@ -18,6 +18,11 @@ public class EnumType extends Type {
         literals = new ArrayList<>();
     }
 
+    // TODO Enum essentially has its own context, this should somehow be handled
+    @Override
+    public void check(Block scope, Library lib) {
+    }
+
     public static EnumType parse(Scanner s, PascalSyntax context) {
         enterParser("EnumType");
 

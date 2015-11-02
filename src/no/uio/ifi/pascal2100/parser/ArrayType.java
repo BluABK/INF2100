@@ -8,11 +8,19 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * 'array [' {@link Type} '] of' {@link Type}
  */
 public class ArrayType extends Type {
+    // array[type] of type - Does not specify the need for the [type] to be a number
     public Type number;
     public Type type;
 
     ArrayType(int n, int c) {
         super(n, c);
+    }
+
+
+    @Override
+    public void check(Block scope, Library lib) {
+        number.check(scope, lib);
+        type.check(scope, lib);
     }
 
     /**

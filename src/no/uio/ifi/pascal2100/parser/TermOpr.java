@@ -12,6 +12,11 @@ public class TermOpr extends Opr {
         super(n, c);
     }
 
+    @Override
+    public void check(Block curScope, Library lib) {
+
+    }
+
     public static TermOpr parse(Scanner s, PascalSyntax context) {
         enterParser("TermOpr");
 

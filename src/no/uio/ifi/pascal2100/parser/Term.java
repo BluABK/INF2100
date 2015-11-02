@@ -20,6 +20,14 @@ public class Term extends PascalSyntax {
         factorOprs = new ArrayList<>();
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        for(FactorOpr f: factorOprs)
+            f.check(scope, lib);
+        for(Factor f: factors)
+            f.check(scope, lib);
+    }
+
     public static Term parse(Scanner s, PascalSyntax context) {
         enterParser("Term");
 

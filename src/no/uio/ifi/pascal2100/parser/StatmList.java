@@ -19,6 +19,12 @@ public class StatmList extends PascalSyntax {
         statements = new ArrayList<>();
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        for(Statement st: statements)
+            st.check(scope, lib);
+    }
+
     public static StatmList parse(Scanner s, PascalSyntax context) {
         enterParser("StatmList");
 

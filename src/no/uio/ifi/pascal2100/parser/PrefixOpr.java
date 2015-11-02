@@ -12,6 +12,11 @@ public class PrefixOpr extends Opr {
         super(n, c);
     }
 
+    // Not much to check
+    @Override
+    public void check(Block curScope, Library lib) {
+    }
+
     public static PrefixOpr parse(Scanner s, PascalSyntax context) {
         enterParser("PrefixOpr");
 

@@ -15,6 +15,12 @@ public class WhileStatm extends Statement {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        test.check(scope, lib);
+        statm.check(scope, lib);
+    }
+
     public static WhileStatm parse(Scanner s, PascalSyntax context) {
         enterParser("WhileStatm");
 

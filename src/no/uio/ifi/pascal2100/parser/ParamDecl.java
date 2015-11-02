@@ -8,11 +8,30 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name ':' Name
  */
 public class ParamDecl extends PascalDecl {
-    public String type;
+    public NameType type;
 
     ParamDecl(String name, int n, int c) {
         super(name, n, c);
     }
+
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Parameters are not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Parameters are not procedures");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+    }
+
 
     public static ParamDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ParamDecl");
@@ -24,12 +43,19 @@ public class ParamDecl extends PascalDecl {
 
         s.skip(TokenKind.colonToken);
 
-        s.test(TokenKind.nameToken);
-        p.type = s.curToken.id;
-        s.readNextToken();
+        p.type = NameType.parse(s, p);
 
         leaveParser("ParamDecl");
         return p;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        type.check(scope, lib);
+        PascalDecl t = scope.findDecl(type.name, this);
+        // TODO: Possibly use library here: if(!(t instanceof TypeDecl) && !(lib.findDecl(type, this) instanceof TypeDecl))
+        if(!(t instanceof TypeDecl))
+            t.error("Expected "+type.name+" to be of type TypeDecl");
     }
 
     @Override

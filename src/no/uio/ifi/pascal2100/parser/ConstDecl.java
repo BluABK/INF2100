@@ -14,6 +14,30 @@ public class ConstDecl extends PascalDecl {
         super(name, n, c);
     }
 
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+        where.error("Constant is not assignable");
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Constant is not function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Constant is not a procedure");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        child.check(scope, lib);
+    }
+
     public static ConstDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ConstDecl");
 

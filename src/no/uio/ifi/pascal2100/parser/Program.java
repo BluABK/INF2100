@@ -14,6 +14,26 @@ public class Program extends PascalDecl {
         super(name, n, c);
     }
 
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+        where.error("Program is not assignable");
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Program is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Program is not a procedure");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+        where.error("Program is not a value");
+    }
+
     public static Program parse(Scanner s) {
         enterParser("Program");
 
@@ -37,6 +57,11 @@ public class Program extends PascalDecl {
 
         leaveParser("Program");
         return p;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        child.check(scope, lib);
     }
 
     @Override

@@ -13,6 +13,12 @@ public class ConstantName extends Constant {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        // Check that name is defined
+        scope.findDecl(name, this);
+    }
+
     public static ConstantName parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantName");
 

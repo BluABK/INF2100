@@ -10,11 +10,24 @@ import java.util.ArrayList;
  * Name [ '(' {@link Expression} [ ',' {@link Expression} ].. ')' ]
  */
 public class ProcCallStatm extends Statement {
-    public String name;
+    public ConstantName name;
     public ArrayList<Expression> expressions;
 
     ProcCallStatm(int n, int c) {
         super(n, c);
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        name.check(scope, lib);
+        PascalDecl pd = scope.findDecl(name.name, this);
+        if(!(pd instanceof ProcDecl))
+            error("ProcCall tried to call something which is not a ProcDecl");
+
+        // TODO: Check that the number and types of arguments match
+        for(Expression e: expressions) {
+            e.check(scope, lib);
+        }
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {
@@ -23,9 +36,7 @@ public class ProcCallStatm extends Statement {
         ProcCallStatm p = new ProcCallStatm(s.curLineNum(), s.curColNum());
         p.context = context;
 
-        s.test(TokenKind.nameToken);
-        p.name = s.curToken.id;
-        s.readNextToken();
+        p.name = ConstantName.parse(s, p);
 
         if (s.curToken.kind == TokenKind.leftParToken) {
             p.expressions = new ArrayList<>();
@@ -54,7 +65,8 @@ public class ProcCallStatm extends Statement {
 
     @Override
     public void prettyPrint() {
-        Main.log.prettyPrint(name);
+        name.prettyPrint();
+        Main.log.prettyPrint(name.name);
         if (expressions != null) {
             Main.log.prettyPrint("(");
             boolean first = true;

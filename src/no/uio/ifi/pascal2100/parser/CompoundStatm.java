@@ -19,6 +19,13 @@ public class CompoundStatm extends Statement {
         statements = new ArrayList<>();
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        for(Statement st: statements) {
+            st.check(scope, lib);
+        }
+    }
+
     public static CompoundStatm parse(Scanner s, PascalSyntax context) {
         enterParser("CompoundStatm");
 

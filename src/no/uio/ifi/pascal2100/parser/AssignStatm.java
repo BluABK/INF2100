@@ -15,6 +15,12 @@ public class AssignStatm extends Statement {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        var.check(scope, lib);
+        expr.check(scope, lib);
+    }
+
     public static AssignStatm parse(Scanner s, PascalSyntax context) {
         enterParser("AssignStatm");
 

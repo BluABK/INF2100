@@ -13,6 +13,11 @@ public class ConstantStr extends Constant {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        // Strings are strings..
+    }
+
     public static ConstantStr parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantStr");
 

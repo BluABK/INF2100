@@ -16,6 +16,14 @@ public class IfStatm extends Statement {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        test.check(scope, lib);
+        thenStatm.check(scope, lib);
+        if(elseStatm != null)
+            elseStatm.check(scope, lib);
+    }
+
     public static IfStatm parse(Scanner s, PascalSyntax context) {
         enterParser("IfStatm");
 

@@ -14,6 +14,27 @@ public class VarDecl extends PascalDecl {
         super(name, n, c);
     }
 
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Variable is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Variable is not a procedure");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+
+    }
+
+
     public static VarDecl parse(Scanner s, PascalSyntax context) {
         enterParser("VarDecl");
 
@@ -34,6 +55,11 @@ public class VarDecl extends PascalDecl {
 
         leaveParser("VarDecl");
         return t;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        child.check(scope, lib);
     }
 
     @Override

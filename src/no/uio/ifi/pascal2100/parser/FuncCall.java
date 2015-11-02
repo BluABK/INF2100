@@ -17,6 +17,17 @@ public class FuncCall extends Factor {
         super(n, c);
     }
 
+
+    @Override
+    public void check(Block scope, Library lib) {
+        PascalDecl func = scope.findDecl(name, this);
+        if(!(func instanceof FuncDecl)) {
+            this.error(name + " is not a function");
+        }
+        for(Expression e: expressions)
+            e.check(scope, lib);
+    }
+
     public static FuncCall parse(Scanner s, PascalSyntax context) {
         enterParser("FuncCall");
 

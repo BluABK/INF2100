@@ -14,6 +14,11 @@ public class Negation extends Factor {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        factor.check(scope, lib);
+    }
+
     public static Negation parse(Scanner s, PascalSyntax context) {
         enterParser("Negation");
 

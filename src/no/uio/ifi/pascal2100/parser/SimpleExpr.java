@@ -31,6 +31,18 @@ public class SimpleExpr extends PascalSyntax {
         termOprs = new ArrayList<>();
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        for(Term t: terms) {
+            t.check(scope, lib);
+        }
+        for(TermOpr t: termOprs) {
+            t.check(scope, lib);
+        }
+        if(prefix != null)
+            prefix.check(scope, lib);
+    }
+
     public static SimpleExpr parse(Scanner s, PascalSyntax context) {
         enterParser("SimpleExpr");
 

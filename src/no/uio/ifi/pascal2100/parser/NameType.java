@@ -14,6 +14,10 @@ public class NameType extends Type {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+    }
+
     public static NameType parse(Scanner s, PascalSyntax context) {
         enterParser("NameType");
 

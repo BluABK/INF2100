@@ -17,6 +17,12 @@ public class VarDeclPart extends PascalSyntax {
         vars = new ArrayList<>();
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        for(VarDecl v: vars)
+            v.check(scope, lib);
+    }
+
     public static VarDeclPart parse(Scanner s, PascalSyntax context) {
         enterParser("VarDeclPart");
 

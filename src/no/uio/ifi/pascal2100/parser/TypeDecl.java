@@ -14,6 +14,26 @@ public class TypeDecl extends PascalDecl {
         super(name, n, c);
     }
 
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+        where.error("Types are not assignable");
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Types are not functions");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Types are not procedures");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+        where.error("Types are not values");
+    }
+
     public static TypeDecl parse(Scanner s, PascalSyntax context) {
         enterParser("TypeDecl");
 
@@ -34,6 +54,11 @@ public class TypeDecl extends PascalDecl {
 
         leaveParser("TypeDecl");
         return t;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        child.check(scope, lib);
     }
 
     @Override

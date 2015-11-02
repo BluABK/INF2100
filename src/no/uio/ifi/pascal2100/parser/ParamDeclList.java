@@ -17,6 +17,18 @@ public class ParamDeclList extends PascalSyntax {
         parameters = new ArrayList<>();
     }
 
+    public void addDecls(Block container) {
+        for(ParamDecl p: parameters) {
+            container.addDecl(p.name, p);
+        }
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for(ParamDecl p: parameters)
+            p.check(scope, lib);
+    }
+
     public static ParamDeclList parse(Scanner s, PascalSyntax context) {
         enterParser("ParamDeclList");
 

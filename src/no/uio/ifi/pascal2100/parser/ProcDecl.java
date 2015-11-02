@@ -16,6 +16,26 @@ public class ProcDecl extends PascalDecl {
         super(name, n, c);
     }
 
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+        where.error("Procedure is not assignable");
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Procedure is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+        where.error("Procedure has no return value");
+    }
+
     public static ProcDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ProcDecl");
         s.skip(TokenKind.procedureToken);
@@ -38,6 +58,16 @@ public class ProcDecl extends PascalDecl {
 
         leaveParser("ProcDecl");
         return p;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        params.check(scope, lib);
+
+        // Params.addDecls adds the parameters to the Block of the function
+        params.addDecls(child);
+
+        child.check(scope, lib);
     }
 
     @Override

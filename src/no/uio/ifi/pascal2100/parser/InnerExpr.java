@@ -14,6 +14,11 @@ public class InnerExpr extends Factor {
         super(n, c);
     }
 
+    @Override
+    public void check(Block scope, Library lib) {
+        expr.check(scope, lib);
+    }
+
     public static InnerExpr parse(Scanner s, PascalSyntax context) {
         enterParser("InnerExpr");
 

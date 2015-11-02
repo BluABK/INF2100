@@ -5,6 +5,7 @@ import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * [ {@link ConstDeclPart} ]
@@ -22,11 +23,72 @@ public class Block extends PascalSyntax {
 
     public StatmList statements;
 
+    HashMap<String, PascalDecl> decls = new HashMap<>();
+    public Block outerScope;
+
 
     Block(int n, int c) {
         super(n, c);
         functions = new ArrayList<>();
         procedures = new ArrayList<>();
+    }
+
+    void addDecl(String id, PascalDecl d) {
+        id = id.toLowerCase();
+        if(decls.containsKey(id)) {
+            d.error(id + " declared twice in the same block!");
+        } else {
+            decls.put(id, d);
+        }
+    }
+
+    PascalDecl findDecl(String id, PascalSyntax w) {
+        id = id.toLowerCase();
+        PascalDecl d = decls.get(id);
+        if(d != null) {
+            Main.log.noteBinding(id, w, d);
+            return d;
+        }
+
+        if(outerScope != null)
+            return outerScope.findDecl(id,w);
+
+        w.error("Name " + id + " is undefined");
+        return null;
+    }
+
+    @Override
+    public void check(Block curScope, Library lib) {
+        outerScope = curScope;
+
+        if(constants != null) {
+            constants.check(this, lib);
+            for(ConstDecl cd: constants.constants) {
+                addDecl(cd.name, cd);
+            }
+        }
+        if(types != null) {
+            types.check(this, lib);
+            for(TypeDecl td: types.types) {
+                addDecl(td.name, td);
+            }
+        }
+        if(variables != null) {
+            variables.check(this, lib);
+            for(VarDecl vd: variables.vars) {
+                addDecl(vd.name, vd);
+            }
+        }
+        for(FuncDecl fd: functions) {
+            fd.check(this, lib);
+            addDecl(fd.name, fd);
+        }
+        for(ProcDecl pd: procedures) {
+            pd.check(this, lib);
+            addDecl(pd.name, pd);
+        }
+
+        statements.check(this, lib);
     }
 
     public static Block parse(Scanner s, PascalSyntax context) {

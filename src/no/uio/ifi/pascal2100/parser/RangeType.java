@@ -15,6 +15,12 @@ public class RangeType extends Type {
         super(n, c);
     }
 
+    @Override
+    public void check(Block curScope, Library lib) {
+        if(!(start instanceof ConstantInt) || !(stop instanceof ConstantInt))
+            error("RangeType: start/stop are not of type ConstantInt");
+    }
+
     public static RangeType parse(Scanner s, PascalSyntax context) {
         enterParser("RangeType");
 
