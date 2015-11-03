@@ -4,6 +4,8 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
+// GENERAL TODO: Go hunting for poor error messages
+
 /**
  * 'array [' {@link Type} '] of' {@link Type}
  */
@@ -15,16 +17,11 @@ public class ArrayType extends Type {
     ArrayType(int n, int c) {
         super(n, c);
     }
-
-
+    
     @Override
     public void check(Block scope, Library lib) {
         number.check(scope, lib);
-        if(!(number instanceof RangeType) || (number instanceof NameType
-                && ((NameType)number).decl.child instanceof RangeType)) {
-            error("Array: Number must be of RangeType");
-            // TODO: Assume type A = B; B = C; C = D; D = 1..100; var test: array[A] of Boolean; How to solve
-        }
+        number.checkType(new RangeType(lineNum, colNum), this, "Needs to be a range type");
         type.check(scope, lib);
     }
 
@@ -48,6 +45,13 @@ public class ArrayType extends Type {
 
         leaveParser("ArrayType");
         return t;
+    }
+
+    @Override
+    void checkType(Type cmp, PascalSyntax where, String message) {
+        Main.log.noteTypeCheck(cmp, "match", this, where);
+        if(!(cmp instanceof ArrayType))
+            where.error(message);
     }
 
     @Override

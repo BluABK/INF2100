@@ -18,13 +18,10 @@ public class FuncDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Function is not assignable");
-    }
+    void checkWhetherAssignable(PascalSyntax where) {}
 
     @Override
-    void checkWhetherFunction(PascalSyntax where) {
-    }
+    void checkWhetherFunction(PascalSyntax where) {}
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
@@ -34,7 +31,7 @@ public class FuncDecl extends PascalDecl {
     // Return value:
     @Override
     void checkWhetherValue(PascalSyntax where) {
-        // Allow setting return value (sin := 0.5)
+        where.error("Function is not a value");
     }
 
     @Override
@@ -44,8 +41,7 @@ public class FuncDecl extends PascalDecl {
         // Params.addDecls adds the parameters to the Block of the function
         params.addDecls(child);
 
-        PascalDecl type = scope.findDecl(returnType.name, this);
-        // TODO: check that type is an actual Type
+        returnType.check(scope,  lib);
 
         child.check(scope, lib);
     }

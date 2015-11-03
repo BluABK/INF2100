@@ -13,9 +13,7 @@ public class RelOpr extends Opr {
     }
 
     @Override
-    public void check(Block curScope, Library lib) {
-
-    }
+    public void check(Block curScope, Library lib) {}
 
     public static RelOpr parse(Scanner s, PascalSyntax context) {
         enterParser("RelOpr");

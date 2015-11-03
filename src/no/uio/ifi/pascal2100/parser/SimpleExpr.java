@@ -33,12 +33,10 @@ public class SimpleExpr extends PascalSyntax {
 
     @Override
     public void check(Block scope, Library lib) {
-        for(Term t: terms) {
+        for(Term t: terms)
             t.check(scope, lib);
-        }
-        for(TermOpr t: termOprs) {
+        for(TermOpr t: termOprs)
             t.check(scope, lib);
-        }
         if(prefix != null)
             prefix.check(scope, lib);
     }
@@ -88,8 +86,5 @@ public class SimpleExpr extends PascalSyntax {
                 Main.log.prettyPrint(" ");
             }
         }
-
     }
-
-
 }

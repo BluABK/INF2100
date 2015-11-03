@@ -41,6 +41,12 @@ public class ConstantInt extends Constant {
         return Integer.toString(integer);
     }
 
+    @Override
+    void checkType(Constant cmp, PascalSyntax where, String message) {
+        if(!(cmp instanceof ConstantInt))
+            where.error(message);
+    }
+
     /**
      * @return The numeric value
      */

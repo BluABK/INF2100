@@ -18,7 +18,7 @@ public abstract class PascalDecl extends PascalSyntax {
     @Override
     public String identifyTemplate() {
         return "<" + this.getClass().getSimpleName() + "> with name " + name +
-                " on line " + lineNum + ", col " + colNum;
+                " on line " + lineNum + "." + colNum;
     }
 
     /**

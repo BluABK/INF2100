@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * {@link Statement} [ ';' {@link Statement} ]...
  */
 public class StatmList extends PascalSyntax {
-
     public ArrayList<Statement> statements;
 
     StatmList(int n, int c) {

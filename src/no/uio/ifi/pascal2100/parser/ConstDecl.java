@@ -30,8 +30,7 @@ public class ConstDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherValue(PascalSyntax where) {
-    }
+    void checkWhetherValue(PascalSyntax where) {}
 
     @Override
     public void check(Block scope, Library lib) {

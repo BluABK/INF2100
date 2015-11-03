@@ -9,7 +9,6 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  */
 public class ProcDecl extends PascalDecl {
     public Block child;
-
     public ParamDeclList params;
 
     ProcDecl(String name, int n, int c) {
@@ -27,9 +26,7 @@ public class ProcDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherProcedure(PascalSyntax where) {
-
-    }
+    void checkWhetherProcedure(PascalSyntax where) {}
 
     @Override
     void checkWhetherValue(PascalSyntax where) {

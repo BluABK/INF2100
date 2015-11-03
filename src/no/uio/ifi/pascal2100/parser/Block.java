@@ -67,8 +67,14 @@ public class Block extends PascalSyntax {
         if(types != null)
             for(TypeDecl td: types.types) {
                 addDecl(td.name, td);
+
+                // Enum problem: Link to the Enum definition inside the EnumType.
+                // Fix this in part4 if necessary
                 if(td.child instanceof EnumType) {
-                    // TODO: How to solve the enum problem
+                    EnumType e = (EnumType)td.child;
+                    for(Enum l: e.literals) {
+                        addDecl(l.name, l);
+                    }
                 }
             }
         if(variables != null)

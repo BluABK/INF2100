@@ -13,9 +13,7 @@ public class FactorOpr extends Opr {
     }
 
     @Override
-    public void check(Block scope, Library lib) {
-        // Cannot refer to any names..
-    }
+    public void check(Block scope, Library lib) {}
 
     public static FactorOpr parse(Scanner s, PascalSyntax context) {
         enterParser("FactorOpr");

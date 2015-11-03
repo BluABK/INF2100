@@ -17,8 +17,8 @@ public class RangeType extends Type {
 
     @Override
     public void check(Block curScope, Library lib) {
-        if(!(start instanceof ConstantInt) || !(stop instanceof ConstantInt))
-            error("RangeType: start/stop are not of type ConstantInt");
+        start.checkType(new ConstantInt(lineNum, colNum), this, "Range start needs to be an integer");
+        stop.checkType(new ConstantInt(lineNum, colNum),  this,  "Range end needs to be an integer");
     }
 
     public static RangeType parse(Scanner s, PascalSyntax context) {
@@ -32,6 +32,13 @@ public class RangeType extends Type {
 
         leaveParser("RangeType");
         return r;
+    }
+
+    @Override
+    void checkType(Type cmp, PascalSyntax where, String message) {
+        Main.log.noteTypeCheck(cmp, "match", this, where);
+        if(!(cmp instanceof RangeType))
+            where.error(message);
     }
 
     @Override

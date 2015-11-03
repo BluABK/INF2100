@@ -50,6 +50,6 @@ public abstract class PascalSyntax {
     abstract public void prettyPrint();
 
     void error(String message) {
-        Main.error("Error at line " + lineNum + ", col " + colNum + ": " + message);
+        Main.error("Error at line " + lineNum + "." + colNum + ": " + message);
     }
 }

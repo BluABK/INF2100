@@ -13,6 +13,8 @@ public class FuncCall extends Factor {
     public String name;
     public ArrayList<Expression> expressions;
 
+    FuncDecl decl;
+
     FuncCall(int n, int c) {
         super(n, c);
     }
@@ -21,9 +23,13 @@ public class FuncCall extends Factor {
     @Override
     public void check(Block scope, Library lib) {
         PascalDecl func = scope.findDecl(name, this);
+        // constant / variable + innerExpr: Would be illegal because it requires two factors in place of one
+
         if(!(func instanceof FuncDecl)) {
-            this.error(name + " is not a function");
+            error(name + " is not a function");
+            return;
         }
+        decl = (FuncDecl)func;
         for(Expression e: expressions)
             e.check(scope, lib);
     }

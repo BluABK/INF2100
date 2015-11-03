@@ -9,6 +9,8 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ConstantName extends Constant {
     public String name;
 
+    PascalDecl decl;
+
     ConstantName(int n, int c) {
         super(n, c);
     }
@@ -16,7 +18,12 @@ public class ConstantName extends Constant {
     @Override
     public void check(Block scope, Library lib) {
         // Check that name is defined
-        scope.findDecl(name, this);
+        PascalDecl d = scope.findDecl(name, this);
+        if(!(d instanceof ConstDecl) && !(d instanceof Enum)) {
+            error("Constant not declared as a constant");
+            return;
+        }
+        decl = d;
     }
 
     public static ConstantName parse(Scanner s, PascalSyntax context) {
@@ -41,6 +48,15 @@ public class ConstantName extends Constant {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    void checkType(Constant cmp, PascalSyntax where, String message) {
+        if(decl instanceof Enum) {
+            where.error("Constant is an enum constant");
+            return;
+        }
+        ((ConstDecl)decl).child.checkType(cmp, where, message);
     }
 
     /**

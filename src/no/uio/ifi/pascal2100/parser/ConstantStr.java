@@ -42,6 +42,12 @@ public class ConstantStr extends Constant {
         return "'" + str + "'";
     }
 
+    @Override
+    void checkType(Constant cmp, PascalSyntax where, String message) {
+        if(!(cmp instanceof ConstantStr))
+            where.error(message);
+    }
+
     /**
      * @return The value of the string
      */

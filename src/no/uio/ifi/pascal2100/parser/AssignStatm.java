@@ -18,8 +18,12 @@ public class AssignStatm extends Statement {
     @Override
     public void check(Block scope, Library lib) {
         var.check(scope, lib);
-        var.varDecl.checkWhetherAssignable(this);
+
         expr.check(scope, lib);
+
+        // By being a variable, it should inherently be assignable. var.check() checks this relationship.
+        // The following is therefore not strictly necessary as it always returns the same result:
+        var.decl.checkWhetherAssignable(this);
     }
 
     public static AssignStatm parse(Scanner s, PascalSyntax context) {

@@ -11,14 +11,13 @@ import java.util.ArrayList;
  * '(' Name [ ',' Name ]... ')'
  */
 public class EnumType extends Type {
-    public ArrayList<String> literals;
+    public ArrayList<Enum> literals;
 
     EnumType(int n, int c) {
         super(n, c);
         literals = new ArrayList<>();
     }
 
-    // TODO Enum essentially has its own context, this should somehow be handled
     @Override
     public void check(Block scope, Library lib) {
     }
@@ -32,9 +31,7 @@ public class EnumType extends Type {
         s.skip(TokenKind.leftParToken);
 
         while (s.curToken.kind != TokenKind.rightParToken) {
-            s.test(TokenKind.nameToken);
-            e.literals.add(s.curToken.id);
-            s.readNextToken();
+            e.literals.add(Enum.parse(s, e));
 
             if (s.curToken.kind != TokenKind.commaToken)
                 break;
@@ -53,10 +50,19 @@ public class EnumType extends Type {
 
     @Override
     public void prettyPrint() {
-        Main.log.prettyPrint(stringCast());
+        Main.log.prettyPrint("(");
+        for(int i = 0; i < literals.size(); i++) {
+            Main.log.prettyPrint(literals.get(i).toString());
+            if(i < literals.size()-1)
+                Main.log.prettyPrint(", ");
+        }
+        Main.log.prettyPrint(")");
     }
 
-    public String stringCast() {
-        return "(" + Tools.implode(", ", literals) + ")";
+    @Override
+    void checkType(Type cmp, PascalSyntax where, String message) {
+        Main.log.noteTypeCheck(cmp, "match", this, where);
+        if(!(cmp instanceof EnumType))
+            where.error(message);
     }
 }

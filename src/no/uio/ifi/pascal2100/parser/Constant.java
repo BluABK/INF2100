@@ -36,6 +36,8 @@ public abstract class Constant extends Factor {
 
     public abstract String toString();
 
+    abstract void checkType(Constant cmp, PascalSyntax where, String message);
+
     @Override
     public void prettyPrint() {
         Main.log.prettyPrint(toString());

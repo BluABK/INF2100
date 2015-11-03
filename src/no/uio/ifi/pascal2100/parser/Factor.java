@@ -25,11 +25,8 @@ public abstract class Factor extends PascalSyntax {
             f = Constant.parse(s, context);
         } else if (s.curToken.kind == TokenKind.nameToken) {
             if (s.nextToken.kind == TokenKind.leftParToken) {
-                // TODO for part 3: Correct function calls that should be  variable/constant/function call + innerExpr
                 f = FuncCall.parse(s, context);
             } else {
-                // Regardless of [ or not, we will regard it as a variable
-                // TODO for part 3: Correct variables that should be constants or function calls
                 f = Variable.parse(s, context);
             }
         } else {

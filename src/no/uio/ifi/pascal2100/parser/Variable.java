@@ -8,10 +8,10 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name [ '[' {@link Expression} ']' ]
  */
 public class Variable extends Factor {
-    public ConstantName name;
+    public String name;
     public Expression expr;
 
-    public VarDecl varDecl;
+    public PascalDecl decl;
 
     Variable(int n, int c) {
         super(n, c);
@@ -19,14 +19,66 @@ public class Variable extends Factor {
 
     @Override
     public void check(Block scope, Library lib) {
-        PascalDecl p = scope.findDecl(name.name, this);
-        if(!(p instanceof VarDecl)) {
-            error("Variable instance is not declared as a variable");
+        PascalDecl p = scope.findDecl(name, this);
+
+        // Correct variables that should be constants or function calls, but only if context has factor
+        // The only classes storing Variable as a Factor are Negation and Term
+        if(context instanceof Negation || context instanceof Term && expr == null) {
+            if(p instanceof ConstDecl || (p instanceof Enum)) {
+                // Enums: These are constants
+                ConstantName n = new ConstantName(lineNum, colNum);
+                n.context = context;
+                n.name = name;
+
+                if(context instanceof Negation)
+                    ((Negation)context).factor = n;
+                else if(context instanceof Term) {
+                    Term c = (Term)context;
+                    for(int i = 0; i < c.factors.size(); i++) {
+                        if(c.factors.get(i) == this) {
+                            c.factors.set(i, n);
+                            break;
+                        }
+                    }
+                }
+                n.check(scope, lib);
+                return;
+            }
+            else if(p instanceof FuncDecl) {
+                FuncCall f = new FuncCall(lineNum, colNum);
+                f.context = context;
+                f.name = name;
+                f.expressions = null;
+
+                if(context instanceof Negation)
+                    ((Negation)context).factor = f;
+                else if(context instanceof Term) {
+                    Term c = (Term)context;
+                    for(int i = 0; i < c.factors.size(); i++) {
+                        if(c.factors.get(i) == this) {
+                            c.factors.set(i, f);
+                            break;
+                        }
+                    }
+                }
+                f.check(scope, lib);
+                return;
+            }
         }
-        varDecl = (VarDecl)p;
+
+
+        if(!(p instanceof VarDecl) && !(p instanceof ParamDecl) && !(p instanceof FuncDecl)) {
+            error("Variable instance is not declared as a variable, parameter or function");
+        }
+        decl = p;
 
         if(expr != null) {
             expr.check(scope, lib);
+
+            // Has to be an array to use like this
+            decl.type.checkType(new ArrayType(lineNum, colNum), this, "Needs to be array type");
+        } else {
+            // whole array can assign to whole array, so it can still be an array type
         }
     }
 
@@ -36,7 +88,9 @@ public class Variable extends Factor {
         Variable v = new Variable(s.curLineNum(), s.curColNum());
         v.context = context;
 
-        v.name = ConstantName.parse(s, v);
+        s.test(TokenKind.nameToken);
+        v.name = s.curToken.id;
+        s.readNextToken();
 
         if (s.curToken.kind == TokenKind.leftBracketToken) {
             v.expr = Expression.parse(s, v);
@@ -56,7 +110,7 @@ public class Variable extends Factor {
 
     @Override
     public void prettyPrint() {
-        name.prettyPrint();
+        Main.log.prettyPrint(name);
         if (expr != null) {
             Main.log.prettyPrint("[");
             expr.prettyPrint();

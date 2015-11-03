@@ -22,8 +22,6 @@ public class Expression extends PascalSyntax {
     public void check(Block scope, Library lib) {
         lhs.check(scope, lib);
         if(op != null) {
-            // If this is set, then expression would return boolean
-            // TODO: Check that lhs and rhs are comparable
             op.check(scope, lib);
             rhs.check(scope, lib);
         }

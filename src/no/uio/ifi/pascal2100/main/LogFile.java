@@ -2,6 +2,7 @@ package no.uio.ifi.pascal2100.main;
 
 import no.uio.ifi.pascal2100.parser.PascalDecl;
 import no.uio.ifi.pascal2100.parser.PascalSyntax;
+import no.uio.ifi.pascal2100.parser.Type;
 import no.uio.ifi.pascal2100.scanner.Token;
 
 import java.io.FileNotFoundException;
@@ -89,23 +90,22 @@ public class LogFile {
             writeLogLine("Scanner: " + tok.identify());
     }
 
+    // TODO: Make use of these
+    public void noteTypeCheck(String op, Type t, PascalSyntax where) {
+        if (doLogTypeChecks)
+            writeLogLine("Type check on line " + where.lineNum + "." + where.colNum + ": " +
+                    "{" + op + "} " + t.identify());
+    }
 
-    /* Del 3:
-       public void noteTypeCheck(String op, Type t, PascalSyntax where) {
-       if (doLogTypeChecks)
-       writeLogLine("Type check on line " + where.lineNum + ": " +
-       "{" + op + "} " + t.identify());
-       }
-
-       public void noteTypeCheck(Type t1, String op, Type t2, PascalSyntax where) {
-       if (doLogTypeChecks)
-       writeLogLine("Type check on line " + where.lineNum + ": " +
-       t1.identify() + " {" + op + "} " + t2.identify());
-       } */
+    public void noteTypeCheck(Type t1, String op, Type t2, PascalSyntax where) {
+        if (doLogTypeChecks)
+            writeLogLine("Type check on line " + where.lineNum + "." + where.colNum  + ": " +
+                    t1.identify() + " {" + op + "} " + t2.identify());
+    }
 
     public void noteBinding(String id, PascalSyntax where, PascalDecl decl) {
         if (doLogBinding)
-            writeLogLine("Binding on line " + where.lineNum + ", col" + where.colNum + ": " + id +
+            writeLogLine("Binding on line " + where.lineNum + "." + where.colNum + ": " + id +
                     " was declared in " + decl.identify());
     }
 

@@ -10,8 +10,10 @@ import java.util.ArrayList;
  * Name [ '(' {@link Expression} [ ',' {@link Expression} ].. ')' ]
  */
 public class ProcCallStatm extends Statement {
-    public ConstantName name;
+    public String name;
     public ArrayList<Expression> expressions;
+
+    public ProcDecl decl;
 
     ProcCallStatm(int n, int c) {
         super(n, c);
@@ -19,10 +21,12 @@ public class ProcCallStatm extends Statement {
 
     @Override
     public void check(Block scope, Library lib) {
-        name.check(scope, lib);
-        PascalDecl pd = scope.findDecl(name.name, this);
-        if(!(pd instanceof ProcDecl))
+        PascalDecl pd = scope.findDecl(name, this);
+        if(!(pd instanceof ProcDecl)) {
             error("ProcCall tried to call something which is not a ProcDecl");
+            return;
+        }
+        decl = (ProcDecl)pd;
 
         if(expressions != null)
             for(Expression e: expressions) {
@@ -36,7 +40,9 @@ public class ProcCallStatm extends Statement {
         ProcCallStatm p = new ProcCallStatm(s.curLineNum(), s.curColNum());
         p.context = context;
 
-        p.name = ConstantName.parse(s, p);
+        s.test(TokenKind.nameToken);
+        p.name = s.curToken.id;
+        s.readNextToken();
 
         if (s.curToken.kind == TokenKind.leftParToken) {
             p.expressions = new ArrayList<>();
@@ -65,8 +71,7 @@ public class ProcCallStatm extends Statement {
 
     @Override
     public void prettyPrint() {
-        name.prettyPrint();
-        Main.log.prettyPrint(name.name);
+        Main.log.prettyPrint(name);
         if (expressions != null) {
             Main.log.prettyPrint("(");
             boolean first = true;

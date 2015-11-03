@@ -15,8 +15,7 @@ public class ParamDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherAssignable(PascalSyntax where) {
-    }
+    void checkWhetherAssignable(PascalSyntax where) {}
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
@@ -29,8 +28,7 @@ public class ParamDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherValue(PascalSyntax where) {
-    }
+    void checkWhetherValue(PascalSyntax where) {}
 
 
     public static ParamDecl parse(Scanner s, PascalSyntax context) {
@@ -51,11 +49,8 @@ public class ParamDecl extends PascalDecl {
 
     @Override
     public void check(Block scope, Library lib) {
+        // NameType makes the binding
         type.check(scope, lib);
-        PascalDecl t = scope.findDecl(type.name, this);
-        // TODO: Possibly use library here: if(!(t instanceof TypeDecl) && !(lib.findDecl(type, this) instanceof TypeDecl))
-        if(!(t instanceof TypeDecl))
-            t.error("Expected "+type.name+" to be of type TypeDecl");
     }
 
     @Override
