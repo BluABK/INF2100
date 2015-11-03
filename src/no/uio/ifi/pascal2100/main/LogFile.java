@@ -108,6 +108,11 @@ public class LogFile {
             writeLogLine("Binding on line " + where.lineNum + "." + where.colNum + ": " + id +
                     " was declared in " + decl.identify());
     }
+    public void noteBinding2(String message, PascalSyntax where) {
+        if (doLogBinding)
+            writeLogLine("On line " + where.lineNum + "." + where.colNum + ": " + message);
+    }
+
 
 
     /**

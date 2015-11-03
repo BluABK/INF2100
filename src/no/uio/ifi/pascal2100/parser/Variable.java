@@ -25,6 +25,7 @@ public class Variable extends Factor {
         // The only classes storing Variable as a Factor are Negation and Term
         if(context instanceof Negation || context instanceof Term && expr == null) {
             if(p instanceof ConstDecl || (p instanceof Enum)) {
+                Main.log.noteBinding2("Converting Variable to ConstantName", this);
                 // Enums: These are constants
                 ConstantName n = new ConstantName(lineNum, colNum);
                 n.context = context;
@@ -45,6 +46,7 @@ public class Variable extends Factor {
                 return;
             }
             else if(p instanceof FuncDecl) {
+                Main.log.noteBinding2("Converting Variable to FuncCall", this);
                 FuncCall f = new FuncCall(lineNum, colNum);
                 f.context = context;
                 f.name = name;

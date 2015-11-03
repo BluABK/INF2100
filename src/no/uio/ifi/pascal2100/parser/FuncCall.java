@@ -19,11 +19,13 @@ public class FuncCall extends Factor {
         super(n, c);
     }
 
-
     @Override
     public void check(Block scope, Library lib) {
         PascalDecl func = scope.findDecl(name, this);
-        // constant / variable + innerExpr: Would be illegal because it requires two factors in place of one
+
+        // As a factor:
+        //   constant / variable + innerExpr: Would be illegal because it requires two factors in place of one.
+        //   Therefore, function is always the correct interpretation
 
         if(!(func instanceof FuncDecl)) {
             error(name + " is not a function");

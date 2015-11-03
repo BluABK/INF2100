@@ -19,8 +19,7 @@ public class EnumType extends Type {
     }
 
     @Override
-    public void check(Block scope, Library lib) {
-    }
+    public void check(Block scope, Library lib) {}
 
     public static EnumType parse(Scanner s, PascalSyntax context) {
         enterParser("EnumType");

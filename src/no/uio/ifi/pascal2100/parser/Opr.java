@@ -46,9 +46,6 @@ public abstract class Opr extends PascalSyntax {
             name = s;
         }
 
-        // If you want to do op.equalsName("="):
-        /* public boolean equalsName(String other) { ... } */
-
         public String toString() {
             return this.name;
         }
