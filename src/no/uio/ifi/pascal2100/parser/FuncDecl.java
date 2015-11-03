@@ -9,9 +9,14 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  */
 public class FuncDecl extends PascalDecl {
     public Block child;
-    public NameType returnType;
+    private NameType type;
 
     public ParamDeclList params;
+
+    @Override
+    public Type getType() {
+        return type;
+    }
 
     FuncDecl(String name, int n, int c) {
         super(name, n, c);
@@ -25,13 +30,13 @@ public class FuncDecl extends PascalDecl {
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Function is not a procedure");
+        where.error("Function " + name + " is not a procedure");
     }
 
     // Return value:
     @Override
     void checkWhetherValue(PascalSyntax where) {
-        where.error("Function is not a value");
+        where.error("Function " + name + " is not a value");
     }
 
     @Override
@@ -41,7 +46,7 @@ public class FuncDecl extends PascalDecl {
         // Params.addDecls adds the parameters to the Block of the function
         params.addDecls(child);
 
-        returnType.check(scope,  lib);
+        type.check(scope,  lib);
 
         child.check(scope, lib);
     }
@@ -64,7 +69,7 @@ public class FuncDecl extends PascalDecl {
 
         s.skip(TokenKind.colonToken);
 
-        f.returnType = NameType.parse(s, f);
+        f.type = NameType.parse(s, f);
 
         s.skip(TokenKind.semicolonToken);
 
@@ -87,7 +92,7 @@ public class FuncDecl extends PascalDecl {
             Main.log.prettyPrint(" ");
             params.prettyPrint();
         }
-        Main.log.prettyPrintLn(" : " + returnType.name + ";");
+        Main.log.prettyPrintLn(" : " + type.name + ";");
         child.prettyPrint();
         Main.log.prettyPrintLn(";");
     }

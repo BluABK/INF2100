@@ -90,7 +90,6 @@ public class LogFile {
             writeLogLine("Scanner: " + tok.identify());
     }
 
-    // TODO: Make use of these
     public void noteTypeCheck(String op, Type t, PascalSyntax where) {
         if (doLogTypeChecks)
             writeLogLine("Type check on line " + where.lineNum + "." + where.colNum + ": " +

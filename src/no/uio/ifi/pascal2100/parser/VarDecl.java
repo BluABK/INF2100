@@ -8,7 +8,12 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name ':' {@link Type} ';'
  */
 public class VarDecl extends PascalDecl {
-    public Type child;
+    private Type type;
+
+    @Override
+    public Type getType() {
+        return type;
+    }
 
     VarDecl(String name, int n, int c) {
         super(name, n, c);
@@ -44,7 +49,7 @@ public class VarDecl extends PascalDecl {
         s.skip(TokenKind.colonToken);
 
         // <type>
-        t.child = Type.parse(s, t);
+        t.type = Type.parse(s, t);
 
         // ;
         s.skip(TokenKind.semicolonToken);
@@ -55,7 +60,7 @@ public class VarDecl extends PascalDecl {
 
     @Override
     public void check(Block scope, Library lib) {
-        child.check(scope, lib);
+        type.check(scope, lib);
     }
 
     @Override
@@ -66,7 +71,7 @@ public class VarDecl extends PascalDecl {
     @Override
     public void prettyPrint() {
         Main.log.prettyPrint(name + " = ");
-        child.prettyPrint();
+        type.prettyPrint();
         Main.log.prettyPrintLn(";");
     }
 }

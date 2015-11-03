@@ -8,7 +8,12 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name '=' {@link Type} ';'
  */
 public class TypeDecl extends PascalDecl {
-    public Type child;
+    public Type type;
+
+    @Override
+    public Type getType() {
+        return type;
+    }
 
     TypeDecl(String name, int n, int c) {
         super(name, n, c);
@@ -16,17 +21,17 @@ public class TypeDecl extends PascalDecl {
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Types are not assignable");
+        where.error("Type " + name + " is not assignable");
     }
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Types are not functions");
+        where.error("Type " + name + " is not a function");
     }
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Types are not procedures");
+        where.error("Type " + name + " is not a procedure");
     }
 
     @Override
@@ -47,7 +52,7 @@ public class TypeDecl extends PascalDecl {
         s.skip(TokenKind.equalToken);
 
         // <type>
-        t.child = Type.parse(s, t);
+        t.type = Type.parse(s, t);
 
         // ;
         s.skip(TokenKind.semicolonToken);
@@ -58,7 +63,7 @@ public class TypeDecl extends PascalDecl {
 
     @Override
     public void check(Block scope, Library lib) {
-        child.check(scope, lib);
+        type.check(scope, lib);
     }
 
     @Override
@@ -69,7 +74,7 @@ public class TypeDecl extends PascalDecl {
     @Override
     public void prettyPrint() {
         Main.log.prettyPrint(name + " = ");
-        child.prettyPrint();
+        type.prettyPrint();
         Main.log.prettyPrintLn(";");
     }
 }

@@ -11,23 +11,29 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Therefore, it causes two binding log lines for the same thing.
  */
 public class Enum extends PascalDecl {
+
+    @Override
+    public Type getType() {
+        return null;
+    }
+
     Enum(String name, int n, int c) {
         super(name, n, c);
     }
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Enum is not assignable");
+        where.error("Enum " + name + " is not assignable");
     }
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Enum is not a function");
+        where.error("Enum " + name + " is not a function");
     }
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Enum is not a procedure");
+        where.error("Enum " + name + " is not a procedure");
     }
 
     @Override

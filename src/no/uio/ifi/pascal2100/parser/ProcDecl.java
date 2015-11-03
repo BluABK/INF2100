@@ -11,18 +11,23 @@ public class ProcDecl extends PascalDecl {
     public Block child;
     public ParamDeclList params;
 
+    @Override
+    public Type getType() {
+        return null;
+    }
+
     ProcDecl(String name, int n, int c) {
         super(name, n, c);
     }
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Procedure is not assignable");
+        where.error("Procedure " + name + " is not assignable");
     }
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Procedure is not a function");
+        where.error("Procedure " + name + " is not a function");
     }
 
     @Override
@@ -30,7 +35,7 @@ public class ProcDecl extends PascalDecl {
 
     @Override
     void checkWhetherValue(PascalSyntax where) {
-        where.error("Procedure has no return value");
+        where.error("Procedure " + name + " has no return value");
     }
 
     public static ProcDecl parse(Scanner s, PascalSyntax context) {

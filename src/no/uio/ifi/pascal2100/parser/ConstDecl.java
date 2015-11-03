@@ -10,23 +10,28 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ConstDecl extends PascalDecl {
     public Constant child;
 
+    @Override
+    public Type getType() {
+        return null;
+    }
+
     ConstDecl(String name, int n, int c) {
         super(name, n, c);
     }
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Constant is not assignable");
+        where.error("Constant " + name + " is not assignable");
     }
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Constant is not function");
+        where.error("Constant " + name + " is not function");
     }
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Constant is not a procedure");
+        where.error("Constant " + name + " is not a procedure");
     }
 
     @Override

@@ -70,15 +70,15 @@ public class Variable extends Factor {
 
 
         if(!(p instanceof VarDecl) && !(p instanceof ParamDecl) && !(p instanceof FuncDecl)) {
-            error("Variable instance is not declared as a variable, parameter or function");
+            error("Variable instance " + name + " is not declared as a variable, parameter or function");
         }
         decl = p;
 
         if(expr != null) {
+
             expr.check(scope, lib);
 
-            // Has to be an array to use like this
-            decl.type.checkType(new ArrayType(lineNum, colNum), this, "Needs to be array type");
+            decl.getType().checkType(new ArrayType(lineNum, colNum), this, "When using v[...], v needs to be an array");
         } else {
             // whole array can assign to whole array, so it can still be an array type
         }

@@ -20,7 +20,7 @@ public class ConstantName extends Constant {
         // Check that name is defined
         PascalDecl d = scope.findDecl(name, this);
         if(!(d instanceof ConstDecl) && !(d instanceof Enum)) {
-            error("Constant not declared as a constant");
+            error("Name " + name + " needs to be declared as a constant");
             return;
         }
         decl = d;
@@ -53,7 +53,7 @@ public class ConstantName extends Constant {
     @Override
     void checkType(Constant cmp, PascalSyntax where, String message) {
         if(decl instanceof Enum) {
-            where.error("Constant is an enum constant");
+            where.error("Constant " + name + " is an enum constant. " + message);
             return;
         }
         ((ConstDecl)decl).child.checkType(cmp, where, message);

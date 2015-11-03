@@ -36,7 +36,7 @@ public class Block extends PascalSyntax {
     void addDecl(String id, PascalDecl d) {
         id = id.toLowerCase();
         if(decls.containsKey(id)) {
-            d.error(id + " declared twice in the same block!");
+            d.error(id + " was declared twice in the same block!");
         } else {
             decls.put(id, d);
         }
@@ -70,8 +70,8 @@ public class Block extends PascalSyntax {
 
                 // Enum problem: Link to the Enum definition inside the EnumType.
                 // Fix this in part4 if necessary
-                if(td.child instanceof EnumType) {
-                    EnumType e = (EnumType)td.child;
+                if(td.type instanceof EnumType) {
+                    EnumType e = (EnumType)td.type;
                     for(Enum l: e.literals) {
                         addDecl(l.name, l);
                     }

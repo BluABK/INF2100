@@ -20,7 +20,7 @@ public class NameType extends Type {
     public void check(Block scope, Library lib) {
         PascalDecl pd = scope.findDecl(name, this);
         if(!(pd instanceof TypeDecl)) {
-            error("NameType points to a non-type declaration");
+            error("NameType " + name + " has a non-type declaration");
             return;
         }
         decl = (TypeDecl)pd;
@@ -49,7 +49,7 @@ public class NameType extends Type {
     @Override
     void checkType(Type cmp, PascalSyntax where, String message) {
         Main.log.noteTypeCheck(cmp, "match", this, where);
-        decl.child.checkType(cmp, where, message);
+        decl.getType().checkType(cmp, where, message);
     }
 
     @Override

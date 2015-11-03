@@ -10,28 +10,33 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class Program extends PascalDecl {
     public Block child;
 
+    @Override
+    public Type getType() {
+        return null;
+    }
+
     Program(String name, int n, int c) {
         super(name, n, c);
     }
 
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Program is not assignable");
+        where.error("Program " + name + " is not assignable");
     }
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Program is not a function");
+        where.error("Program " + name + " is not a function");
     }
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Program is not a procedure");
+        where.error("Program " + name + " is not a procedure");
     }
 
     @Override
     void checkWhetherValue(PascalSyntax where) {
-        where.error("Program is not a value");
+        where.error("Program " + name + " is not a value");
     }
 
     public static Program parse(Scanner s) {

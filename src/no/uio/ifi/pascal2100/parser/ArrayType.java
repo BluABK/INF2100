@@ -4,7 +4,6 @@ import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
-// GENERAL TODO: Go hunting for poor error messages
 
 /**
  * 'array [' {@link Type} '] of' {@link Type}
@@ -21,7 +20,7 @@ public class ArrayType extends Type {
     @Override
     public void check(Block scope, Library lib) {
         number.check(scope, lib);
-        number.checkType(new RangeType(lineNum, colNum), this, "Needs to be a range type");
+        number.checkType(new RangeType(lineNum, colNum), this, "In array[number], number needs to be a range type");
         type.check(scope, lib);
     }
 

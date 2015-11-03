@@ -19,9 +19,9 @@ public class Library extends Block {
         TypeDecl ch = new TypeDecl("char", -1, 0);
         ch.context = types;
         NameType nt = new NameType(-1, 0);
-        ch.child = nt;
+        ch.type = nt;
         nt.name = "char";
-        ch.child.context = ch;
+        ch.type.context = ch;
         types.types.add(ch);
 
         /* Define and link integer */
@@ -29,16 +29,16 @@ public class Library extends Block {
         integer.context = types;
         nt = new NameType(-1, 0);
         nt.name = "integer";
-        integer.child = nt;
-        integer.child.context = integer;
+        integer.type = nt;
+        integer.type.context = integer;
         types.types.add(integer);
 
         /* Define and link boolean */
         TypeDecl bool = new TypeDecl("boolean", -1, 0);
         bool.context = types;
         EnumType et = new EnumType(-1, 0);
-        bool.child = et;
-        bool.child.context = bool;
+        bool.type = et;
+        bool.type.context = bool;
         et.literals.add(new Enum("true", -1, 0));
         et.literals.get(0).context = et;
         et.literals.add(new Enum("false", -1, 0));

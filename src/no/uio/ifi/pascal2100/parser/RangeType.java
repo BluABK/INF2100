@@ -17,8 +17,8 @@ public class RangeType extends Type {
 
     @Override
     public void check(Block curScope, Library lib) {
-        start.checkType(new ConstantInt(lineNum, colNum), this, "Range start needs to be an integer");
-        stop.checkType(new ConstantInt(lineNum, colNum),  this,  "Range end needs to be an integer");
+        start.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, a needs to be an integer");
+        stop.checkType(new ConstantInt(lineNum, colNum),  this, "In range a..b, b needs to be an integer");
     }
 
     public static RangeType parse(Scanner s, PascalSyntax context) {

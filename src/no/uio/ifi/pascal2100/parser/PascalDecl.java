@@ -7,8 +7,9 @@ public abstract class PascalDecl extends PascalSyntax {
     String name, progProcFuncName;
 
     int declLevel = 0, declOffset = 0;
-    // TODO ????
-    Type type = null;
+
+    // All declarations except ProcDecl have a type
+    public abstract Type getType();
 
     PascalDecl(String name, int n, int c) {
         super(n, c);

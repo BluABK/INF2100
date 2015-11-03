@@ -8,7 +8,12 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Name ':' Name
  */
 public class ParamDecl extends PascalDecl {
-    public NameType type;
+    private NameType type;
+
+    @Override
+    public Type getType() {
+        return type;
+    }
 
     ParamDecl(String name, int n, int c) {
         super(name, n, c);
@@ -19,12 +24,12 @@ public class ParamDecl extends PascalDecl {
 
     @Override
     void checkWhetherFunction(PascalSyntax where) {
-        where.error("Parameters are not a function");
+        where.error("Parameter " + name + " is not a function");
     }
 
     @Override
     void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Parameters are not procedures");
+        where.error("Parameter " + name + " is not a procedure");
     }
 
     @Override
