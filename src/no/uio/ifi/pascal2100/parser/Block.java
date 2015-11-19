@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -97,6 +98,29 @@ public class Block extends PascalSyntax {
             fd.check(this, lib);
 
         statements.check(this, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        // TODO: Allocate bytes for each:
+        //HashMap<String, PascalDecl> decls = new HashMap<>();
+        // Fix naming scheme and temporary names
+
+        for(FuncDecl f: functions)
+            f.genCode(code);
+        for(ProcDecl p: procedures)
+            p.genCode(code);
+
+        // If this doesn't work, we might just as well die. Require parent to be a declaration
+        // TODO: reconsider with regards to CompundStatm
+        PascalDecl context2 = (PascalDecl) context;
+        // statements
+        code.genLabel(context2.getMangledName());
+        // TODO: enter statement
+        statements.genCode(code);
+        code.genInstr("movl", "32(%ebp),%eax");
+        code.genInstr("leave");
+        code.genInstr("ret");
     }
 
     public static Block parse(Scanner s, PascalSyntax context) {

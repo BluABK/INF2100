@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 
 /**
@@ -29,7 +30,7 @@ public abstract class PascalSyntax {
     }
 
     public abstract void check(Block curScope, Library lib);
-    //Del 4: abstract void genCode(CodeFile f);
+    public abstract void genCode(CodeFile f);
 
     /**
      * @return String identifying the object (for debugging)

@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
@@ -16,6 +17,11 @@ public class ConstantInt extends Constant {
     // Nothing to check
     @Override
     public void check(Block scope, Library lib) {}
+
+    @Override
+    public void genCode(CodeFile f) {
+        // TODO:
+    }
 
     public static ConstantInt parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantInt");

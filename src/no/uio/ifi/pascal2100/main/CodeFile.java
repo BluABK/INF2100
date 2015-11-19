@@ -1,5 +1,7 @@
 package no.uio.ifi.pascal2100.main;
 
+import no.uio.ifi.pascal2100.parser.Program;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -39,39 +41,58 @@ public class CodeFile {
     }
 
 
-    private void printLabel(String lab, boolean justALabel) {
-        if (lab.length() > 6) {
-            code.print(lab + ":");
-            if (!justALabel)
-                code.print("\n        ");
-        } else if (lab.length() > 0) {
-            code.printf("%-8s", lab + ":");
-        } else {
-            code.print("        ");
-        }
+    public void genDirective(String directive) {
+        genDirective(directive, "");
     }
-
-
     public void genDirective(String directive, String param) {
         code.printf("%-7s %-7s %-15s", " ", directive, param);
         code.println();
     }
 
+    // Layout:
+    // 8 spaces
+    // 7+1 for instr
+    // 23+1 for arg
+    // comment
 
-    public void genInstr(String lab, String instr,
-                         String arg, String comment) {
-        printLabel(lab, (instr + arg + comment).equals(""));
-        code.printf("%-7s %-23s ", instr, arg);
+    public void genInstr(String instr) {
+        genInstr(instr, "");
+    }
+    public void genInstr(String instr, String arg) {
+        genInstr(instr, arg, "");
+    }
+    public void genInstr(String instr, String arg, String comment) {
+        code.printf("        %-7s %-23s ", instr, arg);
         if (comment.length() > 0) {
             code.print("# " + comment);
         }
         code.println();
     }
 
+    // Layout:
+    // label:
+    // up to 40 characters before # comment
+    public void genLabel(String lab) {
+        genLabel(lab, "");
+    }
+    public void genLabel(String lab, String comment) {
+        code.print(lab + ":");
+        if(comment.equals("")) {
+            code.print("\n");
+        } else {
+            // Calculate spaces before comment
+            int spaces = 40-lab.length()-1;
+            code.printf("%"+Integer.toString(spaces)+"s# %s", "", comment);
+        }
+    }
 
+    /* Get a label first */
+    public void genString(String name, String s) {
+        genString(name, s, "");
+    }
     public void genString(String name, String s, String comment) {
-        genDirective(".data", "");
-        printLabel(name, false);
+        genDirective(".data");
+        genLabel(name);
         code.printf(".asciz   \"");
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '"')
@@ -85,6 +106,16 @@ public class CodeFile {
         }
         code.println();
         genDirective(".align", "2");
-        genDirective(".text", "");
+        genDirective(".text");
+    }
+
+    public void createMain(Program prog) {
+        genDirective(".globl", "main");
+        genDirective(".globl", "_main");
+        genLabel("_main");
+        genLabel("main");
+        genInstr("call", prog.getMangledName());
+        genInstr("movl", "$0,%eax");
+        genInstr("ret");
     }
 }

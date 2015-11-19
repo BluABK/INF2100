@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -39,6 +40,11 @@ public class TypeDecl extends PascalDecl {
         where.error("Types are not values");
     }
 
+    @Override
+    public String getMangledName() {
+        return null; // TODO:
+    }
+
     public static TypeDecl parse(Scanner s, PascalSyntax context) {
         enterParser("TypeDecl");
 
@@ -64,6 +70,11 @@ public class TypeDecl extends PascalDecl {
     @Override
     public void check(Block scope, Library lib) {
         type.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        // TODO:
     }
 
     @Override

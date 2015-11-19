@@ -109,14 +109,19 @@ public class Main {
         prog.check(library, library);
 
         // Del 4
-        //System.out.print(" generating code...");
-        // CodeFile code = new CodeFile(baseFileName+".s");
-        // library.genCode(code);
-        // prog.genCode(code);
-        // code.finish();
-        // System.out.println("OK");
+        System.out.print(" generating code...");
+        /* # Code file created ... */
+        CodeFile code = new CodeFile(baseFileName+".s");
+        /* .extern, .extern, .extern */
+        library.genCode(code);
+        /* .globl _main, .globl main, _main: main: call PROG, movl $0,%eax, ret */
+        code.createMain(prog);
+        /* rest */
+        prog.genCode(code);
+        code.finish();
+        System.out.println("OK");
 
-        // assembleCode();
+        //assembleCode(); // TODO fix this last
     }
 
 

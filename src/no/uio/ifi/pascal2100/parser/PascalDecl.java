@@ -44,11 +44,13 @@ public abstract class PascalDecl extends PascalSyntax {
      *	<dt>TypeDecl.checkWhetherAssignable(...)</dt>
      *	<dd>will give an error message.</dd>
      * </dl>
-     * @return fuck
      * */
     // part 3
     abstract void checkWhetherAssignable(PascalSyntax where);
     abstract void checkWhetherFunction(PascalSyntax where);
     abstract void checkWhetherProcedure(PascalSyntax where);
     abstract void checkWhetherValue(PascalSyntax where);
+
+
+    public abstract String getMangledName();
 }

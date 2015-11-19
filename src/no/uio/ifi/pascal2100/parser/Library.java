@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 
 public class Library extends Block {
@@ -67,6 +68,12 @@ public class Library extends Block {
             addDecl(t.name, t);
         for(ProcDecl p: procedures)
             addDecl(p.name, p);
+    }
+    @Override
+    public void genCode(CodeFile code){
+        code.genDirective(".extern", "write_char");
+        code.genDirective(".extern", "write_int");
+        code.genDirective(".extern", "write_string");
     }
 
     PascalDecl findDecl(String id, PascalSyntax w) {
