@@ -32,6 +32,9 @@ public class Block extends PascalSyntax {
         super(n, c);
         functions = new ArrayList<>();
         procedures = new ArrayList<>();
+        uniqId = ++nextUniqId;
+        mangledName = null;
+        level = -1;
     }
 
     void addDecl(String id, PascalDecl d) {
@@ -102,23 +105,22 @@ public class Block extends PascalSyntax {
 
     @Override
     public void genCode(CodeFile code) {
-        // TODO: Allocate bytes for each:
-        //HashMap<String, PascalDecl> decls = new HashMap<>();
-        // Fix naming scheme and temporary names
+        // level is to be set by the time we reach here
+
+        // Figure out stack sizes, this does not generate actual code:
+        // As well as the total stack size: variables.totalStackSize
+        variables.genCode(code);
 
         for(FuncDecl f: functions)
             f.genCode(code);
         for(ProcDecl p: procedures)
             p.genCode(code);
 
-        // If this doesn't work, we might just as well die. Require parent to be a declaration
-        // TODO: reconsider with regards to CompundStatm
-        PascalDecl context2 = (PascalDecl) context;
         // statements
-        code.genLabel(context2.getMangledName());
-        // TODO: enter statement
+        code.genLabel(mangledName);
+        code.genInstr("enter", "$"+Integer.toString(variables.totalStackSize)+",$"+Integer.toString(level));
         statements.genCode(code);
-        code.genInstr("movl", "32(%ebp),%eax");
+        code.genInstr("movl", "-32(%ebp),%eax");
         code.genInstr("leave");
         code.genInstr("ret");
     }
@@ -182,4 +184,12 @@ public class Block extends PascalSyntax {
         Main.log.prettyOutdent();
         Main.log.prettyPrint("end");
     }
+
+    // Use this for parent to generate a mangled name
+    static int nextUniqId=0;
+    int uniqId;
+    // Level of block, top=1, deeper is higher
+    int level;
+    // The mangled name
+    String mangledName;
 }

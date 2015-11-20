@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -9,6 +10,8 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  */
 public class ParamDecl extends PascalDecl {
     private NameType type;
+
+    int stackOffset;
 
     @Override
     public Type getType() {
@@ -56,6 +59,10 @@ public class ParamDecl extends PascalDecl {
     public void check(Block scope, Library lib) {
         // NameType makes the binding
         type.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
     }
 
     @Override

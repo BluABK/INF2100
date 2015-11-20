@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -88,5 +89,18 @@ public class ProcDecl extends PascalDecl {
         Main.log.prettyPrintLn(";");
         child.prettyPrint();
         Main.log.prettyPrintLn(";");
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        // Params are to be labeled 8, 12, 16...
+        //    params.parameters.get(i).stackOffset;
+        //    params.totalArgSize
+        params.genCode(code);
+        // We know return value is stored in -32(%ebp), block does this
+
+        child.level = child.outerScope.level+1;
+        child.mangledName = "proc$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+        child.genCode(code);
     }
 }

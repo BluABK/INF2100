@@ -69,11 +69,24 @@ public class Library extends Block {
         for(ProcDecl p: procedures)
             addDecl(p.name, p);
     }
+
+    /**
+     * Create linking directives that call the given block as the main function
+     * @param code
+     * @param start
+     */
     @Override
-    public void genCode(CodeFile code){
+    public void genCode(CodeFile code, Block start){
         code.genDirective(".extern", "write_char");
         code.genDirective(".extern", "write_int");
         code.genDirective(".extern", "write_string");
+        code.genDirective(".globl", "main");
+        code.genDirective(".globl", "_main");
+        code.genLabel("_main");
+        code.genLabel("main");
+        code.genInstr("call", start.mangledName);
+        code.genInstr("movl", "$0,%eax");
+        code.genInstr("ret");
     }
 
     PascalDecl findDecl(String id, PascalSyntax w) {

@@ -51,6 +51,4 @@ public abstract class PascalDecl extends PascalSyntax {
     abstract void checkWhetherProcedure(PascalSyntax where);
     abstract void checkWhetherValue(PascalSyntax where);
 
-
-    public abstract String getMangledName();
 }

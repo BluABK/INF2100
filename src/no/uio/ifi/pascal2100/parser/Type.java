@@ -7,6 +7,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * {@link NameType} | {@link RangeType} | {@link EnumType} | {@link ArrayType}
  */
 public abstract class Type extends PascalSyntax {
+    // How much space does this variable need on the stack? Specified in bytes, but (getStackSize()%4 == 0) must be true
+    public abstract int getStackSize();
+
     Type(int n, int c) {
         super(n, c);
     }

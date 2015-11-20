@@ -109,13 +109,4 @@ public class CodeFile {
         genDirective(".text");
     }
 
-    public void createMain(Program prog) {
-        genDirective(".globl", "main");
-        genDirective(".globl", "_main");
-        genLabel("_main");
-        genLabel("main");
-        genInstr("call", prog.getMangledName());
-        genInstr("movl", "$0,%eax");
-        genInstr("ret");
-    }
 }

@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -9,6 +10,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  */
 public class VarDecl extends PascalDecl {
     private Type type;
+
+    // Part4, use type.getStackSize() to figure out how much space is required. Field is in bytes from -36 and downwards
+    int stackOffset;
 
     @Override
     public Type getType() {
@@ -34,6 +38,11 @@ public class VarDecl extends PascalDecl {
 
     @Override
     void checkWhetherValue(PascalSyntax where) {}
+
+    @Override
+    public String getMangledName() {
+        return null;
+    }
 
 
     public static VarDecl parse(Scanner s, PascalSyntax context) {
@@ -61,6 +70,11 @@ public class VarDecl extends PascalDecl {
     @Override
     public void check(Block scope, Library lib) {
         type.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        // No relevant code
     }
 
     @Override

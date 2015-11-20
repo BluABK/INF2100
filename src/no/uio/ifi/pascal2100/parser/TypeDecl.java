@@ -40,11 +40,6 @@ public class TypeDecl extends PascalDecl {
         where.error("Types are not values");
     }
 
-    @Override
-    public String getMangledName() {
-        return null; // TODO:
-    }
-
     public static TypeDecl parse(Scanner s, PascalSyntax context) {
         enterParser("TypeDecl");
 

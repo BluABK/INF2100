@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -49,6 +50,23 @@ public class FuncDecl extends PascalDecl {
         type.check(scope,  lib);
 
         child.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        if(type.getStackSize() != 4) {
+            // Can only return 4 bytes at a time, char is going to be casted to 4 bytes.
+            error("Function cannot return arrays or other > 4 byte types");
+        }
+        // Params are to be labeled 8, 12, 16...
+        //    params.parameters.get(i).stackOffset;
+        //    params.totalArgSize
+        params.genCode(code);
+        // We know return value is stored in -32(%ebp), block does this
+
+        child.level = child.outerScope.level+1;
+        child.mangledName = "func$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+        child.genCode(code);
     }
 
     public static FuncDecl parse(Scanner s, PascalSyntax context) {

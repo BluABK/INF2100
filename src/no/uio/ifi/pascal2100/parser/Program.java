@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -67,6 +68,14 @@ public class Program extends PascalDecl {
     @Override
     public void check(Block scope, Library lib) {
         child.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        child.level = 1;
+        child.mangledName = "prog$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+
+        child.genCode(code);
     }
 
     @Override

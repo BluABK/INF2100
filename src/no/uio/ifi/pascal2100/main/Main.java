@@ -112,10 +112,17 @@ public class Main {
         System.out.print(" generating code...");
         /* # Code file created ... */
         CodeFile code = new CodeFile(baseFileName+".s");
-        /* .extern, .extern, .extern */
-        library.genCode(code);
-        /* .globl _main, .globl main, _main: main: call PROG, movl $0,%eax, ret */
-        code.createMain(prog);
+
+        /**
+         * Link main:
+         * .extern ...
+         * .globl main ..
+         * main: ...
+         *  call
+         *  movl $0,%eax
+         *  ret
+         * */
+        library.genCode(code, prog.child);
         /* rest */
         prog.genCode(code);
         code.finish();
