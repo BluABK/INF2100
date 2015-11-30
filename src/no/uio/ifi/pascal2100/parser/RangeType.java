@@ -16,7 +16,9 @@ public class RangeType extends Type {
     }
 
     @Override
-    public void check(Block curScope, Library lib) {
+    public void check(Block scope, Library lib) {
+        start.check(scope, lib);
+        stop.check(scope, lib);
         start.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, a needs to be an integer");
         stop.checkType(new ConstantInt(lineNum, colNum),  this, "In range a..b, b needs to be an integer");
     }
