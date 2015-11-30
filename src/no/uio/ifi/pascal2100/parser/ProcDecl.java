@@ -71,6 +71,8 @@ public class ProcDecl extends PascalDecl {
             params.addDecls(child);
         }
 
+        child.level = child.outerScope.level+1;
+        child.mangledName = "proc$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
         child.check(scope, lib);
     }
 

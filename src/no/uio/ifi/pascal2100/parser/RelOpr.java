@@ -1,5 +1,7 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
 /**
@@ -14,6 +16,11 @@ public class RelOpr extends Opr {
 
     @Override
     public void check(Block curScope, Library lib) {}
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
+    }
 
     public static RelOpr parse(Scanner s, PascalSyntax context) {
         enterParser("RelOpr");

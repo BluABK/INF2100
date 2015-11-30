@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -22,6 +23,26 @@ public class IfStatm extends Statement {
         thenStatm.check(scope, lib);
         if(elseStatm != null)
             elseStatm.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        test.genCode(f); // Expression should end with the value in eax
+
+
+        // test
+        ""
+        if not eax:
+        goto elseL;
+        thenStatm.genCode(f);
+        goto outL;
+
+
+        elseL;
+        if(elseStatm != null) {
+            elseStatm.genCode(f);
+        }
+        outL;
     }
 
     public static IfStatm parse(Scanner s, PascalSyntax context) {

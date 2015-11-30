@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -84,6 +85,11 @@ public class Variable extends Factor {
         } else {
             // whole array can assign to whole array, so it can still be an array type
         }
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
     }
 
     public static Variable parse(Scanner s, PascalSyntax context) {

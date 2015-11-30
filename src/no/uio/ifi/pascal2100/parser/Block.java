@@ -106,6 +106,7 @@ public class Block extends PascalSyntax {
     @Override
     public void genCode(CodeFile code) {
         // level is to be set by the time we reach here
+        // mangledName is to be set as well
 
         // Figure out stack sizes, this does not generate actual code:
         // As well as the total stack size: variables.totalStackSize

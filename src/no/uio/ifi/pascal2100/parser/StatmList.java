@@ -1,6 +1,7 @@
 package no.uio.ifi.pascal2100.parser;
 
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -22,6 +23,13 @@ public class StatmList extends PascalSyntax {
     public void check(Block scope, Library lib) {
         for(Statement st: statements)
             st.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        for(Statement st: statements) {
+            st.genCode(f);
+        }
     }
 
     public static StatmList parse(Scanner s, PascalSyntax context) {

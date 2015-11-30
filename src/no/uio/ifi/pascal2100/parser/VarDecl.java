@@ -39,11 +39,6 @@ public class VarDecl extends PascalDecl {
     @Override
     void checkWhetherValue(PascalSyntax where) {}
 
-    @Override
-    public String getMangledName() {
-        return null;
-    }
-
 
     public static VarDecl parse(Scanner s, PascalSyntax context) {
         enterParser("VarDecl");

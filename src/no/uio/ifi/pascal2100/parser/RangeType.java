@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -11,6 +12,12 @@ public class RangeType extends Type {
     public Constant start;
     public Constant stop;
 
+    @Override
+    public int getStackSize() {
+        Main.TODO();
+        return 0;
+    }
+
     RangeType(int n, int c) {
         super(n, c);
     }
@@ -21,6 +28,11 @@ public class RangeType extends Type {
         stop.check(scope, lib);
         start.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, a needs to be an integer");
         stop.checkType(new ConstantInt(lineNum, colNum),  this, "In range a..b, b needs to be an integer");
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+
     }
 
     public static RangeType parse(Scanner s, PascalSyntax context) {

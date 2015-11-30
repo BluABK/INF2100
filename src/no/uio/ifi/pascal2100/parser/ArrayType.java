@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -13,6 +14,12 @@ public class ArrayType extends Type {
     public Type number;
     public Type type;
 
+    @Override
+    public int getStackSize() {
+        Main.TODO();
+        return 0;
+    }
+
     ArrayType(int n, int c) {
         super(n, c);
     }
@@ -22,6 +29,11 @@ public class ArrayType extends Type {
         number.check(scope, lib);
         number.checkType(new RangeType(lineNum, colNum), this, "In array[number], number needs to be a range type");
         type.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
     }
 
     /**

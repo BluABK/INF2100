@@ -211,4 +211,8 @@ public class Main {
         ascii += "^";
         return ascii;
     }
+
+    public static void TODO() {
+        throw new PascalError("Not Implemented");
+    }
 }
