@@ -95,6 +95,7 @@ public class Variable extends Factor {
         s.readNextToken();
 
         if (s.curToken.kind == TokenKind.leftBracketToken) {
+            s.skip(TokenKind.leftBracketToken);
             v.expr = Expression.parse(s, v);
             s.skip(TokenKind.rightBracketToken);
         } else {
