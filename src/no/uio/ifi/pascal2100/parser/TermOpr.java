@@ -21,7 +21,13 @@ public class TermOpr extends Opr {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        // eax = ecx <op> eax
+        if(op == Op.add)
+            f.genInstr("addl %ecx, %eax");
+        else if(op == Op.subtract)
+            f.genInstr("subl %ecx, %eax");
+        else
+            f.genInstr("orl %ecx, %eax");
     }
 
     public static TermOpr parse(Scanner s, PascalSyntax context) {

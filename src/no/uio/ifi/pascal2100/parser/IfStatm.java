@@ -27,22 +27,21 @@ public class IfStatm extends Statement {
 
     @Override
     public void genCode(CodeFile f) {
-        test.genCode(f); // Expression should end with the value in eax
+        String l1 = f.getLocalLabel();
 
-
-        // test
-        ""
-        if not eax:
-        goto elseL;
+        test.genCode(f);
+        f.genInstr("cmpl $0, %eax");
+        f.genInstr("je "+l1);
         thenStatm.genCode(f);
-        goto outL;
-
-
-        elseL;
         if(elseStatm != null) {
+            String l2 = f.getLocalLabel();
+            f.genInstr("jmp " + l2);
+            f.genLabel(l1);
             elseStatm.genCode(f);
+            f.genLabel(l2);
+        } else {
+            f.genLabel(l1);
         }
-        outL;
     }
 
     public static IfStatm parse(Scanner s, PascalSyntax context) {

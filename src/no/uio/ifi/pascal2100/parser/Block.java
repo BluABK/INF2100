@@ -27,6 +27,7 @@ public class Block extends PascalSyntax {
     HashMap<String, PascalDecl> decls = new HashMap<>();
     public Block outerScope;
 
+    int parentDeclLevel;
 
     Block(int n, int c) {
         super(n, c);
@@ -34,7 +35,6 @@ public class Block extends PascalSyntax {
         procedures = new ArrayList<>();
         uniqId = ++nextUniqId;
         mangledName = null;
-        level = -1;
     }
 
     void addDecl(String id, PascalDecl d) {
@@ -110,16 +110,32 @@ public class Block extends PascalSyntax {
 
         // Figure out stack sizes, this does not generate actual code:
         // As well as the total stack size: variables.totalStackSize
-        variables.genCode(code);
 
-        for(FuncDecl f: functions)
+        int stackSize = 0;
+
+        if(variables != null) {
+            variables.parentDeclLevel = parentDeclLevel;
+            variables.genCode(code);
+            stackSize = variables.totalStackSize;
+        } else {
+            stackSize = 32;
+        }
+
+        for(FuncDecl f: functions) {
+            f.declLevel = parentDeclLevel+1;
             f.genCode(code);
-        for(ProcDecl p: procedures)
+        }
+        for(ProcDecl p: procedures) {
+            p.declLevel = parentDeclLevel+1;
             p.genCode(code);
+        }
 
         // statements
         code.genLabel(mangledName);
-        code.genInstr("enter", "$"+Integer.toString(variables.totalStackSize)+",$"+Integer.toString(level));
+
+        code.genInstr("enter", "$"+
+                Integer.toString(stackSize)+",$"+
+                Integer.toString(parentDeclLevel));
         statements.genCode(code);
         code.genInstr("movl", "-32(%ebp),%eax");
         code.genInstr("leave");
@@ -190,7 +206,6 @@ public class Block extends PascalSyntax {
     static int nextUniqId=0;
     int uniqId;
     // Level of block, top=1, deeper is higher
-    int level;
     // The mangled name
     String mangledName;
 }

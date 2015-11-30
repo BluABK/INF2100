@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -11,6 +12,16 @@ public class NameType extends Type {
     public String name;
 
     TypeDecl decl;
+
+    @Override
+    public int getStackSize() {
+        if(decl.name.equals("integer")
+                || decl.name.equals("char")
+                || decl.name.equals("boolean"))
+            return 4;
+
+        return decl.getType().getStackSize();
+    }
 
     NameType(int n, int c) {
         super(n, c);
@@ -24,6 +35,11 @@ public class NameType extends Type {
             return;
         }
         decl = (TypeDecl)pd;
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
     }
 
     public static NameType parse(Scanner s, PascalSyntax context) {

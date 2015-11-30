@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class SimpleExpr extends PascalSyntax {
     public PrefixOpr prefix;
-    public ArrayList<Term> terms;
+    ArrayList<Term> terms;
     public ArrayList<TermOpr> termOprs;
 
     /* a op1 b op2 c op3 d
@@ -44,7 +44,17 @@ public class SimpleExpr extends PascalSyntax {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        terms.get(0).genCode(f);
+        if(prefix != null)
+            prefix.genCode(f);
+
+        int i;
+        for(i=0;i<termOprs.size();i++) {
+            f.genInstr("push %eax");
+            terms.get(i+1).genCode(f);
+            f.genInstr("pop %ecx");
+            termOprs.get(i).genCode(f);
+        }
     }
 
     public static SimpleExpr parse(Scanner s, PascalSyntax context) {

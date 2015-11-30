@@ -71,8 +71,6 @@ public class ProcDecl extends PascalDecl {
             params.addDecls(child);
         }
 
-        child.level = child.outerScope.level+1;
-        child.mangledName = "proc$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
         child.check(scope, lib);
     }
 
@@ -98,10 +96,13 @@ public class ProcDecl extends PascalDecl {
         // Params are to be labeled 8, 12, 16...
         //    params.parameters.get(i).stackOffset;
         //    params.totalArgSize
-        params.genCode(code);
+        if(params != null) {
+            params.parentDeclLevel = declLevel;
+            params.genCode(code);
+        }
         // We know return value is stored in -32(%ebp), block does this
 
-        child.level = child.outerScope.level+1;
+        child.parentDeclLevel = declLevel;
         child.mangledName = "proc$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
         child.genCode(code);
     }

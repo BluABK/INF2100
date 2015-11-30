@@ -14,6 +14,7 @@ public class VarDeclPart extends PascalSyntax {
     public ArrayList<VarDecl> vars;
     // Bytes of variables used in the stack, including the 32 first bytes
     int totalStackSize;
+    int parentDeclLevel;
 
     VarDeclPart(int n, int c) {
         super(n, c);
@@ -28,7 +29,8 @@ public class VarDeclPart extends PascalSyntax {
         for(VarDecl v: vars) {
             int size = v.getType().getStackSize();
             offset -= size;
-            v.stackOffset = offset;
+            v.declOffset = offset;
+            v.declLevel = parentDeclLevel;
         }
         totalStackSize = -offset;
     }

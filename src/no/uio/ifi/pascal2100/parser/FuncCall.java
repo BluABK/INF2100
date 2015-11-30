@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -34,6 +35,40 @@ public class FuncCall extends Factor {
         decl = (FuncDecl)func;
         for(Expression e: expressions)
             e.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        // 1: if it's a call to write, split it up to multiple function calls
+
+        if(decl.name.equals("write")) {
+            for(Expression e: expressions) {
+                e.genCode(f);
+                // Depending on the type of e, we have to decide between write_* (see library)
+                    // string: expression has only one simpleexpression, only one term, factor etc and that is a string
+                    // char:
+                    // TODO more type checking for expression
+                f.genInstr("push %eax");
+                f.genInstr("call write_...");
+                f.genInstr("addl $4, %esp");
+            }
+            return;
+        }
+
+
+        // 2: push the desired amount of things to the stack before the call
+        if(expressions.size() != decl.params.parameters.size())
+            Main.error("Incorrect number of arguments in call to "+decl.name);
+
+        // push in reverse order
+        int i;
+        for(i=expressions.size()-1; i>=0;i--) {
+            Expression e = expressions.get(i);
+            e.genCode(f);
+            f.genInstr("push %eax");
+        }
+        f.genInstr("call "+decl.child.mangledName);
+        f.genInstr("addl $"+Integer.toString(4*decl.params.totalArgSize)+",%esp");
     }
 
     public static FuncCall parse(Scanner s, PascalSyntax context) {

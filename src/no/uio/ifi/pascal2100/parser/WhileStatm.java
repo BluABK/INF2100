@@ -24,7 +24,16 @@ public class WhileStatm extends Statement {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        String l1 = f.getLocalLabel();
+        String l2 = f.getLocalLabel();
+
+        f.genLabel(l1);
+        test.genCode(f);
+        f.genInstr("cmpl $0,%eax");
+        f.genInstr("je "+l2);
+        statm.genCode(f);
+        f.genInstr("jmp "+l1);
+        f.genLabel(l2);
     }
 
     public static WhileStatm parse(Scanner s, PascalSyntax context) {

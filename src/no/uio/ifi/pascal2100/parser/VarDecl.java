@@ -11,9 +11,6 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class VarDecl extends PascalDecl {
     private Type type;
 
-    // Part4, use type.getStackSize() to figure out how much space is required. Field is in bytes from -36 and downwards
-    int stackOffset;
-
     @Override
     public Type getType() {
         return type;

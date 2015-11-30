@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -17,6 +18,11 @@ public class InnerExpr extends Factor {
     @Override
     public void check(Block scope, Library lib) {
         expr.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
     }
 
     public static InnerExpr parse(Scanner s, PascalSyntax context) {

@@ -1,5 +1,7 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
@@ -24,6 +26,11 @@ public class ConstantName extends Constant {
             return;
         }
         decl = d;
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        decl.genCode(f);
     }
 
     public static ConstantName parse(Scanner s, PascalSyntax context) {

@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -24,6 +25,12 @@ public class AssignStatm extends Statement {
         // By being a variable, it should inherently be assignable. var.check() checks this relationship.
         // The following is therefore not strictly necessary as it always returns the same result:
         var.decl.checkWhetherAssignable(this);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        expr.genCode(f);
+        var.genCodeSet(f);
     }
 
     public static AssignStatm parse(Scanner s, PascalSyntax context) {

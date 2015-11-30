@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
@@ -32,6 +33,51 @@ public class ProcCallStatm extends Statement {
             for(Expression e: expressions) {
                 e.check(scope, lib);
             }
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+
+        int numArgs = 0;
+        if(expressions != null)
+            numArgs = expressions.size();
+
+        int numExpected = 0;
+        if(decl.params != null)
+            numExpected = decl.params.parameters.size();
+
+        if(decl.name.equals("write")) {
+            for(Expression e: expressions) {
+                e.genCode(f);
+                // Depending on the type of e, we have to decide between write_* (see library)
+                // string: expression has only one simpleexpression, only one term, factor etc and that is a string
+                // char:
+                // TODO more type checking for expression
+                f.genInstr("push %eax");
+                f.genInstr("call write_...");
+                f.genInstr("addl $4, %esp");
+            }
+            return;
+        }
+
+        if(numArgs != numExpected)
+            Main.error("Incorrect number of arguments in call to "+decl.name);
+
+        if(expressions == null) {
+            // No arguments
+            f.genInstr("call "+decl.child.mangledName);
+            return;
+        }
+
+        // push in reverse order
+        int i;
+        for(i=expressions.size()-1; i>=0;i--) {
+            Expression e = expressions.get(i);
+            e.genCode(f);
+            f.genInstr("push %eax");
+        }
+        f.genInstr("call "+decl.child.mangledName);
+        f.genInstr("addl $" + Integer.toString(4 * numExpected) + ",%esp");
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {

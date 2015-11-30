@@ -1,5 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.main.Tools;
 import no.uio.ifi.pascal2100.scanner.Scanner;
@@ -13,6 +14,11 @@ import java.util.ArrayList;
 public class EnumType extends Type {
     public ArrayList<Enum> literals;
 
+    @Override
+    public int getStackSize() {
+        return 4;
+    }
+
     EnumType(int n, int c) {
         super(n, c);
         literals = new ArrayList<>();
@@ -20,6 +26,11 @@ public class EnumType extends Type {
 
     @Override
     public void check(Block scope, Library lib) {}
+
+    @Override
+    public void genCode(CodeFile f) {
+        Main.TODO();
+    }
 
     public static EnumType parse(Scanner s, PascalSyntax context) {
         enterParser("EnumType");

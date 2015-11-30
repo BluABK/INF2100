@@ -11,8 +11,6 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ParamDecl extends PascalDecl {
     private NameType type;
 
-    int stackOffset;
-
     @Override
     public Type getType() {
         return type;

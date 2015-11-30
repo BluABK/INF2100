@@ -1,5 +1,7 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
 /**
@@ -14,6 +16,27 @@ public class FactorOpr extends Opr {
 
     @Override
     public void check(Block scope, Library lib) {}
+
+    @Override
+    public void genCode(CodeFile f) {
+        // eax = ecx <op> eax
+        if(op == Op.multiply) {
+            f.genInstr("imull %ecx, %eax");
+        } else if(op == Op.div) {
+            // edx = 0
+
+            f.genInstr("xchgl %eax, %ecx"); // Swap
+            f.genInstr("xorl %edx, %edx");
+            f.genInstr("idivl %ecx");
+        } else if(op == Op.mod) {
+            f.genInstr("xchgl %eax, %ecx"); // Swap
+            f.genInstr("xorl %edx, %edx");
+            f.genInstr("idivl %ecx");
+            f.genInstr("movl %edx, %eax");
+        } else {
+            f.genInstr("andl %ecx, %eax");
+        }
+    }
 
     public static FactorOpr parse(Scanner s, PascalSyntax context) {
         enterParser("FactorOpr");

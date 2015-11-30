@@ -54,17 +54,24 @@ public class FuncDecl extends PascalDecl {
 
     @Override
     public void genCode(CodeFile code) {
+        // assumes declLevel to be set
+
+
         if(type.getStackSize() != 4) {
             // Can only return 4 bytes at a time, char is going to be casted to 4 bytes.
             error("Function cannot return arrays or other > 4 byte types");
         }
+        declOffset = -32;
         // Params are to be labeled 8, 12, 16...
         //    params.parameters.get(i).stackOffset;
         //    params.totalArgSize
+        params.parentDeclLevel = declLevel;
         params.genCode(code);
         // We know return value is stored in -32(%ebp), block does this
 
-        child.level = child.outerScope.level+1;
+
+        // The declLevel is always one step outside the parent block
+        child.parentDeclLevel = declLevel;
         child.mangledName = "func$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
         child.genCode(code);
     }

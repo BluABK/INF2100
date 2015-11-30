@@ -31,7 +31,14 @@ public class Term extends PascalSyntax {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        factors.get(0).genCode(f);
+        int i;
+        for(i=0;i<factorOprs.size();i++) {
+            f.genInstr("push %eax");
+            factors.get(i+1).genCode(f);
+            f.genInstr("pop %ecx");
+            factorOprs.get(i).genCode(f);
+        }
     }
 
     public static Term parse(Scanner s, PascalSyntax context) {

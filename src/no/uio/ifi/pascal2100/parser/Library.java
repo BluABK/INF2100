@@ -75,7 +75,6 @@ public class Library extends Block {
      * @param code
      * @param start
      */
-    @Override
     public void genCode(CodeFile code, Block start){
         code.genDirective(".extern", "write_char");
         code.genDirective(".extern", "write_int");

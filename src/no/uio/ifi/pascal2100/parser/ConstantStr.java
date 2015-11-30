@@ -1,5 +1,7 @@
 package no.uio.ifi.pascal2100.parser;
 
+import no.uio.ifi.pascal2100.main.CodeFile;
+import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
@@ -16,6 +18,18 @@ public class ConstantStr extends Constant {
     @Override
     public void check(Block scope, Library lib) {
         // Strings are strings..
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        String l = f.getLocalLabel();
+
+        f.genDirective(".data");
+        f.genLabel(l);
+        f.genDirective(".asciz \""+l+"\"");
+        f.genDirective(".align 2");
+        f.genDirective(".text 2");
+        f.genInstr("leal "+l+",%eax");
     }
 
     public static ConstantStr parse(Scanner s, PascalSyntax context) {

@@ -72,7 +72,9 @@ public class Program extends PascalDecl {
 
     @Override
     public void genCode(CodeFile code) {
-        child.level = 1;
+        declLevel = 1;
+        child.parentDeclLevel = 1;
+
         child.mangledName = "prog$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
 
         child.genCode(code);

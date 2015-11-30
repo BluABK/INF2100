@@ -14,6 +14,8 @@ public class ParamDeclList extends PascalSyntax {
     public ArrayList<ParamDecl> parameters;
     int totalArgSize;
 
+    int parentDeclLevel;
+
     ParamDeclList(int n, int c) {
         super(n, c);
         parameters = new ArrayList<>();
@@ -26,7 +28,8 @@ public class ParamDeclList extends PascalSyntax {
         int offset = 8;
         for(ParamDecl p: parameters) {
             int size = p.getType().getStackSize();
-            p.stackOffset = offset;
+            p.declOffset = offset;
+            p.declLevel = parentDeclLevel;
 
             offset += size;
         }
