@@ -9,6 +9,14 @@ import java.io.InputStreamReader;
 
 import static no.uio.ifi.pascal2100.scanner.TokenKind.eofToken;
 
+/*
+* TODO:
+* - Make comments (f.genInstr("..", "comment")
+* - write_string, write_int, write_char fixups.
+* - Enum intification, also make sure it does not compete with other types
+*
+* */
+
 public class Main {
     public static final String version = "2015-08-18";
 
