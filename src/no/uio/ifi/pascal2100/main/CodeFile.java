@@ -41,11 +41,10 @@ public class CodeFile {
 
 
     public void genDirective(String directive) {
-        genDirective(directive, "");
+        code.printf("%-7s %s\n", " ", directive);
     }
     public void genDirective(String directive, String param) {
-        code.printf("%-7s %-7s %-15s", " ", directive, param);
-        code.println();
+        code.printf("%-7s %-7s %s\n", " ", directive, param);
     }
 
     // Layout:
@@ -55,34 +54,26 @@ public class CodeFile {
     // comment
 
     public void genInstr(String instr) {
-        genInstr(instr, "");
+        code.printf("        %s\n", instr);
     }
     public void genInstr(String instr, String arg) {
-        genInstr(instr, arg, "");
+        code.printf("        %-7s %s\n", instr, arg);
     }
     public void genInstr(String instr, String arg, String comment) {
-        code.printf("        %-7s %-23s ", instr, arg);
-        if (comment.length() > 0) {
-            code.print("# " + comment);
-        }
-        code.println();
+        code.printf("        %-7s %-23s # %s\n", instr, arg, comment);
     }
 
     // Layout:
     // label:
     // up to 40 characters before # comment
     public void genLabel(String lab) {
-        genLabel(lab, "");
+        code.println(lab + ":");
     }
     public void genLabel(String lab, String comment) {
-        code.print(lab + ":");
-        if(comment.equals("")) {
-            code.print("\n");
-        } else {
-            // Calculate spaces before comment
-            int spaces = 40-lab.length()-1;
-            code.printf("%"+spaces+"s# %s\n", "", comment);
-        }
+        // Calculate spaces before comment
+        int spaces = 40-lab.length()-1;
+
+        code.printf("%s:%"+spaces+"s# %s\n", lab, "", comment);
     }
 
     /* Get a label first */
@@ -107,5 +98,4 @@ public class CodeFile {
         genDirective(".align", "2");
         genDirective(".text");
     }
-
 }
