@@ -1,5 +1,5 @@
-# Code file created by Pascal2100 compiler 2015-12-01 18:32:30
-#ifdef WIN32
+# Code file created by Pascal2100 compiler 2015-12-01 18:46:11
+.ifdef WIN32
         .extern _write_char
         .extern _write_int
         .extern _write_string
@@ -9,11 +9,11 @@ write_int:
         jmp     _write_int
 write_string:
         jmp     _write_string
-#else
+.else
         .extern write_char
         .extern write_int
         .extern write_string
-#endif
+.endif
         .globl  main
         .globl  _main
 _main:
@@ -97,30 +97,30 @@ func$fib2_5:                            # fib2 (level 2)
         jmp     .L0007
 .L0006:
         movl    -8(%ebp),%edx
-        movl    8(%edx),%eax
+        movl    8(%edx),%eax            # %eax := x
         push    %eax
-        movl    $1,%eax
+        movl    $1,%eax                 # %eax := 1
         pop     %ecx
         subl    %eax,%ecx
-        movl    %ecx,%eax
+        movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
         addl    $4,%esp
         push    %eax
         movl    -8(%ebp),%edx
-        movl    8(%edx),%eax
+        movl    8(%edx),%eax            # %eax := x
         push    %eax
-        movl    $2,%eax
+        movl    $2,%eax                 # %eax := 2
         pop     %ecx
         subl    %eax,%ecx
-        movl    %ecx,%eax
+        movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
         addl    $4,%esp
         pop     %ecx
-        addl    %ecx,%eax
+        addl    %ecx,%eax               # %eax := %eax + %ecx
         movl    -8(%ebp),%edx
-        movl    %eax,-32(%edx)          # fib2 := fib2(x-2) + fib2(x-1)
+        movl    %eax,-32(%edx)          # fib2 := %eax
 .L0007:
         movl    -32(%ebp),%eax
         leave
