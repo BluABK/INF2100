@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 14:07:05
+# Code file created by Pascal2100 compiler 2015-12-01 14:19:20
         .extern write_char
         .extern write_int
         .extern write_string
@@ -28,8 +28,8 @@ func$fib1_2:                            # fib1 (level 2)
         movl    $0,%eax
         pop     %ecx
         cmpl    %eax,%ecx               # >
-        xorl    %eax,%eax               # ^
         setg    %al                     # ^
+        movzbl  %al,%eax                # ^
         cmpl    $0,%eax
         je      .L0004
         movl    -8(%ebp),%edx
@@ -74,8 +74,8 @@ func$fib2_5:                            # fib2 (level 2)
         movl    $2,%eax
         pop     %ecx
         cmpl    %eax,%ecx               # <=
-        xorl    %eax,%eax               # ^
         setle   %al                     # ^
+        movzbl  %al,%eax                # ^
         cmpl    $0,%eax                 # if .L0006
         je      .L0006
         movl    $1,%eax

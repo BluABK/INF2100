@@ -20,7 +20,6 @@ public class RelOpr extends Opr {
     @Override
     public void genCode(CodeFile f) {
         f.genInstr("cmpl", "%eax,%ecx", op.toString());
-        f.genInstr("xorl", "%eax,%eax", "^");
         // switch
         if(op == op.equal)
             f.genInstr("sete", "%al", "^");
@@ -34,6 +33,8 @@ public class RelOpr extends Opr {
             f.genInstr("setg", "%al", "^");
         else //if(op == Op.greaterEqual)
             f.genInstr("setge", "%al", "^");
+
+        f.genInstr("movzbl", "%al,%eax", "^");
     }
 
     public static RelOpr parse(Scanner s, PascalSyntax context) {

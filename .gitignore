@@ -5,3 +5,7 @@
 src/classes
 src/pascal2100.jar
 hello.log
+hello
+*.o
+*.so
+*.a
