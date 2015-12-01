@@ -47,7 +47,7 @@ public class ProcCallStatm extends Statement {
             numExpected = decl.params.parameters.size();
 
         if(decl.name.equals("write")) {
-            for(Expression e: expressions) {
+            if(expressions != null) for(Expression e: expressions) {
                 e.genCode(f);
 
                 // Depending on the type of e, we have to decide between write_* (see library)

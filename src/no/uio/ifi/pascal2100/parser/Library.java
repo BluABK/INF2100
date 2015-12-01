@@ -3,6 +3,9 @@ package no.uio.ifi.pascal2100.parser;
 import no.uio.ifi.pascal2100.main.CodeFile;
 import no.uio.ifi.pascal2100.main.Main;
 
+/**
+ * Library sets up built-in functions, types and constants.
+ */
 public class Library extends Block {
     public Library() {
         super(-1, 0);

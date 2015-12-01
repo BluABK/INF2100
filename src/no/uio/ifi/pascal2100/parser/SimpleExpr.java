@@ -34,7 +34,6 @@ public class SimpleExpr extends PascalSyntax {
 
     public boolean testString() {
         // Does not support concatenation
-        // TODO: better string check
         if(prefix != null)
             return false;
         if(termOprs.size() != 0)
@@ -42,7 +41,6 @@ public class SimpleExpr extends PascalSyntax {
         return terms.get(0).testString();
     }
     public boolean testChar() {
-        // TODO: better char check
         if(prefix != null)
             return false;
         if(termOprs.size() != 0)

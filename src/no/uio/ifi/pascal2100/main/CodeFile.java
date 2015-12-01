@@ -1,7 +1,5 @@
 package no.uio.ifi.pascal2100.main;
 
-import no.uio.ifi.pascal2100.parser.Program;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
