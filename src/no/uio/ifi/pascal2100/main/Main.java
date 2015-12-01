@@ -15,6 +15,8 @@ public class Main {
     public static Library library;
     public static LogFile log = new LogFile();
 
+    private static String Lpath = null;
+
 
     private static String sourceFileName, baseFileName;
     private static boolean testParser = false, testScanner = false;
@@ -49,8 +51,14 @@ public class Main {
     }
 
     private static void readArgs(String arg[]) {
+        boolean getLpath = false;
+
         for (String a : arg) {
-            if (a.equals("-logB")) {
+
+            if(getLpath) {
+                getLpath = false;
+                Lpath = a;
+            } else if (a.equals("-logB")) {
                 log.doLogBinding = true;
             } else if (a.equals("-logP")) {
                 log.doLogParser = true;
@@ -64,6 +72,8 @@ public class Main {
                 testParser = log.doLogParser = log.doLogPrettyPrint = true;
             } else if (a.equals("-testscanner")) {
                 testScanner = log.doLogScanner = true;
+            } else if(a.equals("-L")){
+                getLpath = true;
             } else if (a.startsWith("-")) {
                 warning("Warning: Unknown option " + a + " ignored.");
             } else if (sourceFileName != null) {
@@ -144,7 +154,10 @@ public class Main {
         cmd[3] = pName;
         cmd[4] = sName;
         cmd[5] = "-L.";
-        cmd[6] = "-L.."; /* TODO: Part 4, Take a lib dir from compiler parameters */
+        if(Lpath != null)
+            cmd[6] = Lpath;
+        else
+            cmd[6] = "";
         cmd[7] = "-lpas2100";
 
         System.out.print("Running");
@@ -192,7 +205,7 @@ public class Main {
 
     private static void usage() {
         error("Usage: java -jar pascal2100.jar " +
-                "[-log{B|P|S|T|Y}] [-test{parser|scanner}] file");
+                "[-log{B|P|S|T|Y}] [-L libpath] [-test{parser|scanner}] file");
     }
 
     public static void warning(String message) {
