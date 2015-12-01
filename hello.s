@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 13:06:24
+# Code file created by Pascal2100 compiler 2015-12-01 13:17:18
         .extern write_char     
         .extern write_int      
         .extern write_string   
@@ -27,11 +27,9 @@ func$fib1_2:                            # fib1 (level 2)
         push    %eax                    
         movl    $0,%eax                 
         pop     %ecx                    
-        cmpl    %eax,%ecx               
-        movl    $1,%eax                 
-        jg      .L0005                  
-        movl    $0,%eax                 
-.L0005:
+        cmpl    %eax,%ecx               # >
+        xorl    %eax,%eax               # ^
+        setg    %al                     # ^
         cmpl    $0,%eax                 
         je      .L0004                  
         movl    -8(%ebp),%edx           
@@ -68,25 +66,23 @@ func$fib1_2:                            # fib1 (level 2)
         movl    -32(%ebp),%eax          
         leave                           
         ret                             
-func$fib2_6:                            # fib2 (level 2)
+func$fib2_5:                            # fib2 (level 2)
         enter   $32,$2                  
         movl    -8(%ebp),%edx           
         movl    8(%edx),%eax            
         push    %eax                    
         movl    $2,%eax                 
         pop     %ecx                    
-        cmpl    %eax,%ecx               
-        movl    $1,%eax                 
-        jle     .L0008                  
-        movl    $0,%eax                 
-.L0008:
-        cmpl    $0,%eax                 # if .L0007
-        je      .L0007                  
+        cmpl    %eax,%ecx               # <=
+        xorl    %eax,%eax               # ^
+        setle   %al                     # ^
+        cmpl    $0,%eax                 # if .L0006
+        je      .L0006                  
         movl    $1,%eax                 
         movl    -8(%ebp),%edx           
         movl    %eax,-32(%edx)          # fib2 := %eax
-        jmp     .L0009                  
-.L0007:
+        jmp     .L0007                  
+.L0006:
         movl    -8(%ebp),%edx           
         movl    8(%edx),%eax            
         push    %eax                    
@@ -94,7 +90,7 @@ func$fib2_6:                            # fib2 (level 2)
         pop     %ecx                    
         subl    %ecx,%eax               
         push    %eax                    
-        call    func$fib2_6             
+        call    func$fib2_5             
         addl    $16,%esp                
         neg     %eax                    
         push    %eax                    
@@ -105,7 +101,7 @@ func$fib2_6:                            # fib2 (level 2)
         pop     %ecx                    
         subl    %ecx,%eax               
         push    %eax                    
-        call    func$fib2_6             
+        call    func$fib2_5             
         addl    $16,%esp                
         push    %eax                    
         movl    -8(%ebp),%edx           
@@ -115,7 +111,7 @@ func$fib2_6:                            # fib2 (level 2)
         pop     %ecx                    
         subl    %ecx,%eax               
         push    %eax                    
-        call    func$fib2_6             
+        call    func$fib2_5             
         addl    $16,%esp                
         pop     %ecx                    
         imull   %ecx,%eax               
@@ -123,26 +119,61 @@ func$fib2_6:                            # fib2 (level 2)
         addl    %ecx,%eax               
         movl    -8(%ebp),%edx           
         movl    %eax,-32(%edx)          # fib2 := %eax
-.L0009:
+.L0007:
         movl    -32(%ebp),%eax          
         leave                           
         ret                             
-proc$nom_10:                            # nom (level 2)
+proc$nom_8:                             # nom (level 2)
         enter   $32,$2                  
         movl    -32(%ebp),%eax          
         leave                           
         ret                             
 prog$fib_1:                             # fib (level 1)
         enter   $40,$1                  
-        call    proc$nom_10             
-        call    proc$nom_10             
+        call    proc$nom_8              
+        call    proc$nom_8              
         addl    $0,%esp                 
         movl    $40,%eax                
         movl    -4(%ebp),%edx           
         movl    %eax,-36(%edx)          # n := %eax
         .data                  
-.L0011:
+.L0009:
 .asciz   "fib1("
+        .align  2              
+        .text                  
+        leal    .L0009,%eax             
+        push    %eax                    
+        call    write_string            
+        addl    $4,%esp                 
+        movl    -4(%ebp),%edx           
+        movl    -36(%edx),%eax          
+        push    %eax                    
+        call    write_int               
+        addl    $4,%esp                 
+        .data                  
+.L0010:
+.asciz   ") = "
+        .align  2              
+        .text                  
+        leal    .L0010,%eax             
+        push    %eax                    
+        call    write_string            
+        addl    $4,%esp                 
+        movl    -4(%ebp),%edx           
+        movl    -36(%edx),%eax          
+        push    %eax                    
+        call    func$fib1_2             
+        addl    $16,%esp                
+        push    %eax                    
+        call    write_int               
+        addl    $4,%esp                 
+        movl    $10,%eax                
+        push    %eax                    
+        call    write_char              
+        addl    $4,%esp                 
+        .data                  
+.L0011:
+.asciz   "fib2("
         .align  2              
         .text                  
         leal    .L0011,%eax             
@@ -166,42 +197,7 @@ prog$fib_1:                             # fib (level 1)
         movl    -4(%ebp),%edx           
         movl    -36(%edx),%eax          
         push    %eax                    
-        call    func$fib1_2             
-        addl    $16,%esp                
-        push    %eax                    
-        call    write_int               
-        addl    $4,%esp                 
-        movl    $10,%eax                
-        push    %eax                    
-        call    write_char              
-        addl    $4,%esp                 
-        .data                  
-.L0013:
-.asciz   "fib2("
-        .align  2              
-        .text                  
-        leal    .L0013,%eax             
-        push    %eax                    
-        call    write_string            
-        addl    $4,%esp                 
-        movl    -4(%ebp),%edx           
-        movl    -36(%edx),%eax          
-        push    %eax                    
-        call    write_int               
-        addl    $4,%esp                 
-        .data                  
-.L0014:
-.asciz   ") = "
-        .align  2              
-        .text                  
-        leal    .L0014,%eax             
-        push    %eax                    
-        call    write_string            
-        addl    $4,%esp                 
-        movl    -4(%ebp),%edx           
-        movl    -36(%edx),%eax          
-        push    %eax                    
-        call    func$fib2_6             
+        call    func$fib2_5             
         addl    $16,%esp                
         push    %eax                    
         call    write_int               
