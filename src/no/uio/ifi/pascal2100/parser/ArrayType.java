@@ -12,14 +12,16 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ArrayType extends Type {
     // array[type] of type - Does not specify the need for the [type] to be a number
     public Type number;
-    public Type numberR;
+    public RangeType numberR;
 
     public Type type;
 
     @Override
     public int getStackSize() {
-        Main.TODO();
-        return 0;
+        int start = numberR.startI;
+        int stop  = numberR.stopI;
+        int size = stop-start+1;
+        return 4*size;
     }
 
     ArrayType(int n, int c) {
@@ -46,7 +48,7 @@ public class ArrayType extends Type {
         number.check(scope, lib);
         number.checkType(new RangeType(lineNum, colNum), this, "In array[number], number needs to be a range type");
         // Cast it, because the line above guarantees its success.
-        numberR = number.getNonName();
+        numberR = (RangeType)number.getNonName();
         type.check(scope, lib);
     }
 

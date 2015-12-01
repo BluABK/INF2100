@@ -10,6 +10,7 @@ type
 var
     n: Integer;
     iii: nummy;
+    test: array[0..3] of integer;
 
 function fib1(x: Integer): Integer;
 var
@@ -49,8 +50,13 @@ begin
     nom;
     nom();
     n := 20;
+    test[0] := 75;
+    test[1] := 52;
+    test[2] := 23;
+    test[3] := 1337;
     write('fib1(', n, ') = ', fib1(n), eol);
     write('fib2(', n, ') = ', fib2(n), eol);
+    write(test[0], test[1], test[2], test[3], eol);
     iii := ddd;
 end.
 

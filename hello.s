@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 15:16:48
+# Code file created by Pascal2100 compiler 2015-12-01 15:20:16
         .extern write_char
         .extern write_int
         .extern write_string
@@ -132,12 +132,24 @@ proc$nom_8:                             # nom (level 2)
         leave
         ret
 prog$fib_1:                             # fib (level 1)
-        enter   $40,$1
+        enter   $56,$1
         call    proc$nom_8
         call    proc$nom_8
         movl    $20,%eax                # %eax := 20
         movl    -4(%ebp),%edx
         movl    %eax,-36(%edx)          # n := %eax
+        movl    $75,%eax                # %eax := 75
+        movl    -4(%ebp),%edx
+        movl    %eax,-56(%edx)          # test := %eax
+        movl    $52,%eax                # %eax := 52
+        movl    -4(%ebp),%edx
+        movl    %eax,-56(%edx)          # test := %eax
+        movl    $23,%eax                # %eax := 23
+        movl    -4(%ebp),%edx
+        movl    %eax,-56(%edx)          # test := %eax
+        movl    $1337,%eax              # %eax := 1337
+        movl    -4(%ebp),%edx
+        movl    %eax,-56(%edx)          # test := %eax
         .data
 .L0009:
 .asciz   "fib1("
@@ -201,6 +213,30 @@ prog$fib_1:                             # fib (level 1)
         push    %eax
         call    func$fib2_5
         addl    $4,%esp
+        push    %eax
+        call    write_int
+        addl    $4,%esp
+        movl    $10,%eax
+        push    %eax
+        call    write_char
+        addl    $4,%esp
+        movl    -4(%ebp),%edx
+        movl    -56(%edx),%eax          # %eax := test
+        push    %eax
+        call    write_int
+        addl    $4,%esp
+        movl    -4(%ebp),%edx
+        movl    -56(%edx),%eax          # %eax := test
+        push    %eax
+        call    write_int
+        addl    $4,%esp
+        movl    -4(%ebp),%edx
+        movl    -56(%edx),%eax          # %eax := test
+        push    %eax
+        call    write_int
+        addl    $4,%esp
+        movl    -4(%ebp),%edx
+        movl    -56(%edx),%eax          # %eax := test
         push    %eax
         call    write_int
         addl    $4,%esp
