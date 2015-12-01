@@ -1,5 +1,5 @@
-# Code file created by Pascal2100 compiler 2015-12-01 18:46:11
-.ifdef WIN32
+# Code file created by Pascal2100 compiler 2015-12-01 18:51:53
+#ifdef WIN32
         .extern _write_char
         .extern _write_int
         .extern _write_string
@@ -9,11 +9,11 @@ write_int:
         jmp     _write_int
 write_string:
         jmp     _write_string
-.else
+#else
         .extern write_char
         .extern write_int
         .extern write_string
-.endif
+#endif
         .globl  main
         .globl  _main
 _main:
