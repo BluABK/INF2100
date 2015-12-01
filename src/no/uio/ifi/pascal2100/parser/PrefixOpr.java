@@ -13,16 +13,6 @@ public class PrefixOpr extends Opr {
         super(n, c);
     }
 
-    // Not much to check
-    @Override
-    public void check(Block curScope, Library lib) {}
-
-    @Override
-    public void genCode(CodeFile f) {
-        if(op == Op.subtract)
-            f.genInstr("negl", "%eax");
-    }
-
     public static PrefixOpr parse(Scanner s, PascalSyntax context) {
         enterParser("PrefixOpr");
 
@@ -43,6 +33,17 @@ public class PrefixOpr extends Opr {
 
         leaveParser("PrefixOpr");
         return p;
+    }
+
+    // Not much to check
+    @Override
+    public void check(Block curScope, Library lib) {
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        if (op == Op.subtract)
+            f.genInstr("negl", "%eax");
     }
 
     @Override

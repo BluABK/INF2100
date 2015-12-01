@@ -11,41 +11,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ParamDecl extends PascalDecl {
     private NameType type;
 
-    @Override
-    public Type getType() {
-        return type;
-    }
-
     ParamDecl(String name, int n, int c) {
         super(name, n, c);
     }
-
-    @Override
-    public boolean testString() {
-        return type.testString();
-    }
-
-    @Override
-    public boolean testChar() {
-        return type.testChar();
-    }
-
-    @Override
-    void checkWhetherAssignable(PascalSyntax where) {}
-
-    @Override
-    void checkWhetherFunction(PascalSyntax where) {
-        where.error("Parameter " + name + " is not a function");
-    }
-
-    @Override
-    void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Parameter " + name + " is not a procedure");
-    }
-
-    @Override
-    void checkWhetherValue(PascalSyntax where) {}
-
 
     public static ParamDecl parse(Scanner s, PascalSyntax context) {
         enterParser("ParamDecl");
@@ -61,6 +29,39 @@ public class ParamDecl extends PascalDecl {
 
         leaveParser("ParamDecl");
         return p;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public boolean testString() {
+        return type.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return type.testChar();
+    }
+
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Parameter " + name + " is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Parameter " + name + " is not a procedure");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
     }
 
     @Override

@@ -21,37 +21,6 @@ public class Term extends PascalSyntax {
         factorOprs = new ArrayList<>();
     }
 
-    public boolean testString() {
-        if(factorOprs.size() != 0)
-            return false;
-        return factors.get(0).testString();
-    }
-    public boolean testChar() {
-        if(factorOprs.size() != 0)
-            return false;
-        return factors.get(0).testChar();
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        for(FactorOpr f: factorOprs)
-            f.check(scope, lib);
-        for(Factor f: factors)
-            f.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        factors.get(0).genCode(f);
-        int i;
-        for(i=0;i<factorOprs.size();i++) {
-            f.genInstr("push", "%eax");
-            factors.get(i+1).genCode(f);
-            f.genInstr("pop", "%ecx");
-            factorOprs.get(i).genCode(f);
-        }
-    }
-
     public static Term parse(Scanner s, PascalSyntax context) {
         enterParser("Term");
 
@@ -70,6 +39,34 @@ public class Term extends PascalSyntax {
 
         leaveParser("Term");
         return t;
+    }
+
+    public boolean testString() {
+        return factorOprs.size() == 0 && factors.get(0).testString();
+    }
+
+    public boolean testChar() {
+        return factorOprs.size() == 0 && factors.get(0).testChar();
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (FactorOpr f : factorOprs)
+            f.check(scope, lib);
+        for (Factor f : factors)
+            f.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        factors.get(0).genCode(f);
+        int i;
+        for (i = 0; i < factorOprs.size(); i++) {
+            f.genInstr("push", "%eax");
+            factors.get(i + 1).genCode(f);
+            f.genInstr("pop", "%ecx");
+            factorOprs.get(i).genCode(f);
+        }
     }
 
     @Override

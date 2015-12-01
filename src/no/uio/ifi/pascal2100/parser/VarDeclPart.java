@@ -21,32 +21,6 @@ public class VarDeclPart extends PascalSyntax {
         vars = new ArrayList<>();
     }
 
-    /**
-     * Calculate where on the stack the variables will exist
-     */
-    public void generateStackSize() {
-        int offset = -32;
-        for(VarDecl v: vars) {
-            int size = v.getType().getStackSize();
-            offset -= size;
-            v.declOffset = offset;
-            v.declLevel = parentDeclLevel;
-        }
-        totalStackSize = -offset;
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        for(VarDecl v: vars)
-            v.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        /* Generate stack sizes */
-        generateStackSize();
-    }
-
     public static VarDeclPart parse(Scanner s, PascalSyntax context) {
         enterParser("VarDeclPart");
 
@@ -62,6 +36,32 @@ public class VarDeclPart extends PascalSyntax {
 
         leaveParser("VarDeclPart");
         return v;
+    }
+
+    /**
+     * Calculate where on the stack the variables will exist
+     */
+    public void generateStackSize() {
+        int offset = -32;
+        for (VarDecl v : vars) {
+            int size = v.getType().getStackSize();
+            offset -= size;
+            v.declOffset = offset;
+            v.declLevel = parentDeclLevel;
+        }
+        totalStackSize = -offset;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (VarDecl v : vars)
+            v.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        /* Generate stack sizes */
+        generateStackSize();
     }
 
     @Override

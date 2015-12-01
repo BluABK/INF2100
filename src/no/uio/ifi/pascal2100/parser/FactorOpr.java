@@ -1,7 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.CodeFile;
-import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
 /**
@@ -12,36 +11,6 @@ import no.uio.ifi.pascal2100.scanner.Scanner;
 public class FactorOpr extends Opr {
     FactorOpr(int n, int c) {
         super(n, c);
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {}
-
-    @Override
-    public void genCode(CodeFile f) {
-        // eax = ecx <op> eax
-        if(op == Op.multiply) {
-            f.genInstr("imull", "%ecx,%eax");
-        } else if(op == Op.div) {
-            f.genInstr("xchgl", "%eax,%ecx"); // Swap
-            f.genInstr("xorl",  "%edx,%edx");
-            f.genInstr("idivl", "%ecx");
-        } else if(op == Op.mod) {
-            f.genInstr("xchgl", "%eax,%ecx"); // Swap
-            f.genInstr("xorl",  "%edx,%edx");
-            f.genInstr("idivl", "%ecx");
-            f.genInstr("movl",  "%edx,%eax");
-        } else {
-            // Logical AND:
-            f.genInstr("cmpl", "$0,%ecx");
-            f.genInstr("setne", "%cl");
-            f.genInstr("cmpl", "$0,%eax");
-            f.genInstr("setne", "%al");
-            f.genInstr("movzbl", "%al,%eax");
-            f.genInstr("movzbl", "%cl,%ecx");
-            // if bitwise, only use the last part:
-            f.genInstr("andl",  "%ecx,%eax");
-        }
     }
 
     public static FactorOpr parse(Scanner s, PascalSyntax context) {
@@ -70,6 +39,37 @@ public class FactorOpr extends Opr {
 
         leaveParser("FactorOpr");
         return p;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        // eax = ecx <op> eax
+        if (op == Op.multiply) {
+            f.genInstr("imull", "%ecx,%eax");
+        } else if (op == Op.div) {
+            f.genInstr("xchgl", "%eax,%ecx"); // Swap
+            f.genInstr("xorl", "%edx,%edx");
+            f.genInstr("idivl", "%ecx");
+        } else if (op == Op.mod) {
+            f.genInstr("xchgl", "%eax,%ecx"); // Swap
+            f.genInstr("xorl", "%edx,%edx");
+            f.genInstr("idivl", "%ecx");
+            f.genInstr("movl", "%edx,%eax");
+        } else {
+            // Logical AND:
+            f.genInstr("cmpl", "$0,%ecx");
+            f.genInstr("setne", "%cl");
+            f.genInstr("cmpl", "$0,%eax");
+            f.genInstr("setne", "%al");
+            f.genInstr("movzbl", "%al,%eax");
+            f.genInstr("movzbl", "%cl,%ecx");
+            // if bitwise, only use the last part:
+            f.genInstr("andl", "%ecx,%eax");
+        }
     }
 
     @Override

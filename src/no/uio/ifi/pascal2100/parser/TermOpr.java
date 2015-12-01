@@ -1,7 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.CodeFile;
-import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
 /**
@@ -12,23 +11,6 @@ import no.uio.ifi.pascal2100.scanner.Scanner;
 public class TermOpr extends Opr {
     TermOpr(int n, int c) {
         super(n, c);
-    }
-
-    @Override
-    public void check(Block curScope, Library lib) {
-
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        // eax = ecx <op> eax
-        if(op == Op.add)
-            f.genInstr("addl", "%ecx,%eax", "%eax := %eax + %ecx");
-        else if(op == Op.subtract) {
-            f.genInstr("subl", "%eax,%ecx");
-            f.genInstr("movl", "%ecx,%eax", "%eax := %ecx - %eax");
-        } else
-            f.genInstr("orl", "%ecx,%eax", "%eax := %eax | %ecx");
     }
 
     public static TermOpr parse(Scanner s, PascalSyntax context) {
@@ -54,6 +36,23 @@ public class TermOpr extends Opr {
 
         leaveParser("TermOpr");
         return p;
+    }
+
+    @Override
+    public void check(Block curScope, Library lib) {
+
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        // eax = ecx <op> eax
+        if (op == Op.add)
+            f.genInstr("addl", "%ecx,%eax", "%eax := %eax + %ecx");
+        else if (op == Op.subtract) {
+            f.genInstr("subl", "%eax,%ecx");
+            f.genInstr("movl", "%ecx,%eax", "%eax := %ecx - %eax");
+        } else
+            f.genInstr("orl", "%ecx,%eax", "%eax := %eax | %ecx");
     }
 
     @Override

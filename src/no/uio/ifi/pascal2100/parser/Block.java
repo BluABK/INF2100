@@ -25,118 +25,14 @@ public class Block extends PascalSyntax {
     public StatmList statements;
 
     public boolean hasRet = true;
-
-    HashMap<String, PascalDecl> decls = new HashMap<>();
     public Block outerScope;
     public PascalDecl parent;
+    HashMap<String, PascalDecl> decls = new HashMap<>();
 
     Block(int n, int c) {
         super(n, c);
         functions = new ArrayList<>();
         procedures = new ArrayList<>();
-    }
-
-    void addDecl(String id, PascalDecl d) {
-        id = id.toLowerCase();
-        if(decls.containsKey(id)) {
-            d.error(id + " was declared twice in the same block!");
-        } else {
-            decls.put(id, d);
-        }
-    }
-
-    PascalDecl findDecl(String id, PascalSyntax w) {
-        id = id.toLowerCase();
-        PascalDecl d = decls.get(id);
-        if(d != null) {
-            Main.log.noteBinding(id, w, d);
-            return d;
-        }
-
-        if(outerScope != null)
-            return outerScope.findDecl(id,w);
-
-        w.error("Name " + id + " is undefined");
-        return null;
-    }
-
-    @Override
-    public void check(Block curScope, Library lib) {
-        outerScope = curScope;
-
-        if(constants != null)
-            for(ConstDecl cd: constants.constants)
-                addDecl(cd.name, cd);
-        if(types != null)
-            for(TypeDecl td: types.types) {
-                addDecl(td.name, td);
-
-                // Enum problem: Link to the Enum definition inside the EnumType.
-                // Fix this in part4 if necessary
-                if(td.type instanceof EnumType) {
-                    EnumType e = (EnumType)td.type;
-                    for(Enum l: e.literals) {
-                        addDecl(l.name, l);
-                    }
-                }
-            }
-        if(variables != null)
-            for(VarDecl vd: variables.vars)
-                addDecl(vd.name, vd);
-        for(FuncDecl fd: functions)
-            addDecl(fd.name, fd);
-        for(ProcDecl pd: procedures)
-            addDecl(pd.name, pd);
-
-        if(constants != null)
-            constants.check(this, lib);
-        if(variables != null)
-            variables.check(this, lib);
-        if(types != null)
-            types.check(this, lib);
-        for(ProcDecl pd: procedures)
-            pd.check(this, lib);
-        for(FuncDecl fd: functions)
-            fd.check(this, lib);
-
-        statements.check(this, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile code) {
-        // level is to be set by the time we reach here
-        // mangledName is to be set as well
-
-        // Figure out stack sizes, this does not generate actual code:
-        // As well as the total stack size: variables.totalStackSize
-
-        int stackSize;
-        if(variables != null) {
-            variables.parentDeclLevel = parent.declLevel;
-            variables.genCode(code);
-            stackSize = variables.totalStackSize;
-        } else {
-            stackSize = 32;
-        }
-
-        for(FuncDecl f: functions) {
-            f.declLevel = parent.declLevel+1;
-            f.genCode(code);
-        }
-        for(ProcDecl p: procedures) {
-            p.declLevel = parent.declLevel+1;
-            p.genCode(code);
-        }
-
-        // statements
-        code.genLabel(parent.progProcFuncName, parent.name+" (level "+parent.declLevel+")");
-
-        code.genInstr("enter", "$" + stackSize+",$" + parent.declLevel);
-        statements.genCode(code);
-        if(hasRet)
-            code.genInstr("movl", "-32(%ebp),%eax");
-        code.genInstr("leave");
-        code.genInstr("ret");
     }
 
     // Limit creaters to PacalDecl
@@ -172,6 +68,109 @@ public class Block extends PascalSyntax {
 
         leaveParser("Block");
         return b;
+    }
+
+    void addDecl(String id, PascalDecl d) {
+        id = id.toLowerCase();
+        if (decls.containsKey(id)) {
+            d.error(id + " was declared twice in the same block!");
+        } else {
+            decls.put(id, d);
+        }
+    }
+
+    PascalDecl findDecl(String id, PascalSyntax w) {
+        id = id.toLowerCase();
+        PascalDecl d = decls.get(id);
+        if (d != null) {
+            Main.log.noteBinding(id, w, d);
+            return d;
+        }
+
+        if (outerScope != null)
+            return outerScope.findDecl(id, w);
+
+        w.error("Name " + id + " is undefined");
+        return null;
+    }
+
+    @Override
+    public void check(Block curScope, Library lib) {
+        outerScope = curScope;
+
+        if (constants != null)
+            for (ConstDecl cd : constants.constants)
+                addDecl(cd.name, cd);
+        if (types != null)
+            for (TypeDecl td : types.types) {
+                addDecl(td.name, td);
+
+                // Enum problem: Link to the Enum definition inside the EnumType.
+                // Fix this in part4 if necessary
+                if (td.type instanceof EnumType) {
+                    EnumType e = (EnumType) td.type;
+                    for (Enum l : e.literals) {
+                        addDecl(l.name, l);
+                    }
+                }
+            }
+        if (variables != null)
+            for (VarDecl vd : variables.vars)
+                addDecl(vd.name, vd);
+        for (FuncDecl fd : functions)
+            addDecl(fd.name, fd);
+        for (ProcDecl pd : procedures)
+            addDecl(pd.name, pd);
+
+        if (constants != null)
+            constants.check(this, lib);
+        if (variables != null)
+            variables.check(this, lib);
+        if (types != null)
+            types.check(this, lib);
+        for (ProcDecl pd : procedures)
+            pd.check(this, lib);
+        for (FuncDecl fd : functions)
+            fd.check(this, lib);
+
+        statements.check(this, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        // level is to be set by the time we reach here
+        // mangledName is to be set as well
+
+        // Figure out stack sizes, this does not generate actual code:
+        // As well as the total stack size: variables.totalStackSize
+
+        int stackSize;
+        if (variables != null) {
+            variables.parentDeclLevel = parent.declLevel;
+            variables.genCode(code);
+            stackSize = variables.totalStackSize;
+        } else {
+            stackSize = 32;
+        }
+
+        for (FuncDecl f : functions) {
+            f.declLevel = parent.declLevel + 1;
+            f.genCode(code);
+        }
+        for (ProcDecl p : procedures) {
+            p.declLevel = parent.declLevel + 1;
+            p.genCode(code);
+        }
+
+        // statements
+        code.genLabel(parent.progProcFuncName, parent.name + " (level " + parent.declLevel + ")");
+
+        code.genInstr("enter", "$" + stackSize + ",$" + parent.declLevel);
+        statements.genCode(code);
+        if (hasRet)
+            code.genInstr("movl", "-32(%ebp),%eax");
+        code.genInstr("leave");
+        code.genInstr("ret");
     }
 
     @Override

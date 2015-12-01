@@ -12,42 +12,8 @@ public class ProcDecl extends PascalDecl {
     public Block child;
     public ParamDeclList params;
 
-    @Override
-    public Type getType() {
-        return null;
-    }
-
     ProcDecl(String name, int n, int c) {
         super(name, n, c);
-    }
-
-    // Return nothing, so cannot be either
-    @Override
-    public boolean testString() {
-        return false;
-    }
-
-    @Override
-    public boolean testChar() {
-        return false;
-    }
-
-    @Override
-    void checkWhetherAssignable(PascalSyntax where) {
-        where.error("Procedure " + name + " is not assignable");
-    }
-
-    @Override
-    void checkWhetherFunction(PascalSyntax where) {
-        where.error("Procedure " + name + " is not a function");
-    }
-
-    @Override
-    void checkWhetherProcedure(PascalSyntax where) {}
-
-    @Override
-    void checkWhetherValue(PascalSyntax where) {
-        where.error("Procedure " + name + " has no return value");
     }
 
     public static ProcDecl parse(Scanner s, PascalSyntax context) {
@@ -75,8 +41,43 @@ public class ProcDecl extends PascalDecl {
     }
 
     @Override
+    public Type getType() {
+        return null;
+    }
+
+    // Return nothing, so cannot be either
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+        where.error("Procedure " + name + " is not assignable");
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Procedure " + name + " is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
+        where.error("Procedure " + name + " has no return value");
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
-        if(params != null) {
+        if (params != null) {
             params.check(scope, lib);
             // Params.addDecls adds the parameters to the Block of the function
             params.addDecls(child);
@@ -106,14 +107,14 @@ public class ProcDecl extends PascalDecl {
     @Override
     public void genCode(CodeFile code) {
         // Params are to be labeled 8, 12, 16...
-        if(params != null) {
+        if (params != null) {
             params.parentDeclLevel = declLevel;
             params.genCode(code);
         }
         // We know return value is stored in -32(%ebp), block does this
 
 
-        progProcFuncName = code.getLabel("proc$"+name.toLowerCase());
+        progProcFuncName = code.getLabel("proc$" + name.toLowerCase());
         child.genCode(code);
     }
 }

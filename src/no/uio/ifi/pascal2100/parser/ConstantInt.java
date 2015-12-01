@@ -14,25 +14,6 @@ public class ConstantInt extends Constant {
         super(n, c);
     }
 
-    @Override
-    public boolean testString() {
-        return false;
-    }
-
-    @Override
-    public boolean testChar() {
-        return false;
-    }
-
-    // Nothing to check
-    @Override
-    public void check(Block scope, Library lib) {}
-
-    @Override
-    public void genCode(CodeFile f) {
-        f.genInstr("movl", "$"+integer+",%eax", "%eax := "+integer);
-    }
-
     public static ConstantInt parse(Scanner s, PascalSyntax context) {
         enterParser("ConstantInt");
 
@@ -45,6 +26,26 @@ public class ConstantInt extends Constant {
 
         leaveParser("ConstantInt");
         return c;
+    }
+
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    // Nothing to check
+    @Override
+    public void check(Block scope, Library lib) {
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        f.genInstr("movl", "$" + integer + ",%eax", "%eax := " + integer);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ConstantInt extends Constant {
 
     @Override
     void checkType(Constant cmp, PascalSyntax where, String message) {
-        if(!(cmp instanceof ConstantInt))
+        if (!(cmp instanceof ConstantInt))
             where.error(message);
     }
 

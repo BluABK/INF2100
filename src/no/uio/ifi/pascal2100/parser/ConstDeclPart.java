@@ -13,16 +13,6 @@ import java.util.ArrayList;
 public class ConstDeclPart extends PascalSyntax {
     public ArrayList<ConstDecl> constants;
 
-    @Override
-    public void check(Block scope, Library lib) {
-        for(ConstDecl c: constants) {
-            c.check(scope, lib);
-        }
-    }
-
-    @Override
-    public void genCode(CodeFile f) {}
-
     ConstDeclPart(int n, int c) {
         super(n, c);
         constants = new ArrayList<>();
@@ -43,6 +33,17 @@ public class ConstDeclPart extends PascalSyntax {
 
         leaveParser("ConstDeclPart");
         return c;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (ConstDecl c : constants) {
+            c.check(scope, lib);
+        }
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
     }
 
     @Override

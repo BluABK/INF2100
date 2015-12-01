@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class SimpleExpr extends PascalSyntax {
     public PrefixOpr prefix;
-    ArrayList<Term> terms;
     public ArrayList<TermOpr> termOprs;
+    ArrayList<Term> terms;
 
     /* a op1 b op2 c op3 d
      *           0   1   2   3
@@ -30,47 +30,6 @@ public class SimpleExpr extends PascalSyntax {
         super(n, c);
         terms = new ArrayList<>();
         termOprs = new ArrayList<>();
-    }
-
-    public boolean testString() {
-        // Does not support concatenation
-        if(prefix != null)
-            return false;
-        if(termOprs.size() != 0)
-            return false;
-        return terms.get(0).testString();
-    }
-    public boolean testChar() {
-        if(prefix != null)
-            return false;
-        if(termOprs.size() != 0)
-            return false;
-        return terms.get(0).testChar();
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        for(Term t: terms)
-            t.check(scope, lib);
-        for(TermOpr t: termOprs)
-            t.check(scope, lib);
-        if(prefix != null)
-            prefix.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        terms.get(0).genCode(f);
-        if(prefix != null)
-            prefix.genCode(f);
-
-        int i;
-        for(i=0;i<termOprs.size();i++) {
-            f.genInstr("push", "%eax");
-            terms.get(i+1).genCode(f);
-            f.genInstr("pop", "%ecx");
-            termOprs.get(i).genCode(f);
-        }
     }
 
     public static SimpleExpr parse(Scanner s, PascalSyntax context) {
@@ -97,6 +56,40 @@ public class SimpleExpr extends PascalSyntax {
 
         leaveParser("SimpleExpr");
         return e;
+    }
+
+    public boolean testString() {
+        // Does not support concatenation
+        return prefix == null && termOprs.size() == 0 && terms.get(0).testString();
+    }
+
+    public boolean testChar() {
+        return prefix == null && termOprs.size() == 0 && terms.get(0).testChar();
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (Term t : terms)
+            t.check(scope, lib);
+        for (TermOpr t : termOprs)
+            t.check(scope, lib);
+        if (prefix != null)
+            prefix.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        terms.get(0).genCode(f);
+        if (prefix != null)
+            prefix.genCode(f);
+
+        int i;
+        for (i = 0; i < termOprs.size(); i++) {
+            f.genInstr("push", "%eax");
+            terms.get(i + 1).genCode(f);
+            f.genInstr("pop", "%ecx");
+            termOprs.get(i).genCode(f);
+        }
     }
 
     @Override

@@ -33,6 +33,7 @@ public class CodeFile {
     public String getLabel(String origName) {
         return origName + "_" + (++numLabels);
     }
+
     public String getLocalLabel() {
         return String.format(".L%04d", ++numLabels);
     }
@@ -41,6 +42,7 @@ public class CodeFile {
     public void genDirective(String directive) {
         code.printf("%-7s %s\n", " ", directive);
     }
+
     public void genDirective(String directive, String param) {
         code.printf("%-7s %-7s %s\n", " ", directive, param);
     }
@@ -54,9 +56,11 @@ public class CodeFile {
     public void genInstr(String instr) {
         code.printf("        %s\n", instr);
     }
+
     public void genInstr(String instr, String arg) {
         code.printf("        %-7s %s\n", instr, arg);
     }
+
     public void genInstr(String instr, String arg, String comment) {
         code.printf("        %-7s %-23s # %s\n", instr, arg, comment);
     }
@@ -67,17 +71,19 @@ public class CodeFile {
     public void genLabel(String lab) {
         code.println(lab + ":");
     }
+
     public void genLabel(String lab, String comment) {
         // Calculate spaces before comment
-        int spaces = 40-lab.length()-1;
+        int spaces = 40 - lab.length() - 1;
 
-        code.printf("%s:%"+spaces+"s# %s\n", lab, "", comment);
+        code.printf("%s:%" + spaces + "s# %s\n", lab, "", comment);
     }
 
     /* Get a label first */
     public void genString(String name, String s) {
         genString(name, s, "");
     }
+
     public void genString(String name, String s, String comment) {
         genDirective(".data");
         genLabel(name);
@@ -99,11 +105,13 @@ public class CodeFile {
 
 
     public void Cifdef(String s) {
-        code.println("#ifdef "+s);
+        code.println("#ifdef " + s);
     }
+
     public void Celse() {
         code.println("#else");
     }
+
     public void Cendif() {
         code.println("#endif");
     }

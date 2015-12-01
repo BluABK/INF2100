@@ -30,6 +30,7 @@ public abstract class PascalSyntax {
     }
 
     public abstract void check(Block curScope, Library lib);
+
     public abstract void genCode(CodeFile f);
 
     /**

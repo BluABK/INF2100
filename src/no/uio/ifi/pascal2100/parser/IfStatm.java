@@ -17,33 +17,6 @@ public class IfStatm extends Statement {
         super(n, c);
     }
 
-    @Override
-    public void check(Block scope, Library lib) {
-        test.check(scope, lib);
-        thenStatm.check(scope, lib);
-        if(elseStatm != null)
-            elseStatm.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        String l1 = f.getLocalLabel();
-
-        test.genCode(f);
-        f.genInstr("cmpl", "$0,%eax", "if "+l1);
-        f.genInstr("je", l1);
-        thenStatm.genCode(f);
-        if(elseStatm != null) {
-            String l2 = f.getLocalLabel();
-            f.genInstr("jmp", l2);
-            f.genLabel(l1);
-            elseStatm.genCode(f);
-            f.genLabel(l2);
-        } else {
-            f.genLabel(l1, "/if "+l1);
-        }
-    }
-
     public static IfStatm parse(Scanner s, PascalSyntax context) {
         enterParser("IfStatm");
 
@@ -63,6 +36,33 @@ public class IfStatm extends Statement {
 
         leaveParser("IfStatm");
         return i;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        test.check(scope, lib);
+        thenStatm.check(scope, lib);
+        if (elseStatm != null)
+            elseStatm.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        String l1 = f.getLocalLabel();
+
+        test.genCode(f);
+        f.genInstr("cmpl", "$0,%eax", "if " + l1);
+        f.genInstr("je", l1);
+        thenStatm.genCode(f);
+        if (elseStatm != null) {
+            String l2 = f.getLocalLabel();
+            f.genInstr("jmp", l2);
+            f.genLabel(l1);
+            elseStatm.genCode(f);
+            f.genLabel(l2);
+        } else {
+            f.genLabel(l1, "/if " + l1);
+        }
     }
 
     @Override

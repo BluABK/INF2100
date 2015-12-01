@@ -15,22 +15,6 @@ public class Negation extends Factor {
         super(n, c);
     }
 
-    @Override
-    public boolean testString() { return false; }
-    @Override
-    public boolean testChar() { return false; }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        factor.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        factor.genCode(f);
-        f.genInstr("xorl", "$0,%eax");
-    }
-
     public static Negation parse(Scanner s, PascalSyntax context) {
         enterParser("Negation");
 
@@ -43,6 +27,27 @@ public class Negation extends Factor {
 
         leaveParser("Negation");
         return n;
+    }
+
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        factor.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        factor.genCode(f);
+        f.genInstr("xorl", "$0,%eax");
     }
 
     @Override

@@ -55,7 +55,7 @@ public class Main {
 
         for (String a : arg) {
 
-            if(getLpath) {
+            if (getLpath) {
                 getLpath = false;
                 Lpath = a;
             } else if (a.equals("-logB")) {
@@ -72,7 +72,7 @@ public class Main {
                 testParser = log.doLogParser = log.doLogPrettyPrint = true;
             } else if (a.equals("-testscanner")) {
                 testScanner = log.doLogScanner = true;
-            } else if(a.equals("-L")){
+            } else if (a.equals("-L")) {
                 getLpath = true;
             } else if (a.startsWith("-")) {
                 warning("Warning: Unknown option " + a + " ignored.");
@@ -121,7 +121,7 @@ public class Main {
         // Del 4
         System.out.print(" generating code...");
         /* # Code file created ... */
-        CodeFile code = new CodeFile(baseFileName+".S");
+        CodeFile code = new CodeFile(baseFileName + ".S");
 
         /**
          * Link main:
@@ -154,7 +154,7 @@ public class Main {
         cmd[3] = pName;
         cmd[4] = sName;
         cmd[5] = "-L.";
-        if(Lpath != null)
+        if (Lpath != null)
             cmd[6] = Lpath;
         else
             cmd[6] = "";

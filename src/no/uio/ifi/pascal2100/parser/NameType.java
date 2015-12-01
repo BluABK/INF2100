@@ -13,53 +13,9 @@ public class NameType extends Type {
 
     TypeDecl decl;
 
-    @Override
-    public int getStackSize() {
-        if(decl.name.equals("integer")
-                || decl.name.equals("char")
-                || decl.name.equals("boolean"))
-            return 4;
-
-        return decl.getType().getStackSize();
-    }
-
     NameType(int n, int c) {
         super(n, c);
     }
-
-    @Override
-    public boolean testString() {
-        if(name.equals("integer"))
-            return false;
-
-        return decl.testString();
-    }
-
-    @Override
-    public boolean testChar() {
-        if(name.equals("integer"))
-            return false;
-
-        return decl.testChar();
-    }
-
-    @Override
-    public Type getNonName() {
-        return decl.getType();
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        PascalDecl pd = scope.findDecl(name, this);
-        if(!(pd instanceof TypeDecl)) {
-            error("NameType " + name + " has a non-type declaration");
-            return;
-        }
-        decl = (TypeDecl)pd;
-    }
-
-    @Override
-    public void genCode(CodeFile f) {}
 
     public static NameType parse(Scanner s, PascalSyntax context) {
         enterParser("NameType");
@@ -73,6 +29,47 @@ public class NameType extends Type {
 
         leaveParser("NameType");
         return r;
+    }
+
+    @Override
+    public int getStackSize() {
+        if (decl.name.equals("integer")
+                || decl.name.equals("char")
+                || decl.name.equals("boolean"))
+            return 4;
+
+        return decl.getType().getStackSize();
+    }
+
+    @Override
+    public boolean testString() {
+        return !name.equals("integer") && decl.testString();
+
+    }
+
+    @Override
+    public boolean testChar() {
+        return !name.equals("integer") && decl.testChar();
+
+    }
+
+    @Override
+    public Type getNonName() {
+        return decl.getType();
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        PascalDecl pd = scope.findDecl(name, this);
+        if (!(pd instanceof TypeDecl)) {
+            error("NameType " + name + " has a non-type declaration");
+            return;
+        }
+        decl = (TypeDecl) pd;
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
     }
 
     @Override

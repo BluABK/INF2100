@@ -67,23 +67,24 @@ public class Library extends Block {
 
 
         // Then add all
-        for(ConstDecl c: constants.constants)
+        for (ConstDecl c : constants.constants)
             addDecl(c.name, c);
 
-        for(TypeDecl t: types.types)
+        for (TypeDecl t : types.types)
             addDecl(t.name, t);
 
-        for(ProcDecl p: procedures)
+        for (ProcDecl p : procedures)
             addDecl(p.name, p);
     }
 
     /**
      * Link the helper functions
+     *
      * @param code CodeFile instance
      */
     @Override
-    public void genCode(CodeFile code){
-        code.Cifdef ("WIN32");
+    public void genCode(CodeFile code) {
+        code.Cifdef("WIN32");
         code.genDirective(".extern", "_write_char");
         code.genDirective(".extern", "_write_int");
         code.genDirective(".extern", "_write_string");
@@ -103,13 +104,13 @@ public class Library extends Block {
     PascalDecl findDecl(String id, PascalSyntax w) {
         id = id.toLowerCase();
         PascalDecl d = decls.get(id);
-        if(d != null) {
+        if (d != null) {
             Main.log.noteBinding(id, w, d);
             return d;
         }
 
-        if(outerScope != null)
-            return outerScope.findDecl(id,w);
+        if (outerScope != null)
+            return outerScope.findDecl(id, w);
 
         w.error("Name " + id + " is undefined");
         return null;

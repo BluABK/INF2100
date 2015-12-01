@@ -16,6 +16,20 @@ public class AssignStatm extends Statement {
         super(n, c);
     }
 
+    public static AssignStatm parse(Scanner s, PascalSyntax context) {
+        enterParser("AssignStatm");
+
+        AssignStatm a = new AssignStatm(s.curLineNum(), s.curColNum());
+        a.context = context;
+
+        a.var = Variable.parse(s, a);
+        s.skip(TokenKind.assignToken);
+        a.expr = Expression.parse(s, a);
+
+        leaveParser("AssignStatm");
+        return a;
+    }
+
     @Override
     public void check(Block scope, Library lib) {
         var.check(scope, lib);
@@ -31,20 +45,6 @@ public class AssignStatm extends Statement {
     public void genCode(CodeFile f) {
         expr.genCode(f);
         var.genCodeSet(f);
-    }
-
-    public static AssignStatm parse(Scanner s, PascalSyntax context) {
-        enterParser("AssignStatm");
-
-        AssignStatm a = new AssignStatm(s.curLineNum(), s.curColNum());
-        a.context = context;
-
-        a.var = Variable.parse(s, a);
-        s.skip(TokenKind.assignToken);
-        a.expr = Expression.parse(s, a);
-
-        leaveParser("AssignStatm");
-        return a;
     }
 
     @Override

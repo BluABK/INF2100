@@ -18,16 +18,6 @@ public class TypeDeclPart extends PascalSyntax {
         types = new ArrayList<>();
     }
 
-    @Override
-    public void check(Block scope, Library lib) {
-        for(TypeDecl t: types)
-            t.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {}
-
-
     public static TypeDeclPart parse(Scanner s, PascalSyntax context) {
         enterParser("TypeDeclPart");
 
@@ -43,6 +33,16 @@ public class TypeDeclPart extends PascalSyntax {
 
         leaveParser("TypeDeclPart");
         return t;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (TypeDecl t : types)
+            t.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
     }
 
     @Override

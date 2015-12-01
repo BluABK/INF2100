@@ -7,18 +7,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * {@link NameType} | {@link RangeType} | {@link EnumType} | {@link ArrayType}
  */
 public abstract class Type extends PascalSyntax {
-    // How much space does this variable need on the stack? Specified in bytes, but (getStackSize()%4 == 0) must be true
-    public abstract int getStackSize();
-
     Type(int n, int c) {
         super(n, c);
     }
-
-
-    public abstract boolean testString();
-    public abstract boolean testChar();
-
-    public abstract Type getNonName();
 
     public static Type parse(Scanner s, PascalSyntax context) {
         enterParser("Type");
@@ -40,6 +31,15 @@ public abstract class Type extends PascalSyntax {
         leaveParser("Type");
         return t;
     }
+
+    // How much space does this variable need on the stack? Specified in bytes, but (getStackSize()%4 == 0) must be true
+    public abstract int getStackSize();
+
+    public abstract boolean testString();
+
+    public abstract boolean testChar();
+
+    public abstract Type getNonName();
 
     abstract void checkType(Type cmp, PascalSyntax where, String message);
 }

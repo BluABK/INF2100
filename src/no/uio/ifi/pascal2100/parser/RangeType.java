@@ -15,13 +15,26 @@ public class RangeType extends Type {
     int startI;
     int stopI;
 
+    RangeType(int n, int c) {
+        super(n, c);
+    }
+
+    public static RangeType parse(Scanner s, PascalSyntax context) {
+        enterParser("RangeType");
+
+        RangeType r = new RangeType(s.curLineNum(), s.curColNum());
+        r.context = context;
+        r.start = Constant.parse(s, r);
+        s.skip(TokenKind.rangeToken);
+        r.stop = Constant.parse(s, r);
+
+        leaveParser("RangeType");
+        return r;
+    }
+
     @Override
     public int getStackSize() {
         return 8;
-    }
-
-    RangeType(int n, int c) {
-        super(n, c);
     }
 
     @Override
@@ -44,10 +57,10 @@ public class RangeType extends Type {
         start.check(scope, lib);
         stop.check(scope, lib);
         start.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, a needs to be an integer");
-        stop.checkType(new ConstantInt(lineNum, colNum),  this, "In range a..b, b needs to be an integer");
+        stop.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, b needs to be an integer");
         // Recurse to find the constant, then take a copy
-        startI = ((ConstantInt)start.getNonName()).integer;
-        stopI = ((ConstantInt)stop.getNonName()).integer;
+        startI = ((ConstantInt) start.getNonName()).integer;
+        stopI = ((ConstantInt) stop.getNonName()).integer;
     }
 
     @Override
@@ -55,23 +68,10 @@ public class RangeType extends Type {
 
     }
 
-    public static RangeType parse(Scanner s, PascalSyntax context) {
-        enterParser("RangeType");
-
-        RangeType r = new RangeType(s.curLineNum(), s.curColNum());
-        r.context = context;
-        r.start = Constant.parse(s, r);
-        s.skip(TokenKind.rangeToken);
-        r.stop = Constant.parse(s, r);
-
-        leaveParser("RangeType");
-        return r;
-    }
-
     @Override
     void checkType(Type cmp, PascalSyntax where, String message) {
         Main.log.noteTypeCheck(cmp, "match", this, where);
-        if(!(cmp instanceof RangeType))
+        if (!(cmp instanceof RangeType))
             where.error(message);
     }
 

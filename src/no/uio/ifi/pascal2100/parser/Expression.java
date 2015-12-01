@@ -18,34 +18,6 @@ public class Expression extends PascalSyntax {
         super(n, c);
     }
 
-
-    public boolean testString() {
-        return op == null && lhs.testString();
-    }
-    public boolean testChar() {
-        return op == null && lhs.testChar();
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        lhs.check(scope, lib);
-        if(op != null) {
-            op.check(scope, lib);
-            rhs.check(scope, lib);
-        }
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        lhs.genCode(f);
-        if(op != null) {
-            f.genInstr("push", "%eax");
-            rhs.genCode(f);
-            f.genInstr("pop", "%ecx");
-            op.genCode(f);
-        }
-    }
-
     public static Expression parse(Scanner s, PascalSyntax context) {
         enterParser("Expression");
 
@@ -69,6 +41,34 @@ public class Expression extends PascalSyntax {
 
         leaveParser("Expression");
         return e;
+    }
+
+    public boolean testString() {
+        return op == null && lhs.testString();
+    }
+
+    public boolean testChar() {
+        return op == null && lhs.testChar();
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        lhs.check(scope, lib);
+        if (op != null) {
+            op.check(scope, lib);
+            rhs.check(scope, lib);
+        }
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        lhs.genCode(f);
+        if (op != null) {
+            f.genInstr("push", "%eax");
+            rhs.genCode(f);
+            f.genInstr("pop", "%ecx");
+            op.genCode(f);
+        }
     }
 
     @Override

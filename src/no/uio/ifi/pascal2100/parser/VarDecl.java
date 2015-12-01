@@ -11,41 +11,9 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class VarDecl extends PascalDecl {
     private Type type;
 
-    @Override
-    public Type getType() {
-        return type;
-    }
-
     VarDecl(String name, int n, int c) {
         super(name, n, c);
     }
-
-    @Override
-    public boolean testString() {
-        return type.testString();
-    }
-
-    @Override
-    public boolean testChar() {
-        return type.testChar();
-    }
-
-    @Override
-    void checkWhetherAssignable(PascalSyntax where) {}
-
-    @Override
-    void checkWhetherFunction(PascalSyntax where) {
-        where.error("Variable is not a function");
-    }
-
-    @Override
-    void checkWhetherProcedure(PascalSyntax where) {
-        where.error("Variable is not a procedure");
-    }
-
-    @Override
-    void checkWhetherValue(PascalSyntax where) {}
-
 
     public static VarDecl parse(Scanner s, PascalSyntax context) {
         enterParser("VarDecl");
@@ -67,6 +35,39 @@ public class VarDecl extends PascalDecl {
 
         leaveParser("VarDecl");
         return t;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public boolean testString() {
+        return type.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return type.testChar();
+    }
+
+    @Override
+    void checkWhetherAssignable(PascalSyntax where) {
+    }
+
+    @Override
+    void checkWhetherFunction(PascalSyntax where) {
+        where.error("Variable is not a function");
+    }
+
+    @Override
+    void checkWhetherProcedure(PascalSyntax where) {
+        where.error("Variable is not a procedure");
+    }
+
+    @Override
+    void checkWhetherValue(PascalSyntax where) {
     }
 
     @Override

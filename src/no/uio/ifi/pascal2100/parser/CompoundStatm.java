@@ -20,19 +20,6 @@ public class CompoundStatm extends Statement {
         statements = new ArrayList<>();
     }
 
-    @Override
-    public void check(Block scope, Library lib) {
-        for(Statement st: statements) {
-            st.check(scope, lib);
-        }
-    }
-
-    @Override
-    public void genCode(CodeFile code) {
-        for(Statement st: statements)
-            st.genCode(code);
-    }
-
     public static CompoundStatm parse(Scanner s, PascalSyntax context) {
         enterParser("CompoundStatm");
 
@@ -59,6 +46,19 @@ public class CompoundStatm extends Statement {
 
         leaveParser("CompoundStatm");
         return c;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        for (Statement st : statements) {
+            st.check(scope, lib);
+        }
+    }
+
+    @Override
+    public void genCode(CodeFile code) {
+        for (Statement st : statements)
+            st.genCode(code);
     }
 
     @Override

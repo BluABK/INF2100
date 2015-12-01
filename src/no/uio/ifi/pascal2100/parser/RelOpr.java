@@ -1,7 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.CodeFile;
-import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 
 /**
@@ -12,29 +11,6 @@ import no.uio.ifi.pascal2100.scanner.Scanner;
 public class RelOpr extends Opr {
     RelOpr(int n, int c) {
         super(n, c);
-    }
-
-    @Override
-    public void check(Block curScope, Library lib) {}
-
-    @Override
-    public void genCode(CodeFile f) {
-        f.genInstr("cmpl", "%eax,%ecx", "%ecx "+op.toString()+" %eax");
-        // switch
-        if(op == op.equal)
-            f.genInstr("sete", "%al");
-        else if(op == Op.notEqual)
-            f.genInstr("setne", "%al");
-        else if(op == Op.less)
-            f.genInstr("setl", "%al");
-        else if(op == Op.lessEqual)
-            f.genInstr("setle", "%al");
-        else if(op == Op.greater)
-            f.genInstr("setg", "%al");
-        else //if(op == Op.greaterEqual)
-            f.genInstr("setge", "%al");
-
-        f.genInstr("movzbl", "%al,%eax");
     }
 
     public static RelOpr parse(Scanner s, PascalSyntax context) {
@@ -69,6 +45,30 @@ public class RelOpr extends Opr {
 
         leaveParser("RelOpr");
         return r;
+    }
+
+    @Override
+    public void check(Block curScope, Library lib) {
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        f.genInstr("cmpl", "%eax,%ecx", "%ecx " + op.toString() + " %eax");
+        // switch
+        if (op == Op.equal)
+            f.genInstr("sete", "%al");
+        else if (op == Op.notEqual)
+            f.genInstr("setne", "%al");
+        else if (op == Op.less)
+            f.genInstr("setl", "%al");
+        else if (op == Op.lessEqual)
+            f.genInstr("setle", "%al");
+        else if (op == Op.greater)
+            f.genInstr("setg", "%al");
+        else //if(op == Op.greaterEqual)
+            f.genInstr("setge", "%al");
+
+        f.genInstr("movzbl", "%al,%eax");
     }
 
     @Override

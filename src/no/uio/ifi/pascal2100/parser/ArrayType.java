@@ -16,16 +16,38 @@ public class ArrayType extends Type {
 
     public Type type;
 
+    ArrayType(int n, int c) {
+        super(n, c);
+    }
+
+    /**
+     * @param s       : Scanner object
+     * @param context : Parent object
+     * @return ArrayType node
+     */
+    public static ArrayType parse(Scanner s, PascalSyntax context) {
+        enterParser("ArrayType");
+
+        ArrayType t = new ArrayType(s.curLineNum(), s.curColNum());
+        t.context = context;
+
+        s.skip(TokenKind.arrayToken);
+        s.skip(TokenKind.leftBracketToken);
+        t.number = Type.parse(s, t);
+        s.skip(TokenKind.rightBracketToken);
+        s.skip(TokenKind.ofToken);
+        t.type = Type.parse(s, t);
+
+        leaveParser("ArrayType");
+        return t;
+    }
+
     @Override
     public int getStackSize() {
         int start = numberR.startI;
-        int stop  = numberR.stopI;
-        int size = stop-start+1;
-        return 4*size;
-    }
-
-    ArrayType(int n, int c) {
-        super(n, c);
+        int stop = numberR.stopI;
+        int size = stop - start + 1;
+        return 4 * size;
     }
 
     @Override
@@ -48,39 +70,18 @@ public class ArrayType extends Type {
         number.check(scope, lib);
         number.checkType(new RangeType(lineNum, colNum), this, "In array[number], number needs to be a range type");
         // Cast it, because the line above guarantees its success.
-        numberR = (RangeType)number.getNonName();
+        numberR = (RangeType) number.getNonName();
         type.check(scope, lib);
     }
 
     @Override
-    public void genCode(CodeFile f) {}
-
-    /**
-     * @param s : Scanner object
-     * @param context : Parent object
-     * @return ArrayType node
-     */
-    public static ArrayType parse(Scanner s, PascalSyntax context) {
-        enterParser("ArrayType");
-
-        ArrayType t = new ArrayType(s.curLineNum(), s.curColNum());
-        t.context = context;
-
-        s.skip(TokenKind.arrayToken);
-        s.skip(TokenKind.leftBracketToken);
-        t.number = Type.parse(s, t);
-        s.skip(TokenKind.rightBracketToken);
-        s.skip(TokenKind.ofToken);
-        t.type = Type.parse(s, t);
-
-        leaveParser("ArrayType");
-        return t;
+    public void genCode(CodeFile f) {
     }
 
     @Override
     void checkType(Type cmp, PascalSyntax where, String message) {
         Main.log.noteTypeCheck(cmp, "match", this, where);
-        if(!(cmp instanceof ArrayType))
+        if (!(cmp instanceof ArrayType))
             where.error(message);
     }
 

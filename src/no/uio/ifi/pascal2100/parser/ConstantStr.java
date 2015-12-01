@@ -1,7 +1,6 @@
 package no.uio.ifi.pascal2100.parser;
 
 import no.uio.ifi.pascal2100.main.CodeFile;
-import no.uio.ifi.pascal2100.main.Main;
 import no.uio.ifi.pascal2100.scanner.Scanner;
 import no.uio.ifi.pascal2100.scanner.TokenKind;
 
@@ -13,6 +12,20 @@ public class ConstantStr extends Constant {
 
     ConstantStr(int n, int c) {
         super(n, c);
+    }
+
+    public static ConstantStr parse(Scanner s, PascalSyntax context) {
+        enterParser("ConstantStr");
+
+        ConstantStr c = new ConstantStr(s.curLineNum(), s.curColNum());
+        c.context = context;
+
+        s.test(TokenKind.stringValToken);
+        c.str = s.curToken.strVal;
+        s.readNextToken();
+
+        leaveParser("ConstantStr");
+        return c;
     }
 
     @Override
@@ -35,21 +48,7 @@ public class ConstantStr extends Constant {
         String l = f.getLocalLabel();
 
         f.genString(l, str);
-        f.genInstr("leal", l+",%eax");
-    }
-
-    public static ConstantStr parse(Scanner s, PascalSyntax context) {
-        enterParser("ConstantStr");
-
-        ConstantStr c = new ConstantStr(s.curLineNum(), s.curColNum());
-        c.context = context;
-
-        s.test(TokenKind.stringValToken);
-        c.str = s.curToken.strVal;
-        s.readNextToken();
-
-        leaveParser("ConstantStr");
-        return c;
+        f.genInstr("leal", l + ",%eax");
     }
 
     @Override
@@ -69,7 +68,7 @@ public class ConstantStr extends Constant {
 
     @Override
     void checkType(Constant cmp, PascalSyntax where, String message) {
-        if(!(cmp instanceof ConstantStr))
+        if (!(cmp instanceof ConstantStr))
             where.error(message);
     }
 

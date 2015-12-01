@@ -11,13 +11,35 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ConstDecl extends PascalDecl {
     public Constant child;
 
+    ConstDecl(String name, int n, int c) {
+        super(name, n, c);
+    }
+
+    public static ConstDecl parse(Scanner s, PascalSyntax context) {
+        enterParser("ConstDecl");
+
+        // <name>
+        s.test(TokenKind.nameToken);
+        ConstDecl c = new ConstDecl(s.curToken.id, s.curLineNum(), s.curColNum());
+        c.context = context;
+        s.readNextToken();
+
+        // =
+        s.skip(TokenKind.equalToken);
+
+        // <constant>
+        c.child = Constant.parse(s, c);
+
+        // ;
+        s.skip(TokenKind.semicolonToken);
+
+        leaveParser("ConstDecl");
+        return c;
+    }
+
     @Override
     public Type getType() {
         return null;
-    }
-
-    ConstDecl(String name, int n, int c) {
-        super(name, n, c);
     }
 
     @Override
@@ -46,7 +68,8 @@ public class ConstDecl extends PascalDecl {
     }
 
     @Override
-    void checkWhetherValue(PascalSyntax where) {}
+    void checkWhetherValue(PascalSyntax where) {
+    }
 
     @Override
     public void check(Block scope, Library lib) {
@@ -55,33 +78,11 @@ public class ConstDecl extends PascalDecl {
 
     @Override
     public void genCode(CodeFile f) {
-        if(name.equals("eol"))
+        if (name.equals("eol"))
             f.genInstr("movl", "$10,%eax");
         else {
             child.genCode(f);
         }
-    }
-
-    public static ConstDecl parse(Scanner s, PascalSyntax context) {
-        enterParser("ConstDecl");
-
-        // <name>
-        s.test(TokenKind.nameToken);
-        ConstDecl c = new ConstDecl(s.curToken.id, s.curLineNum(), s.curColNum());
-        c.context = context;
-        s.readNextToken();
-
-        // =
-        s.skip(TokenKind.equalToken);
-
-        // <constant>
-        c.child = Constant.parse(s, c);
-
-        // ;
-        s.skip(TokenKind.semicolonToken);
-
-        leaveParser("ConstDecl");
-        return c;
     }
 
     @Override

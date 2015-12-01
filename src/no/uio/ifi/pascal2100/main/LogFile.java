@@ -98,7 +98,7 @@ public class LogFile {
 
     public void noteTypeCheck(Type t1, String op, Type t2, PascalSyntax where) {
         if (doLogTypeChecks)
-            writeLogLine("Type check on line " + where.lineNum + "." + where.colNum  + ": " +
+            writeLogLine("Type check on line " + where.lineNum + "." + where.colNum + ": " +
                     t1.identify() + " {" + op + "} " + t2.identify());
     }
 
@@ -107,11 +107,11 @@ public class LogFile {
             writeLogLine("Binding on line " + where.lineNum + "." + where.colNum + ": " + id +
                     " was declared in " + decl.identify());
     }
+
     public void noteBinding2(String message, PascalSyntax where) {
         if (doLogBinding)
             writeLogLine("On line " + where.lineNum + "." + where.colNum + ": " + message);
     }
-
 
 
     /**

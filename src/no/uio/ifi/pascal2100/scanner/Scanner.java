@@ -42,6 +42,10 @@ public class Scanner {
         readNextToken();
     }
 
+    public static void panic(int lineNum, int colNum, String originalLine, String explanation) {
+        Main.error(lineNum, colNum, originalLine + "\n" + Main.asciiArt(colNum, originalLine) + "\n" + explanation);
+    }
+
     /**
      * Identifies the scanner
      *
@@ -390,9 +394,5 @@ public class Scanner {
     public void skip(TokenKind t) {
         test(t);
         readNextToken();
-    }
-
-    public static void panic(int lineNum, int colNum, String originalLine, String explanation) {
-        Main.error(lineNum, colNum, originalLine + "\n" + Main.asciiArt(colNum, originalLine) + "\n" + explanation);
     }
 }

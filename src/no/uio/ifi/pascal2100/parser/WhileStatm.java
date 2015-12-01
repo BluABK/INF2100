@@ -16,26 +16,6 @@ public class WhileStatm extends Statement {
         super(n, c);
     }
 
-    @Override
-    public void check(Block scope, Library lib) {
-        test.check(scope, lib);
-        statm.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        String l1 = f.getLocalLabel();
-        String l2 = f.getLocalLabel();
-
-        f.genLabel(l1, "while "+l1);
-        test.genCode(f);
-        f.genInstr("cmpl", "$0,%eax");
-        f.genInstr("je", l2);
-        statm.genCode(f);
-        f.genInstr("jmp", l1);
-        f.genLabel(l2, "/while "+l1);
-    }
-
     public static WhileStatm parse(Scanner s, PascalSyntax context) {
         enterParser("WhileStatm");
 
@@ -49,6 +29,26 @@ public class WhileStatm extends Statement {
 
         leaveParser("WhileStatm");
         return w;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        test.check(scope, lib);
+        statm.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        String l1 = f.getLocalLabel();
+        String l2 = f.getLocalLabel();
+
+        f.genLabel(l1, "while " + l1);
+        test.genCode(f);
+        f.genInstr("cmpl", "$0,%eax");
+        f.genInstr("je", l2);
+        statm.genCode(f);
+        f.genInstr("jmp", l1);
+        f.genLabel(l2, "/while " + l1);
     }
 
     @Override

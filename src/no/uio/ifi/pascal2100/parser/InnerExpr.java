@@ -15,6 +15,22 @@ public class InnerExpr extends Factor {
         super(n, c);
     }
 
+    public static InnerExpr parse(Scanner s, PascalSyntax context) {
+        enterParser("InnerExpr");
+
+        InnerExpr i = new InnerExpr(s.curLineNum(), s.curColNum());
+        i.context = context;
+
+        s.skip(TokenKind.leftParToken);
+
+        i.expr = Expression.parse(s, i);
+
+        s.skip(TokenKind.rightParToken);
+
+        leaveParser("InnerExpr");
+        return i;
+    }
+
     @Override
     public boolean testString() {
         return expr.testString();
@@ -33,22 +49,6 @@ public class InnerExpr extends Factor {
     @Override
     public void genCode(CodeFile f) {
         expr.genCode(f);
-    }
-
-    public static InnerExpr parse(Scanner s, PascalSyntax context) {
-        enterParser("InnerExpr");
-
-        InnerExpr i = new InnerExpr(s.curLineNum(), s.curColNum());
-        i.context = context;
-
-        s.skip(TokenKind.leftParToken);
-
-        i.expr = Expression.parse(s, i);
-
-        s.skip(TokenKind.rightParToken);
-
-        leaveParser("InnerExpr");
-        return i;
     }
 
     @Override

@@ -20,55 +20,6 @@ public class FuncCall extends Factor {
         super(n, c);
     }
 
-    @Override
-    public boolean testString() {
-        return decl.testString();
-    }
-
-    @Override
-    public boolean testChar() {
-        return decl.testChar();
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        PascalDecl func = scope.findDecl(name, this);
-
-        // As a factor:
-        //   constant / variable + innerExpr: Would be illegal because it requires two factors in place of one.
-        //   Therefore, function is always the correct interpretation
-
-        if(!(func instanceof FuncDecl)) {
-            error(name + " is not a function");
-            return;
-        }
-        decl = (FuncDecl)func;
-
-        if(expressions != null)
-            for(Expression e: expressions)
-                e.check(scope, lib);
-    }
-
-    @Override
-    public void genCode(CodeFile f) {
-        int E = 0; if(expressions != null) E = expressions.size();
-        int D = 0; if(decl.params != null) D = decl.params.parameters.size();
-        if(E != D)
-            Main.error("Incorrect number of arguments in call to "+decl.name);
-
-        // push the desired amount of things to the stack before the call in reverse order
-        int i;
-        if(expressions != null)
-            for(i=expressions.size()-1; i>=0;i--) {
-                Expression e = expressions.get(i);
-                e.genCode(f);
-                f.genInstr("push", "%eax");
-            }
-        f.genInstr("call", decl.progProcFuncName);
-        if(decl.params != null && decl.params.totalArgSize > 0)
-            f.genInstr("addl", "$"+decl.params.totalArgSize+",%esp");
-    }
-
     public static FuncCall parse(Scanner s, PascalSyntax context) {
         enterParser("FuncCall");
 
@@ -98,6 +49,57 @@ public class FuncCall extends Factor {
 
         leaveParser("FuncCall");
         return f;
+    }
+
+    @Override
+    public boolean testString() {
+        return decl.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return decl.testChar();
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        PascalDecl func = scope.findDecl(name, this);
+
+        // As a factor:
+        //   constant / variable + innerExpr: Would be illegal because it requires two factors in place of one.
+        //   Therefore, function is always the correct interpretation
+
+        if (!(func instanceof FuncDecl)) {
+            error(name + " is not a function");
+            return;
+        }
+        decl = (FuncDecl) func;
+
+        if (expressions != null)
+            for (Expression e : expressions)
+                e.check(scope, lib);
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+        int E = 0;
+        if (expressions != null) E = expressions.size();
+        int D = 0;
+        if (decl.params != null) D = decl.params.parameters.size();
+        if (E != D)
+            Main.error("Incorrect number of arguments in call to " + decl.name);
+
+        // push the desired amount of things to the stack before the call in reverse order
+        int i;
+        if (expressions != null)
+            for (i = expressions.size() - 1; i >= 0; i--) {
+                Expression e = expressions.get(i);
+                e.genCode(f);
+                f.genInstr("push", "%eax");
+            }
+        f.genInstr("call", decl.progProcFuncName);
+        if (decl.params != null && decl.params.totalArgSize > 0)
+            f.genInstr("addl", "$" + decl.params.totalArgSize + ",%esp");
     }
 
     @Override

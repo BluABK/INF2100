@@ -21,12 +21,31 @@ public class ParamDeclList extends PascalSyntax {
         parameters = new ArrayList<>();
     }
 
+    public static ParamDeclList parse(Scanner s, PascalSyntax context) {
+        enterParser("ParamDeclList");
+
+        ParamDeclList p = new ParamDeclList(s.curLineNum(), s.curColNum());
+        p.context = context;
+
+        s.skip(TokenKind.leftParToken);
+
+        while (s.curToken.kind != TokenKind.rightParToken) {
+            p.parameters.add(ParamDecl.parse(s, p));
+            if (s.curToken.kind == TokenKind.semicolonToken)
+                s.skip(TokenKind.semicolonToken);
+        }
+        s.skip(TokenKind.rightParToken);
+
+        leaveParser("ParamDeclList");
+        return p;
+    }
+
     /**
      * Calculate where on the stack the variables will exist
      */
     public void generateStackSize() {
         int offset = 8;
-        for(ParamDecl p: parameters) {
+        for (ParamDecl p : parameters) {
             int size = p.getType().getStackSize();
             p.declOffset = offset;
             p.declLevel = parentDeclLevel;
@@ -38,39 +57,20 @@ public class ParamDeclList extends PascalSyntax {
     }
 
     public void addDecls(Block container) {
-        for(ParamDecl p: parameters) {
+        for (ParamDecl p : parameters) {
             container.addDecl(p.name, p);
         }
     }
 
     @Override
     public void check(Block scope, Library lib) {
-        for(ParamDecl p: parameters)
+        for (ParamDecl p : parameters)
             p.check(scope, lib);
     }
 
     @Override
     public void genCode(CodeFile f) {
         generateStackSize();
-    }
-
-    public static ParamDeclList parse(Scanner s, PascalSyntax context) {
-        enterParser("ParamDeclList");
-
-        ParamDeclList p = new ParamDeclList(s.curLineNum(), s.curColNum());
-        p.context = context;
-
-        s.skip(TokenKind.leftParToken);
-
-        while (s.curToken.kind != TokenKind.rightParToken) {
-            p.parameters.add(ParamDecl.parse(s, p));
-            if(s.curToken.kind == TokenKind.semicolonToken)
-                s.skip(TokenKind.semicolonToken);
-        }
-        s.skip(TokenKind.rightParToken);
-
-        leaveParser("ParamDeclList");
-        return p;
     }
 
     @Override

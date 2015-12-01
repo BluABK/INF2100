@@ -13,41 +13,10 @@ import java.util.ArrayList;
 public class EnumType extends Type {
     public ArrayList<Enum> literals;
 
-    @Override
-    public int getStackSize() {
-        return 4;
-    }
-
     EnumType(int n, int c) {
         super(n, c);
         literals = new ArrayList<>();
     }
-
-    @Override
-    public boolean testString() {
-        return false;
-    }
-
-    @Override
-    public boolean testChar() {
-        return false;
-    }
-
-    @Override
-    public Type getNonName() {
-        return this;
-    }
-
-    @Override
-    public void check(Block scope, Library lib) {
-        int i = 0;
-        for(Enum e: literals) {
-            e.id = i++;
-        }
-    }
-
-    @Override
-    public void genCode(CodeFile f) {}
 
     public static EnumType parse(Scanner s, PascalSyntax context) {
         enterParser("EnumType");
@@ -71,6 +40,38 @@ public class EnumType extends Type {
     }
 
     @Override
+    public int getStackSize() {
+        return 4;
+    }
+
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
+    public Type getNonName() {
+        return this;
+    }
+
+    @Override
+    public void check(Block scope, Library lib) {
+        int i = 0;
+        for (Enum e : literals) {
+            e.id = i++;
+        }
+    }
+
+    @Override
+    public void genCode(CodeFile f) {
+    }
+
+    @Override
     public String identify() {
         return identifyTemplate();
     }
@@ -78,9 +79,9 @@ public class EnumType extends Type {
     @Override
     public void prettyPrint() {
         Main.log.prettyPrint("(");
-        for(int i = 0; i < literals.size(); i++) {
+        for (int i = 0; i < literals.size(); i++) {
             Main.log.prettyPrint(literals.get(i).toString());
-            if(i < literals.size()-1)
+            if (i < literals.size() - 1)
                 Main.log.prettyPrint(", ");
         }
         Main.log.prettyPrint(")");
@@ -89,7 +90,7 @@ public class EnumType extends Type {
     @Override
     void checkType(Type cmp, PascalSyntax where, String message) {
         Main.log.noteTypeCheck(cmp, "match", this, where);
-        if(!(cmp instanceof EnumType))
+        if (!(cmp instanceof EnumType))
             where.error(message);
     }
 }
