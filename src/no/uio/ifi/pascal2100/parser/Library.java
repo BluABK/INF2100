@@ -40,17 +40,20 @@ public class Library extends Block {
         EnumType et = new EnumType(-1, 0);
         bool.type = et;
         bool.type.context = bool;
-        et.literals.add(new Enum("true", -1, 0));
-        et.literals.get(0).context = et;
         et.literals.add(new Enum("false", -1, 0));
+        et.literals.get(0).context = et;
+        et.literals.get(0).id = 0;
+        et.literals.add(new Enum("true", -1, 0));
         et.literals.get(1).context = et;
+        et.literals.get(1).id = 1;
+        addDecl(et.literals.get(0).name, et.literals.get(0));
+        addDecl(et.literals.get(1).name, et.literals.get(1));
         types.types.add(bool);
 
         /* Define and link eol */
         ConstDecl cd = new ConstDecl("eol", -1, 0);
         cd.context = constants;
-        ConstantName n = new ConstantName(-1, 0);
-        cd.child = n;
+        cd.child = new ConstantName(-1, 0);
         cd.child.context = cd;
         constants.constants.add(cd);
 
@@ -63,8 +66,10 @@ public class Library extends Block {
         // Then add all
         for(ConstDecl c: constants.constants)
             addDecl(c.name, c);
+
         for(TypeDecl t: types.types)
             addDecl(t.name, t);
+
         for(ProcDecl p: procedures)
             addDecl(p.name, p);
     }
