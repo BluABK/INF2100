@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 14:35:57
+# Code file created by Pascal2100 compiler 2015-12-01 14:48:38
         .extern write_char
         .extern write_int
         .extern write_string
@@ -93,7 +93,7 @@ func$fib2_5:                            # fib2 (level 2)
         movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
-        addl    $16,%esp
+        addl    $4,%esp
         neg     %eax
         push    %eax
         movl    -8(%ebp),%edx
@@ -105,7 +105,7 @@ func$fib2_5:                            # fib2 (level 2)
         movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
-        addl    $16,%esp
+        addl    $4,%esp
         push    %eax
         movl    -8(%ebp),%edx
         movl    8(%edx),%eax            # %eax := x
@@ -116,7 +116,7 @@ func$fib2_5:                            # fib2 (level 2)
         movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
-        addl    $16,%esp
+        addl    $4,%esp
         pop     %ecx
         imull   %ecx,%eax
         pop     %ecx
@@ -135,7 +135,7 @@ prog$fib_1:                             # fib (level 1)
         enter   $40,$1
         call    proc$nom_8
         call    proc$nom_8
-        movl    $40,%eax                # %eax := 40
+        movl    $20,%eax                # %eax := 20
         movl    -4(%ebp),%edx
         movl    %eax,-36(%edx)          # n := %eax
         .data
@@ -165,7 +165,7 @@ prog$fib_1:                             # fib (level 1)
         movl    -36(%edx),%eax          # %eax := n
         push    %eax
         call    func$fib1_2
-        addl    $16,%esp
+        addl    $4,%esp
         push    %eax
         call    write_int
         addl    $4,%esp
@@ -200,7 +200,7 @@ prog$fib_1:                             # fib (level 1)
         movl    -36(%edx),%eax          # %eax := n
         push    %eax
         call    func$fib2_5
-        addl    $16,%esp
+        addl    $4,%esp
         push    %eax
         call    write_int
         addl    $4,%esp

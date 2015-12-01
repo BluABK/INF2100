@@ -61,7 +61,7 @@ public class FuncCall extends Factor {
         }
         f.genInstr("call", decl.progProcFuncName);
         if(decl.params.totalArgSize > 0)
-            f.genInstr("addl", "$"+(4*decl.params.totalArgSize)+",%esp");
+            f.genInstr("addl", "$"+decl.params.totalArgSize+",%esp");
     }
 
     public static FuncCall parse(Scanner s, PascalSyntax context) {

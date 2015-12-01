@@ -84,7 +84,7 @@ public class ProcCallStatm extends Statement {
         }
         f.genInstr("call", decl.progProcFuncName);
         if(numExpected > 0)
-            f.genInstr("addl", "$" + (4 * numExpected) + ",%esp");
+            f.genInstr("addl", "$" + decl.params.totalArgSize + ",%esp");
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {
