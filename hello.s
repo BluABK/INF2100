@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 13:17:18
+# Code file created by Pascal2100 compiler 2015-12-01 13:59:26
         .extern write_char     
         .extern write_int      
         .extern write_string   
@@ -125,14 +125,12 @@ func$fib2_5:                            # fib2 (level 2)
         ret                             
 proc$nom_8:                             # nom (level 2)
         enter   $32,$2                  
-        movl    -32(%ebp),%eax          
         leave                           
         ret                             
 prog$fib_1:                             # fib (level 1)
         enter   $40,$1                  
         call    proc$nom_8              
         call    proc$nom_8              
-        addl    $0,%esp                 
         movl    $40,%eax                
         movl    -4(%ebp),%edx           
         movl    %eax,-36(%edx)          # n := %eax

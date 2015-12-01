@@ -83,7 +83,8 @@ public class ProcCallStatm extends Statement {
             f.genInstr("push", "%eax");
         }
         f.genInstr("call", decl.progProcFuncName);
-        f.genInstr("addl", "$" + Integer.toString(4 * numExpected) + ",%esp");
+        if(numExpected > 0)
+            f.genInstr("addl", "$" + (4 * numExpected) + ",%esp");
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {

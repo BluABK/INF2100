@@ -81,7 +81,7 @@ public class CodeFile {
         } else {
             // Calculate spaces before comment
             int spaces = 40-lab.length()-1;
-            code.printf("%"+Integer.toString(spaces)+"s# %s\n", "", comment);
+            code.printf("%"+spaces+"s# %s\n", "", comment);
         }
     }
 

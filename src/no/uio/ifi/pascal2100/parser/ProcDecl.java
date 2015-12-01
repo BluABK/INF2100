@@ -82,6 +82,7 @@ public class ProcDecl extends PascalDecl {
             params.addDecls(child);
         }
 
+        child.hasRet = false;
         child.check(scope, lib);
     }
 

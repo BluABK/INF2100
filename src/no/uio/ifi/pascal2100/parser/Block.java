@@ -24,6 +24,8 @@ public class Block extends PascalSyntax {
 
     public StatmList statements;
 
+    public boolean hasRet = true;
+
     HashMap<String, PascalDecl> decls = new HashMap<>();
     public Block outerScope;
     public PascalDecl parent;
@@ -131,7 +133,8 @@ public class Block extends PascalSyntax {
 
         code.genInstr("enter", "$" + stackSize+",$" + parent.declLevel);
         statements.genCode(code);
-        code.genInstr("movl", "-32(%ebp),%eax");
+        if(hasRet)
+            code.genInstr("movl", "-32(%ebp),%eax");
         code.genInstr("leave");
         code.genInstr("ret");
     }
