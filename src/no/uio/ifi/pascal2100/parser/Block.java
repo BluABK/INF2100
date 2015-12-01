@@ -33,7 +33,6 @@ public class Block extends PascalSyntax {
         super(n, c);
         functions = new ArrayList<>();
         procedures = new ArrayList<>();
-        uniqId = ++nextUniqId;
         mangledName = null;
     }
 
@@ -111,8 +110,7 @@ public class Block extends PascalSyntax {
         // Figure out stack sizes, this does not generate actual code:
         // As well as the total stack size: variables.totalStackSize
 
-        int stackSize = 0;
-
+        int stackSize;
         if(variables != null) {
             variables.parentDeclLevel = parentDeclLevel;
             variables.genCode(code);
@@ -131,7 +129,7 @@ public class Block extends PascalSyntax {
         }
 
         // statements
-        code.genLabel(mangledName);
+        code.genLabel(mangledName, "At level "+parentDeclLevel);
 
         code.genInstr("enter", "$"+
                 Integer.toString(stackSize)+",$"+
@@ -202,10 +200,6 @@ public class Block extends PascalSyntax {
         Main.log.prettyPrint("end");
     }
 
-    // Use this for parent to generate a mangled name
-    static int nextUniqId=0;
-    int uniqId;
-    // Level of block, top=1, deeper is higher
     // The mangled name
     String mangledName;
 }

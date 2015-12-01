@@ -103,7 +103,7 @@ public class ProcDecl extends PascalDecl {
         // We know return value is stored in -32(%ebp), block does this
 
         child.parentDeclLevel = declLevel;
-        child.mangledName = "proc$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+        child.mangledName = code.getLabel("proc$"+name.toLowerCase());
         child.genCode(code);
     }
 }

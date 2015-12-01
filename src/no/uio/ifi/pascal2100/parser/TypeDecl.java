@@ -69,7 +69,7 @@ public class TypeDecl extends PascalDecl {
 
     @Override
     public void genCode(CodeFile f) {
-        // TODO:
+        Main.TODO();
     }
 
     @Override

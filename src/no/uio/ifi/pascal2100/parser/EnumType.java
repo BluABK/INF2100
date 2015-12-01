@@ -25,7 +25,12 @@ public class EnumType extends Type {
     }
 
     @Override
-    public void check(Block scope, Library lib) {}
+    public void check(Block scope, Library lib) {
+        int i = 0;
+        for(Enum e: literals) {
+            e.id = i++;
+        }
+    }
 
     @Override
     public void genCode(CodeFile f) {

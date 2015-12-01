@@ -124,14 +124,15 @@ public class Main {
         /**
          * Link main:
          * .extern ...
+         */
+        library.genCode(code);
+        /**
          * .globl main ..
          * main: ...
          *  call
          *  movl $0,%eax
          *  ret
-         * */
-        library.genCode(code, prog.child);
-        /* rest */
+         */
         prog.genCode(code);
         code.finish();
         System.out.println("OK");

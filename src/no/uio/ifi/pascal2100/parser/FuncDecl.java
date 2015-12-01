@@ -72,7 +72,7 @@ public class FuncDecl extends PascalDecl {
 
         // The declLevel is always one step outside the parent block
         child.parentDeclLevel = declLevel;
-        child.mangledName = "func$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+        child.mangledName = code.getLabel("func$"+name.toLowerCase());
         child.genCode(code);
     }
 

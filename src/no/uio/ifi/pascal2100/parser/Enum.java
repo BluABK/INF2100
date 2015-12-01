@@ -12,6 +12,8 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
  * Therefore, it causes two binding log lines for the same thing.
  */
 public class Enum extends PascalDecl {
+    // Enum number equivalent
+    int id;
 
     @Override
     public Type getType() {
@@ -45,7 +47,7 @@ public class Enum extends PascalDecl {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        f.genInstr("mov $"+id+",%eax");
     }
 
     public static Enum parse(Scanner s, PascalSyntax context) {

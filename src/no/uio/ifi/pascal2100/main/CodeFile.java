@@ -35,7 +35,6 @@ public class CodeFile {
     public String getLabel(String origName) {
         return origName + "_" + (++numLabels);
     }
-
     public String getLocalLabel() {
         return String.format(".L%04d", ++numLabels);
     }
@@ -82,7 +81,7 @@ public class CodeFile {
         } else {
             // Calculate spaces before comment
             int spaces = 40-lab.length()-1;
-            code.printf("%"+Integer.toString(spaces)+"s# %s", "", comment);
+            code.printf("%"+Integer.toString(spaces)+"s# %s\n", "", comment);
         }
     }
 

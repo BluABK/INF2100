@@ -22,7 +22,7 @@ public class ConstDeclPart extends PascalSyntax {
 
     @Override
     public void genCode(CodeFile f) {
-        // TODO:
+        Main.TODO();
     }
 
     ConstDeclPart(int n, int c) {

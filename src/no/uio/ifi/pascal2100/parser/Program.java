@@ -75,7 +75,15 @@ public class Program extends PascalDecl {
         declLevel = 1;
         child.parentDeclLevel = 1;
 
-        child.mangledName = "prog$"+name.toLowerCase()+"_"+Integer.toString(child.uniqId);
+        child.mangledName = code.getLabel("prog$"+name.toLowerCase());
+
+        code.genDirective(".globl", "main");
+        code.genDirective(".globl", "_main");
+        code.genLabel("_main");
+        code.genLabel("main");
+        code.genInstr("call", child.mangledName);
+        code.genInstr("movl", "$0,%eax");
+        code.genInstr("ret");
 
         child.genCode(code);
     }

@@ -24,11 +24,7 @@ public class ConstantStr extends Constant {
     public void genCode(CodeFile f) {
         String l = f.getLocalLabel();
 
-        f.genDirective(".data");
-        f.genLabel(l);
-        f.genDirective(".asciz \""+l+"\"");
-        f.genDirective(".align 2");
-        f.genDirective(".text 2");
+        f.genString(l, str);
         f.genInstr("leal "+l+",%eax");
     }
 

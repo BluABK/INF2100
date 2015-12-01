@@ -71,21 +71,14 @@ public class Library extends Block {
     }
 
     /**
-     * Create linking directives that call the given block as the main function
-     * @param code
-     * @param start
+     * Link the helper functions
+     * @param code CodeFile instance
      */
-    public void genCode(CodeFile code, Block start){
+    @Override
+    public void genCode(CodeFile code){
         code.genDirective(".extern", "write_char");
         code.genDirective(".extern", "write_int");
         code.genDirective(".extern", "write_string");
-        code.genDirective(".globl", "main");
-        code.genDirective(".globl", "_main");
-        code.genLabel("_main");
-        code.genLabel("main");
-        code.genInstr("call", start.mangledName);
-        code.genInstr("movl", "$0,%eax");
-        code.genInstr("ret");
     }
 
     PascalDecl findDecl(String id, PascalSyntax w) {
