@@ -21,6 +21,16 @@ public class TypeDecl extends PascalDecl {
     }
 
     @Override
+    public boolean testString() {
+        return type.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return type.testChar();
+    }
+
+    @Override
     void checkWhetherAssignable(PascalSyntax where) {
         where.error("Type " + name + " is not assignable");
     }

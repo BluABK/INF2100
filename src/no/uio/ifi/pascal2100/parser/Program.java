@@ -21,6 +21,16 @@ public class Program extends PascalDecl {
     }
 
     @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
     void checkWhetherAssignable(PascalSyntax where) {
         where.error("Program " + name + " is not assignable");
     }
@@ -73,15 +83,14 @@ public class Program extends PascalDecl {
     @Override
     public void genCode(CodeFile code) {
         declLevel = 1;
-        child.parentDeclLevel = 1;
 
-        child.mangledName = code.getLabel("prog$"+name.toLowerCase());
+        progProcFuncName = code.getLabel("prog$"+name.toLowerCase());
 
         code.genDirective(".globl", "main");
         code.genDirective(".globl", "_main");
         code.genLabel("_main");
         code.genLabel("main");
-        code.genInstr("call", child.mangledName);
+        code.genInstr("call", progProcFuncName);
         code.genInstr("movl", "$0,%eax");
         code.genInstr("ret");
 

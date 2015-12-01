@@ -25,6 +25,16 @@ public class Enum extends PascalDecl {
     }
 
     @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
     void checkWhetherAssignable(PascalSyntax where) {
         where.error("Enum " + name + " is not assignable");
     }

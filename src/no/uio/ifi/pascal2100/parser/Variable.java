@@ -19,6 +19,16 @@ public class Variable extends Factor {
     }
 
     @Override
+    public boolean testString() {
+        return decl.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return decl.testChar();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         // Feedback from part 3: We are aware that conversions end up in two log lines for the same variable.
         // We could make a silent switch for findDecl, but this seems a bit stupid

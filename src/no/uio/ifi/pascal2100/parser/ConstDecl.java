@@ -21,6 +21,16 @@ public class ConstDecl extends PascalDecl {
     }
 
     @Override
+    public boolean testString() {
+        return child.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return child.testChar();
+    }
+
+    @Override
     void checkWhetherAssignable(PascalSyntax where) {
         where.error("Constant " + name + " is not assignable");
     }

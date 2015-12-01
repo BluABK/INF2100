@@ -21,6 +21,17 @@ public class Term extends PascalSyntax {
         factorOprs = new ArrayList<>();
     }
 
+    public boolean testString() {
+        if(factorOprs.size() != 0)
+            return false;
+        return factors.get(0).testString();
+    }
+    public boolean testChar() {
+        if(factorOprs.size() != 0)
+            return false;
+        return factors.get(0).testChar();
+    }
+
     @Override
     public void check(Block scope, Library lib) {
         for(FactorOpr f: factorOprs)

@@ -14,6 +14,10 @@ public abstract class Type extends PascalSyntax {
         super(n, c);
     }
 
+
+    public abstract boolean testString();
+    public abstract boolean testChar();
+
     public static Type parse(Scanner s, PascalSyntax context) {
         enterParser("Type");
 

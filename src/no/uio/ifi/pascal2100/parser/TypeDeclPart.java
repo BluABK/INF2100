@@ -38,7 +38,6 @@ public class TypeDeclPart extends PascalSyntax {
 
         s.skip(TokenKind.typeToken);
 
-
         while (s.curToken.kind == TokenKind.nameToken &&
                 s.nextToken.kind == TokenKind.equalToken) {
             t.types.add(TypeDecl.parse(s, t));

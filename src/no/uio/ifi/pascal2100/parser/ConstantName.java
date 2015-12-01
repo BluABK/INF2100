@@ -18,6 +18,22 @@ public class ConstantName extends Constant {
     }
 
     @Override
+    public boolean testString() {
+        if(name.equals("eol"))
+            return false;
+
+        return decl.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        if(name.equals("eol"))
+            return true;
+
+        return decl.testChar();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         // Check that name is defined
         PascalDecl d = scope.findDecl(name, this);
@@ -30,7 +46,10 @@ public class ConstantName extends Constant {
 
     @Override
     public void genCode(CodeFile f) {
-        decl.genCode(f);
+        if(name.equals("eol"))
+            f.genInstr("movl $10,%eax");
+        else
+            decl.genCode(f);
     }
 
     public static ConstantName parse(Scanner s, PascalSyntax context) {

@@ -21,6 +21,17 @@ public class ProcDecl extends PascalDecl {
         super(name, n, c);
     }
 
+    // Return nothing, so cannot be either
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
     @Override
     void checkWhetherAssignable(PascalSyntax where) {
         where.error("Procedure " + name + " is not assignable");
@@ -102,8 +113,8 @@ public class ProcDecl extends PascalDecl {
         }
         // We know return value is stored in -32(%ebp), block does this
 
-        child.parentDeclLevel = declLevel;
-        child.mangledName = code.getLabel("proc$"+name.toLowerCase());
+
+        progProcFuncName = code.getLabel("proc$"+name.toLowerCase());
         child.genCode(code);
     }
 }

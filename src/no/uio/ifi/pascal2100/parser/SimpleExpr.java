@@ -32,6 +32,24 @@ public class SimpleExpr extends PascalSyntax {
         termOprs = new ArrayList<>();
     }
 
+    public boolean testString() {
+        // Does not support concatenation
+        // TODO: better string check
+        if(prefix != null)
+            return false;
+        if(termOprs.size() != 0)
+            return false;
+        return terms.get(0).testString();
+    }
+    public boolean testChar() {
+        // TODO: better char check
+        if(prefix != null)
+            return false;
+        if(termOprs.size() != 0)
+            return false;
+        return terms.get(0).testChar();
+    }
+
     @Override
     public void check(Block scope, Library lib) {
         for(Term t: terms)

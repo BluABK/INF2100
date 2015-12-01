@@ -49,12 +49,18 @@ public class ProcCallStatm extends Statement {
         if(decl.name.equals("write")) {
             for(Expression e: expressions) {
                 e.genCode(f);
+
                 // Depending on the type of e, we have to decide between write_* (see library)
                 // string: expression has only one simpleexpression, only one term, factor etc and that is a string
                 // char:
                 // TODO more type checking for expression
                 f.genInstr("push %eax");
-                f.genInstr("call write_...");
+                if(e.testString())
+                    f.genInstr("call write_string");
+                else if(e.testChar())
+                    f.genInstr("call write_char");
+                else
+                    f.genInstr("call write_int");
                 f.genInstr("addl $4, %esp");
             }
             return;
@@ -65,7 +71,7 @@ public class ProcCallStatm extends Statement {
 
         if(expressions == null) {
             // No arguments
-            f.genInstr("call "+decl.child.mangledName);
+            f.genInstr("call "+decl.progProcFuncName);
             return;
         }
 
@@ -76,7 +82,7 @@ public class ProcCallStatm extends Statement {
             e.genCode(f);
             f.genInstr("push %eax");
         }
-        f.genInstr("call "+decl.child.mangledName);
+        f.genInstr("call "+decl.progProcFuncName);
         f.genInstr("addl $" + Integer.toString(4 * numExpected) + ",%esp");
     }
 

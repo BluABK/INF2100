@@ -24,6 +24,16 @@ public class FuncDecl extends PascalDecl {
     }
 
     @Override
+    public boolean testString() {
+        return type.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return type.testChar();
+    }
+
+    @Override
     void checkWhetherAssignable(PascalSyntax where) {}
 
     @Override
@@ -71,8 +81,7 @@ public class FuncDecl extends PascalDecl {
 
 
         // The declLevel is always one step outside the parent block
-        child.parentDeclLevel = declLevel;
-        child.mangledName = code.getLabel("func$"+name.toLowerCase());
+        progProcFuncName = code.getLabel("func$"+name.toLowerCase());
         child.genCode(code);
     }
 

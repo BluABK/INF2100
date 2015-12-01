@@ -19,6 +19,17 @@ public class Expression extends PascalSyntax {
     }
 
 
+    public boolean testString() {
+        if(op != null)
+            return false;
+        return lhs.testString();
+    }
+    public boolean testChar() {
+        if(op != null)
+            return false;
+        return lhs.testChar();
+    }
+
     @Override
     public void check(Block scope, Library lib) {
         lhs.check(scope, lib);

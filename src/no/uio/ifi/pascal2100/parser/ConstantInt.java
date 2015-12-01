@@ -15,6 +15,16 @@ public class ConstantInt extends Constant {
         super(n, c);
     }
 
+    @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
     // Nothing to check
     @Override
     public void check(Block scope, Library lib) {}

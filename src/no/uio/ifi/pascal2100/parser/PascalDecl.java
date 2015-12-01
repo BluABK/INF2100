@@ -22,6 +22,9 @@ public abstract class PascalDecl extends PascalSyntax {
                 " on line " + lineNum + "." + colNum;
     }
 
+    abstract public boolean testString();
+    abstract public boolean testChar();
+
     /**
      * checkWhetherAssignable: Utility method to check whether this PascalDecl is
      * assignable, i.e., may be used to the left of a :=.

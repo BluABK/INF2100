@@ -21,6 +21,16 @@ public class FuncCall extends Factor {
     }
 
     @Override
+    public boolean testString() {
+        return decl.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return decl.testChar();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         PascalDecl func = scope.findDecl(name, this);
 
@@ -67,7 +77,7 @@ public class FuncCall extends Factor {
             e.genCode(f);
             f.genInstr("push %eax");
         }
-        f.genInstr("call "+decl.child.mangledName);
+        f.genInstr("call "+decl.progProcFuncName);
         f.genInstr("addl $"+Integer.toString(4*decl.params.totalArgSize)+",%esp");
     }
 

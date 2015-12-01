@@ -26,14 +26,12 @@ public class Block extends PascalSyntax {
 
     HashMap<String, PascalDecl> decls = new HashMap<>();
     public Block outerScope;
-
-    int parentDeclLevel;
+    public PascalDecl parent;
 
     Block(int n, int c) {
         super(n, c);
         functions = new ArrayList<>();
         procedures = new ArrayList<>();
-        mangledName = null;
     }
 
     void addDecl(String id, PascalDecl d) {
@@ -112,7 +110,7 @@ public class Block extends PascalSyntax {
 
         int stackSize;
         if(variables != null) {
-            variables.parentDeclLevel = parentDeclLevel;
+            variables.parentDeclLevel = parent.declLevel;
             variables.genCode(code);
             stackSize = variables.totalStackSize;
         } else {
@@ -120,31 +118,31 @@ public class Block extends PascalSyntax {
         }
 
         for(FuncDecl f: functions) {
-            f.declLevel = parentDeclLevel+1;
+            f.declLevel = parent.declLevel+1;
             f.genCode(code);
         }
         for(ProcDecl p: procedures) {
-            p.declLevel = parentDeclLevel+1;
+            p.declLevel = parent.declLevel+1;
             p.genCode(code);
         }
 
         // statements
-        code.genLabel(mangledName, "At level "+parentDeclLevel);
+        code.genLabel(parent.progProcFuncName, "At level "+parent.declLevel);
 
-        code.genInstr("enter", "$"+
-                Integer.toString(stackSize)+",$"+
-                Integer.toString(parentDeclLevel));
+        code.genInstr("enter", "$" + stackSize+",$" + parent.declLevel);
         statements.genCode(code);
         code.genInstr("movl", "-32(%ebp),%eax");
         code.genInstr("leave");
         code.genInstr("ret");
     }
 
-    public static Block parse(Scanner s, PascalSyntax context) {
+    // Limit creaters to PacalDecl
+    public static Block parse(Scanner s, PascalDecl context) {
         enterParser("Block");
 
         Block b = new Block(s.curLineNum(), s.curColNum());
         b.context = context;
+        b.parent = context;
 
         if (s.curToken.kind == TokenKind.constToken) {
             b.constants = ConstDeclPart.parse(s, b);
@@ -199,7 +197,4 @@ public class Block extends PascalSyntax {
         Main.log.prettyOutdent();
         Main.log.prettyPrint("end");
     }
-
-    // The mangled name
-    String mangledName;
 }

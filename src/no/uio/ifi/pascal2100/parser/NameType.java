@@ -28,6 +28,24 @@ public class NameType extends Type {
     }
 
     @Override
+    public boolean testString() {
+        if(name.equals("integer"))
+            return false;
+
+        System.out.println(name);
+        return decl.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        if(name.equals("integer"))
+            return false;
+
+        System.out.println(name);
+        return decl.testChar();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         PascalDecl pd = scope.findDecl(name, this);
         if(!(pd instanceof TypeDecl)) {

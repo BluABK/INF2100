@@ -137,7 +137,7 @@ public class Main {
         code.finish();
         System.out.println("OK");
 
-        //assembleCode(); // TODO fix this last
+        assembleCode();
     }
 
 
@@ -182,6 +182,7 @@ public class Main {
             err.close();
             p.waitFor();
         } catch (Exception err) {
+            err.printStackTrace();
             error("Assembly errors detected.");
         }
     }

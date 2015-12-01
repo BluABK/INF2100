@@ -16,6 +16,11 @@ public class Negation extends Factor {
     }
 
     @Override
+    public boolean testString() { return false; }
+    @Override
+    public boolean testChar() { return false; }
+
+    @Override
     public void check(Block scope, Library lib) {
         factor.check(scope, lib);
     }

@@ -23,6 +23,16 @@ public class RangeType extends Type {
     }
 
     @Override
+    public boolean testString() {
+        return false;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         start.check(scope, lib);
         stop.check(scope, lib);

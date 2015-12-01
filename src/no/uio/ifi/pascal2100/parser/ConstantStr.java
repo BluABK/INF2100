@@ -16,6 +16,16 @@ public class ConstantStr extends Constant {
     }
 
     @Override
+    public boolean testString() {
+        return true;
+    }
+
+    @Override
+    public boolean testChar() {
+        return false;
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         // Strings are strings..
     }

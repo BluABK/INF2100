@@ -11,6 +11,10 @@ public abstract class Factor extends PascalSyntax {
         super(n, c);
     }
 
+
+    abstract public boolean testString();
+    abstract public boolean testChar();
+
     public static Factor parse(Scanner s, PascalSyntax context) {
         enterParser("Factor");
 

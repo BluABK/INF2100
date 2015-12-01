@@ -16,6 +16,16 @@ public class InnerExpr extends Factor {
     }
 
     @Override
+    public boolean testString() {
+        return expr.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return expr.testChar();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         expr.check(scope, lib);
     }

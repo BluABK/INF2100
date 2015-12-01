@@ -49,10 +49,9 @@ public class Library extends Block {
         /* Define and link eol */
         ConstDecl cd = new ConstDecl("eol", -1, 0);
         cd.context = constants;
-        ConstantStr n = new ConstantStr(-1, 0);
+        ConstantName n = new ConstantName(-1, 0);
         cd.child = n;
         cd.child.context = cd;
-        n.str = "\n";
         constants.constants.add(cd);
 
         /* Define and link write */

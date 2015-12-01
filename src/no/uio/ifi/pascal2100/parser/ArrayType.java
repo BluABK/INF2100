@@ -23,7 +23,17 @@ public class ArrayType extends Type {
     ArrayType(int n, int c) {
         super(n, c);
     }
-    
+
+    @Override
+    public boolean testString() {
+        return type.testString();
+    }
+
+    @Override
+    public boolean testChar() {
+        return type.testChar();
+    }
+
     @Override
     public void check(Block scope, Library lib) {
         number.check(scope, lib);
