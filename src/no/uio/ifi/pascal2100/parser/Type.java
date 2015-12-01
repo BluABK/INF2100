@@ -18,6 +18,8 @@ public abstract class Type extends PascalSyntax {
     public abstract boolean testString();
     public abstract boolean testChar();
 
+    public abstract Type getNonName();
+
     public static Type parse(Scanner s, PascalSyntax context) {
         enterParser("Type");
 

@@ -49,6 +49,11 @@ public class ConstantInt extends Constant {
     }
 
     @Override
+    public PascalSyntax getNonName() {
+        return this;
+    }
+
+    @Override
     public String identify() {
         return identifyTemplate();
     }

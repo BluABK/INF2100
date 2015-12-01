@@ -12,6 +12,8 @@ import no.uio.ifi.pascal2100.scanner.TokenKind;
 public class ArrayType extends Type {
     // array[type] of type - Does not specify the need for the [type] to be a number
     public Type number;
+    public Type numberR;
+
     public Type type;
 
     @Override
@@ -35,9 +37,16 @@ public class ArrayType extends Type {
     }
 
     @Override
+    public Type getNonName() {
+        return this;
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         number.check(scope, lib);
         number.checkType(new RangeType(lineNum, colNum), this, "In array[number], number needs to be a range type");
+        // Cast it, because the line above guarantees its success.
+        numberR = number.getNonName();
         type.check(scope, lib);
     }
 

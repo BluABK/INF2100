@@ -53,6 +53,11 @@ public class ConstantStr extends Constant {
     }
 
     @Override
+    public PascalSyntax getNonName() {
+        return this;
+    }
+
+    @Override
     public String identify() {
         return identifyTemplate();
     }

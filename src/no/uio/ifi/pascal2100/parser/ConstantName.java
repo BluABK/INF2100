@@ -67,6 +67,15 @@ public class ConstantName extends Constant {
     }
 
     @Override
+    public PascalSyntax getNonName() {
+        if(decl instanceof Enum)
+            return decl;
+
+        return ((ConstDecl)decl).child;
+    }
+
+
+    @Override
     public String identify() {
         return identifyTemplate();
     }

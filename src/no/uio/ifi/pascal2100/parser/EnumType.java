@@ -35,6 +35,11 @@ public class EnumType extends Type {
     }
 
     @Override
+    public Type getNonName() {
+        return this;
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         int i = 0;
         for(Enum e: literals) {

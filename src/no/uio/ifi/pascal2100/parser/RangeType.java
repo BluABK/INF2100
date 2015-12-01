@@ -12,6 +12,9 @@ public class RangeType extends Type {
     public Constant start;
     public Constant stop;
 
+    int startI;
+    int stopI;
+
     @Override
     public int getStackSize() {
         Main.TODO();
@@ -33,11 +36,19 @@ public class RangeType extends Type {
     }
 
     @Override
+    public Type getNonName() {
+        return this;
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         start.check(scope, lib);
         stop.check(scope, lib);
         start.checkType(new ConstantInt(lineNum, colNum), this, "In range a..b, a needs to be an integer");
         stop.checkType(new ConstantInt(lineNum, colNum),  this, "In range a..b, b needs to be an integer");
+        // Recurse to find the constant, then take a copy
+        startI = ((ConstantInt)start.getNonName()).integer;
+        stopI = ((ConstantInt)stop.getNonName()).integer;
     }
 
     @Override

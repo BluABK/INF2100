@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 14:48:38
+# Code file created by Pascal2100 compiler 2015-12-01 15:16:48
         .extern write_char
         .extern write_int
         .extern write_string

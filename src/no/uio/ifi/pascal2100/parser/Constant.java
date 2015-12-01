@@ -34,6 +34,8 @@ public abstract class Constant extends Factor {
         return c;
     }
 
+    public abstract PascalSyntax getNonName();
+
     public abstract String toString();
 
     abstract void checkType(Constant cmp, PascalSyntax where, String message);

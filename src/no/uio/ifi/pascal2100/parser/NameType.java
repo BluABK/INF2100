@@ -44,6 +44,11 @@ public class NameType extends Type {
     }
 
     @Override
+    public Type getNonName() {
+        return decl.getType();
+    }
+
+    @Override
     public void check(Block scope, Library lib) {
         PascalDecl pd = scope.findDecl(name, this);
         if(!(pd instanceof TypeDecl)) {
