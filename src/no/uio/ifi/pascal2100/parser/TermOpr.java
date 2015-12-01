@@ -23,11 +23,12 @@ public class TermOpr extends Opr {
     public void genCode(CodeFile f) {
         // eax = ecx <op> eax
         if(op == Op.add)
-            f.genInstr("addl", "%ecx,%eax");
-        else if(op == Op.subtract)
-            f.genInstr("subl", "%ecx,%eax");
-        else
-            f.genInstr("orl", "%ecx,%eax");
+            f.genInstr("addl", "%ecx,%eax", "%eax := %eax + %ecx");
+        else if(op == Op.subtract) {
+            f.genInstr("subl", "%eax,%ecx");
+            f.genInstr("movl", "%ecx,%eax", "%eax := %ecx - %eax");
+        } else
+            f.genInstr("orl", "%ecx,%eax", "%eax := %eax | %ecx");
     }
 
     public static TermOpr parse(Scanner s, PascalSyntax context) {

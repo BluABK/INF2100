@@ -100,7 +100,7 @@ public class Variable extends Factor {
 
     public void genCode(CodeFile f) {
         f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
-        f.genInstr("movl", decl.declOffset + "(%edx),%eax");
+        f.genInstr("movl", decl.declOffset + "(%edx),%eax", "%eax := "+name);
     }
 
     public static Variable parse(Scanner s, PascalSyntax context) {

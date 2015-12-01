@@ -19,7 +19,7 @@ public class RelOpr extends Opr {
 
     @Override
     public void genCode(CodeFile f) {
-        f.genInstr("cmpl", "%eax,%ecx", op.toString());
+        f.genInstr("cmpl", "%eax,%ecx", "%ecx "+op.toString()+" %eax");
         // switch
         if(op == op.equal)
             f.genInstr("sete", "%al", "^");
