@@ -99,9 +99,34 @@ public class Variable extends Factor {
 
 
     public void genCode(CodeFile f) {
-        f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
-        f.genInstr("movl", decl.declOffset + "(%edx),%eax", "%eax := "+name);
+        if(expr == null) {
+            f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
+            f.genInstr("movl", decl.declOffset + "(%edx),%eax", "%eax := " + name);
+        } else {
+            // Array get operation
+            expr.genCode(f);
+            ArrayType arr = (ArrayType)decl.getType().getNonName();
+            f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
+            f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
+            f.genInstr("movl", decl.declOffset + "(%edx, %eax, 4),%eax", "%eax := " + name + "[...]");
+        }
     }
+    public void genCodeSet(CodeFile f) {
+        if(expr == null) {
+            f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
+            f.genInstr("movl", "%eax," + decl.declOffset + "(%edx)", name + " := %eax");
+        } else {
+            // Array set operation
+            f.genInstr("push %eax");
+            expr.genCode(f);
+            ArrayType arr = (ArrayType)decl.getType().getNonName();
+            f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
+            f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
+            f.genInstr("pop %ecx");
+            f.genInstr("movl", "%ecx,"+decl.declOffset + "(%edx, %eax, 4)", name+"[...] := %ecx");
+        }
+    }
+
 
     public static Variable parse(Scanner s, PascalSyntax context) {
         enterParser("Variable");

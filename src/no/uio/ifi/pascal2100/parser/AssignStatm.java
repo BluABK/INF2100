@@ -30,8 +30,7 @@ public class AssignStatm extends Statement {
     @Override
     public void genCode(CodeFile f) {
         expr.genCode(f);
-        f.genInstr("movl", (-4*var.decl.declLevel) + "(%ebp),%edx");
-        f.genInstr("movl", "%eax," + var.decl.declOffset + "(%edx)", var.name+" := %eax");
+        var.genCodeSet(f);
     }
 
     public static AssignStatm parse(Scanner s, PascalSyntax context) {
