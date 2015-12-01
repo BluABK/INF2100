@@ -106,8 +106,6 @@ public class ProcDecl extends PascalDecl {
     @Override
     public void genCode(CodeFile code) {
         // Params are to be labeled 8, 12, 16...
-        //    params.parameters.get(i).stackOffset;
-        //    params.totalArgSize
         if(params != null) {
             params.parentDeclLevel = declLevel;
             params.genCode(code);

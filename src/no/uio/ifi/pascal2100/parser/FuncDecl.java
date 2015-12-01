@@ -52,10 +52,11 @@ public class FuncDecl extends PascalDecl {
 
     @Override
     public void check(Block scope, Library lib) {
-        params.check(scope, lib);
-
-        // Params.addDecls adds the parameters to the Block of the function
-        params.addDecls(child);
+        if(params != null) {
+            params.check(scope, lib);
+            // Params.addDecls adds the parameters to the Block of the function
+            params.addDecls(child);
+        }
 
         type.check(scope,  lib);
 
@@ -73,10 +74,10 @@ public class FuncDecl extends PascalDecl {
         }
         declOffset = -32;
         // Params are to be labeled 8, 12, 16...
-        //    params.parameters.get(i).stackOffset;
-        //    params.totalArgSize
-        params.parentDeclLevel = declLevel;
-        params.genCode(code);
+        if(params != null) {
+            params.parentDeclLevel = declLevel;
+            params.genCode(code);
+        }
         // We know return value is stored in -32(%ebp), block does this
 
 

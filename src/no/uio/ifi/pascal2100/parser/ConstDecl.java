@@ -57,8 +57,9 @@ public class ConstDecl extends PascalDecl {
     public void genCode(CodeFile f) {
         if(name.equals("eol"))
             f.genInstr("movl", "$10,%eax");
-        else
-            Main.TODO();
+        else {
+            child.genCode(f);
+        }
     }
 
     public static ConstDecl parse(Scanner s, PascalSyntax context) {

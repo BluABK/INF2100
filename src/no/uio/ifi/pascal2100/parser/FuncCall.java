@@ -43,24 +43,29 @@ public class FuncCall extends Factor {
             return;
         }
         decl = (FuncDecl)func;
-        for(Expression e: expressions)
-            e.check(scope, lib);
+
+        if(expressions != null)
+            for(Expression e: expressions)
+                e.check(scope, lib);
     }
 
     @Override
     public void genCode(CodeFile f) {
-        if(expressions.size() != decl.params.parameters.size())
+        int E = 0; if(expressions != null) E = expressions.size();
+        int D = 0; if(decl.params != null) D = decl.params.parameters.size();
+        if(E != D)
             Main.error("Incorrect number of arguments in call to "+decl.name);
 
         // push the desired amount of things to the stack before the call in reverse order
         int i;
-        for(i=expressions.size()-1; i>=0;i--) {
-            Expression e = expressions.get(i);
-            e.genCode(f);
-            f.genInstr("push", "%eax");
-        }
+        if(expressions != null)
+            for(i=expressions.size()-1; i>=0;i--) {
+                Expression e = expressions.get(i);
+                e.genCode(f);
+                f.genInstr("push", "%eax");
+            }
         f.genInstr("call", decl.progProcFuncName);
-        if(decl.params.totalArgSize > 0)
+        if(decl.params != null && decl.params.totalArgSize > 0)
             f.genInstr("addl", "$"+decl.params.totalArgSize+",%esp");
     }
 
