@@ -97,10 +97,7 @@ public class Variable extends Factor {
         }
     }
 
-    public void genCodeSet(CodeFile f) {
-        f.genInstr("movl", (-4*decl.declLevel) + "(%ebp),%edx");
-        f.genInstr("movl", "%eax," + decl.declOffset + "(%edx)");
-    }
+
     public void genCode(CodeFile f) {
         f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
         f.genInstr("movl", decl.declOffset + "(%edx),%eax");
