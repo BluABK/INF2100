@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 15:33:52
+# Code file created by Pascal2100 compiler 2015-12-01 15:36:52
         .extern write_char
         .extern write_int
         .extern write_string
@@ -139,32 +139,28 @@ prog$fib_1:                             # fib (level 1)
         movl    -4(%ebp),%edx
         movl    %eax,-36(%edx)          # n := %eax
         movl    $75,%eax                # %eax := 75
-        push %eax
+        push    %eax
         movl    $0,%eax                 # %eax := 0
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
-        pop %ecx
+        pop     %ecx
         movl    %ecx,-56(%edx, %eax, 4) # test[...] := %ecx
         movl    $52,%eax                # %eax := 52
-        push %eax
+        push    %eax
         movl    $1,%eax                 # %eax := 1
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
-        pop %ecx
+        pop     %ecx
         movl    %ecx,-56(%edx, %eax, 4) # test[...] := %ecx
         movl    $23,%eax                # %eax := 23
-        push %eax
+        push    %eax
         movl    $2,%eax                 # %eax := 2
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
-        pop %ecx
+        pop     %ecx
         movl    %ecx,-56(%edx, %eax, 4) # test[...] := %ecx
         movl    $1337,%eax              # %eax := 1337
-        push %eax
+        push    %eax
         movl    $3,%eax                 # %eax := 3
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
-        pop %ecx
+        pop     %ecx
         movl    %ecx,-56(%edx, %eax, 4) # test[...] := %ecx
         .data
 .L0009:
@@ -237,28 +233,24 @@ prog$fib_1:                             # fib (level 1)
         call    write_char
         addl    $4,%esp
         movl    $0,%eax                 # %eax := 0
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax
         call    write_int
         addl    $4,%esp
         movl    $1,%eax                 # %eax := 1
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax
         call    write_int
         addl    $4,%esp
         movl    $2,%eax                 # %eax := 2
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax
         call    write_int
         addl    $4,%esp
         movl    $3,%eax                 # %eax := 3
-        subl    $0,%eax                 # Array test start=0
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax

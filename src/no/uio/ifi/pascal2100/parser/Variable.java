@@ -106,7 +106,8 @@ public class Variable extends Factor {
             // Array get operation
             expr.genCode(f);
             ArrayType arr = (ArrayType)decl.getType().getNonName();
-            f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
+            if(arr.numberR.startI != 0)
+                f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
             f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
             f.genInstr("movl", decl.declOffset + "(%edx, %eax, 4),%eax", "%eax := " + name + "[...]");
         }
@@ -117,12 +118,13 @@ public class Variable extends Factor {
             f.genInstr("movl", "%eax," + decl.declOffset + "(%edx)", name + " := %eax");
         } else {
             // Array set operation
-            f.genInstr("push %eax");
+            f.genInstr("push", "%eax");
             expr.genCode(f);
             ArrayType arr = (ArrayType)decl.getType().getNonName();
-            f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
+            if(arr.numberR.startI != 0)
+                f.genInstr("subl", "$"+arr.numberR.startI+",%eax", "Array "+name+" start="+arr.numberR.startI);
             f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
-            f.genInstr("pop %ecx");
+            f.genInstr("pop", "%ecx");
             f.genInstr("movl", "%ecx,"+decl.declOffset + "(%edx, %eax, 4)", name+"[...] := %ecx");
         }
     }
