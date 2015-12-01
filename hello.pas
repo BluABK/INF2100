@@ -56,7 +56,7 @@ begin
     test[3] := 1337;
     write('fib1(', n, ') = ', fib1(n), eol);
     write('fib2(', n, ') = ', fib2(n), eol);
-    write(test[0], test[1], test[2], test[3], eol);
+    write(test[0], ' ', test[1], ' ', test[2], ' ', test[3], ' ', eol);
     iii := ddd;
 end.
 

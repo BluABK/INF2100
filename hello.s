@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 15:36:52
+# Code file created by Pascal2100 compiler 2015-12-01 15:38:33
         .extern write_char
         .extern write_int
         .extern write_string
@@ -238,11 +238,29 @@ prog$fib_1:                             # fib (level 1)
         push    %eax
         call    write_int
         addl    $4,%esp
+        .data
+.L0013:
+.asciz   " "
+        .align  2
+        .text
+        leal    .L0013,%eax
+        push    %eax
+        call    write_string
+        addl    $4,%esp
         movl    $1,%eax                 # %eax := 1
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax
         call    write_int
+        addl    $4,%esp
+        .data
+.L0014:
+.asciz   " "
+        .align  2
+        .text
+        leal    .L0014,%eax
+        push    %eax
+        call    write_string
         addl    $4,%esp
         movl    $2,%eax                 # %eax := 2
         movl    -4(%ebp),%edx
@@ -250,11 +268,29 @@ prog$fib_1:                             # fib (level 1)
         push    %eax
         call    write_int
         addl    $4,%esp
+        .data
+.L0015:
+.asciz   " "
+        .align  2
+        .text
+        leal    .L0015,%eax
+        push    %eax
+        call    write_string
+        addl    $4,%esp
         movl    $3,%eax                 # %eax := 3
         movl    -4(%ebp),%edx
         movl    -56(%edx, %eax, 4),%eax # %eax := test[...]
         push    %eax
         call    write_int
+        addl    $4,%esp
+        .data
+.L0016:
+.asciz   " "
+        .align  2
+        .text
+        leal    .L0016,%eax
+        push    %eax
+        call    write_string
         addl    $4,%esp
         movl    $10,%eax
         push    %eax
