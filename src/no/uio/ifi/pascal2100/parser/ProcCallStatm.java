@@ -83,7 +83,6 @@ public class ProcCallStatm extends Statement {
                 // Depending on the type of e, we have to decide between write_* (see library)
                 // string: expression has only one simpleexpression, only one term, factor etc and that is a string
                 // char:
-                // TODO more type checking for expression
                 f.genInstr("push", "%eax");
                 if (e.testString())
                     f.genInstr("call", "write_string");
