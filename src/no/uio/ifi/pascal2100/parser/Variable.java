@@ -97,24 +97,13 @@ public class Variable extends Factor {
         }
     }
 
-    @Override
-    public void genCode(CodeFile f) {
-        // TODO remove extra checks
-        if(decl.declLevel == 0)
-            Main.error("var of declLevel 0");
-        if(decl.declOffset == 0)
-            Main.error("var of declOffset 0");
-
-        f.genInstr("movl", Integer.toString(-4*decl.declLevel) + "(%ebp),%edx");
-    }
-
     public void genCodeSet(CodeFile f) {
-        genCode(f);
-        f.genInstr("movl", "%eax," + Integer.toString(decl.declOffset) + "(%edx)");
+        f.genInstr("movl", (-4*decl.declLevel) + "(%ebp),%edx");
+        f.genInstr("movl", "%eax," + decl.declOffset + "(%edx)");
     }
-    public void genCodeGet(CodeFile f) {
-        genCode(f);
-        f.genInstr("movl", Integer.toString(decl.declOffset) + "(%edx),%eax");
+    public void genCode(CodeFile f) {
+        f.genInstr("movl", (-4 * decl.declLevel) + "(%ebp),%edx");
+        f.genInstr("movl", decl.declOffset + "(%edx),%eax");
     }
 
     public static Variable parse(Scanner s, PascalSyntax context) {
