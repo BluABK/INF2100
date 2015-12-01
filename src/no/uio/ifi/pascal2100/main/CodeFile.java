@@ -101,12 +101,12 @@ public class CodeFile {
 
 
     public void Cifdef(String s) {
-        code.println(".ifdef "+s);
+        code.println("#ifdef "+s);
     }
     public void Celse() {
-        code.println(".else");
+        code.println("#else");
     }
     public void Cendif() {
-        code.println(".endif");
+        code.println("#endif");
     }
 }

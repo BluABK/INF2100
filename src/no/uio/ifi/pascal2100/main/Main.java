@@ -111,7 +111,7 @@ public class Main {
         // Del 4
         System.out.print(" generating code...");
         /* # Code file created ... */
-        CodeFile code = new CodeFile(baseFileName+".s");
+        CodeFile code = new CodeFile(baseFileName+".S");
 
         /**
          * Link main:
@@ -135,7 +135,7 @@ public class Main {
 
     private static void assembleCode() {
         String pName = baseFileName;
-        String sName = baseFileName + ".s";
+        String sName = baseFileName + ".S";
 
         String cmd[] = new String[8];
         cmd[0] = "gcc";
