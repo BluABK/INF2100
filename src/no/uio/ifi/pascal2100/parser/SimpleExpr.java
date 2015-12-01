@@ -68,9 +68,9 @@ public class SimpleExpr extends PascalSyntax {
 
         int i;
         for(i=0;i<termOprs.size();i++) {
-            f.genInstr("push %eax");
+            f.genInstr("push", "%eax");
             terms.get(i+1).genCode(f);
-            f.genInstr("pop %ecx");
+            f.genInstr("pop", "%ecx");
             termOprs.get(i).genCode(f);
         }
     }

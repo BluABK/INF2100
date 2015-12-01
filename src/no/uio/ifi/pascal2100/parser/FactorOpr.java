@@ -21,20 +21,18 @@ public class FactorOpr extends Opr {
     public void genCode(CodeFile f) {
         // eax = ecx <op> eax
         if(op == Op.multiply) {
-            f.genInstr("imull %ecx, %eax");
+            f.genInstr("imull", "%ecx,%eax");
         } else if(op == Op.div) {
-            // edx = 0
-
-            f.genInstr("xchgl %eax, %ecx"); // Swap
-            f.genInstr("xorl %edx, %edx");
-            f.genInstr("idivl %ecx");
+            f.genInstr("xchgl", "%eax,%ecx"); // Swap
+            f.genInstr("xorl",  "%edx,%edx");
+            f.genInstr("idivl", "%ecx");
         } else if(op == Op.mod) {
-            f.genInstr("xchgl %eax, %ecx"); // Swap
-            f.genInstr("xorl %edx, %edx");
-            f.genInstr("idivl %ecx");
-            f.genInstr("movl %edx, %eax");
+            f.genInstr("xchgl", "%eax,%ecx"); // Swap
+            f.genInstr("xorl",  "%edx,%edx");
+            f.genInstr("idivl", "%ecx");
+            f.genInstr("movl",  "%edx,%eax");
         } else {
-            f.genInstr("andl %ecx, %eax");
+            f.genInstr("andl",  "%ecx,%eax");
         }
     }
 

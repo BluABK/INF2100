@@ -54,14 +54,14 @@ public class ProcCallStatm extends Statement {
                 // string: expression has only one simpleexpression, only one term, factor etc and that is a string
                 // char:
                 // TODO more type checking for expression
-                f.genInstr("push %eax");
+                f.genInstr("push", "%eax");
                 if(e.testString())
-                    f.genInstr("call write_string");
+                    f.genInstr("call", "write_string");
                 else if(e.testChar())
-                    f.genInstr("call write_char");
+                    f.genInstr("call", "write_char");
                 else
-                    f.genInstr("call write_int");
-                f.genInstr("addl $4, %esp");
+                    f.genInstr("call", "write_int");
+                f.genInstr("addl", "$4,%esp");
             }
             return;
         }
@@ -71,7 +71,7 @@ public class ProcCallStatm extends Statement {
 
         if(expressions == null) {
             // No arguments
-            f.genInstr("call "+decl.progProcFuncName);
+            f.genInstr("call", decl.progProcFuncName);
             return;
         }
 
@@ -80,10 +80,10 @@ public class ProcCallStatm extends Statement {
         for(i=expressions.size()-1; i>=0;i--) {
             Expression e = expressions.get(i);
             e.genCode(f);
-            f.genInstr("push %eax");
+            f.genInstr("push", "%eax");
         }
-        f.genInstr("call "+decl.progProcFuncName);
-        f.genInstr("addl $" + Integer.toString(4 * numExpected) + ",%esp");
+        f.genInstr("call", decl.progProcFuncName);
+        f.genInstr("addl", "$" + Integer.toString(4 * numExpected) + ",%esp");
     }
 
     public static ProcCallStatm parse(Scanner s, PascalSyntax context) {

@@ -47,7 +47,7 @@ public class ConstantName extends Constant {
     @Override
     public void genCode(CodeFile f) {
         if(name.equals("eol"))
-            f.genInstr("movl $10,%eax");
+            f.genInstr("movl", "$10,%eax");
         else
             decl.genCode(f);
     }

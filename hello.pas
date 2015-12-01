@@ -49,8 +49,8 @@ begin
     nom;
     nom();
     n := 40;
-    write('fib1(', n, ') =', fib1(n), eol);
-    write('fib2(', n, ') =', fib2(n), eol);
+    write('fib1(', n, ') = ', fib1(n), eol);
+    write('fib2(', n, ') = ', fib2(n), eol);
     iii := ddd;
 end.
 

@@ -35,7 +35,7 @@ public class ConstantStr extends Constant {
         String l = f.getLocalLabel();
 
         f.genString(l, str);
-        f.genInstr("leal "+l+",%eax");
+        f.genInstr("leal", l+",%eax");
     }
 
     public static ConstantStr parse(Scanner s, PascalSyntax context) {

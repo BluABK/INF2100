@@ -31,7 +31,7 @@ public class ConstantInt extends Constant {
 
     @Override
     public void genCode(CodeFile f) {
-        f.genInstr("movl $"+integer+",%eax");
+        f.genInstr("movl", "$"+integer+",%eax");
     }
 
     public static ConstantInt parse(Scanner s, PascalSyntax context) {

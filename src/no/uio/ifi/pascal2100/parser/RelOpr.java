@@ -23,22 +23,22 @@ public class RelOpr extends Opr {
         // 0 if false, 1 if true
         String l1 = f.getLocalLabel();
 
-        f.genInstr("cmpl %eax, %ecx");
-        f.genInstr("movl $1, %eax");
+        f.genInstr("cmpl", "%eax,%ecx");
+        f.genInstr("movl", "$1,%eax");
         // switch
         if(op == op.equal)
-            f.genInstr("je "+l1);
+            f.genInstr("je", l1);
         else if(op == Op.notEqual)
-            f.genInstr("jne "+l1);
+            f.genInstr("jne", l1);
         else if(op == Op.less)
-            f.genInstr("jl "+l1);
+            f.genInstr("jl", l1);
         else if(op == Op.lessEqual)
-            f.genInstr("jle "+l1);
+            f.genInstr("jle", l1);
         else if(op == Op.greater)
-            f.genInstr("jg "+l1);
+            f.genInstr("jg", l1);
         else //if(op == Op.greaterEqual)
-            f.genInstr("jge "+l1);
-        f.genInstr("movl $0, %eax");
+            f.genInstr("jge", l1);
+        f.genInstr("movl", "$0,%eax");
         f.genLabel(l1);
     }
 

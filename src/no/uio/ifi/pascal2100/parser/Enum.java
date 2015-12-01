@@ -57,7 +57,7 @@ public class Enum extends PascalDecl {
 
     @Override
     public void genCode(CodeFile f) {
-        f.genInstr("mov $"+id+",%eax");
+        f.genInstr("movl", "$"+id+",%eax");
     }
 
     public static Enum parse(Scanner s, PascalSyntax context) {

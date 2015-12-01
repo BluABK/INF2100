@@ -56,7 +56,7 @@ public class ConstDecl extends PascalDecl {
     @Override
     public void genCode(CodeFile f) {
         if(name.equals("eol"))
-            f.genInstr("mov $10,%eax");
+            f.genInstr("movl", "$10,%eax");
         else
             Main.TODO();
     }

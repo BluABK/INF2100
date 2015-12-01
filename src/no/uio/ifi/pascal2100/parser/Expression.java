@@ -43,9 +43,9 @@ public class Expression extends PascalSyntax {
     public void genCode(CodeFile f) {
         lhs.genCode(f);
         if(op != null) {
-            f.genInstr("push %eax");
+            f.genInstr("push", "%eax");
             rhs.genCode(f);
-            f.genInstr("pop %ecx");
+            f.genInstr("pop", "%ecx");
             op.genCode(f);
         }
     }

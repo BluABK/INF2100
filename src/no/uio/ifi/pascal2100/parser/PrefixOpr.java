@@ -21,7 +21,7 @@ public class PrefixOpr extends Opr {
     @Override
     public void genCode(CodeFile f) {
         if(op == Op.subtract)
-            f.genInstr("neg %eax");
+            f.genInstr("neg", "%eax");
     }
 
     public static PrefixOpr parse(Scanner s, PascalSyntax context) {

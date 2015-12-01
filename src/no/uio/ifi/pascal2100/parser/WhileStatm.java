@@ -27,13 +27,13 @@ public class WhileStatm extends Statement {
         String l1 = f.getLocalLabel();
         String l2 = f.getLocalLabel();
 
-        f.genLabel(l1);
+        f.genLabel(l1, "while "+l1);
         test.genCode(f);
-        f.genInstr("cmpl $0,%eax");
-        f.genInstr("je "+l2);
+        f.genInstr("cmpl", "$0,%eax");
+        f.genInstr("je", l2);
         statm.genCode(f);
-        f.genInstr("jmp "+l1);
-        f.genLabel(l2);
+        f.genInstr("jmp", l1);
+        f.genLabel(l2, "/while "+l1);
     }
 
     public static WhileStatm parse(Scanner s, PascalSyntax context) {
