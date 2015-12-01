@@ -42,12 +42,13 @@ public class Term extends PascalSyntax {
 
     @Override
     public void genCode(CodeFile f) {
+        System.out.println(factors.get(0));
         factors.get(0).genCode(f);
         int i;
         for(i=0;i<factorOprs.size();i++) {
-            f.genInstr("push %eax");
+            f.genInstr("push", "%eax");
             factors.get(i+1).genCode(f);
-            f.genInstr("pop %ecx");
+            f.genInstr("pop", "%ecx");
             factorOprs.get(i).genCode(f);
         }
     }

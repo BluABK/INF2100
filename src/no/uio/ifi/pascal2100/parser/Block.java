@@ -127,7 +127,7 @@ public class Block extends PascalSyntax {
         }
 
         // statements
-        code.genLabel(parent.progProcFuncName, "At level "+parent.declLevel);
+        code.genLabel(parent.progProcFuncName, parent.name+" (level "+parent.declLevel+")");
 
         code.genInstr("enter", "$" + stackSize+",$" + parent.declLevel);
         statements.genCode(code);
