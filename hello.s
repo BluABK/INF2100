@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 15:38:33
+# Code file created by Pascal2100 compiler 2015-12-01 15:48:05
         .extern write_char
         .extern write_int
         .extern write_string
@@ -87,18 +87,6 @@ func$fib2_5:                            # fib2 (level 2)
         movl    -8(%ebp),%edx
         movl    8(%edx),%eax            # %eax := x
         push    %eax
-        movl    $2,%eax                 # %eax := 2
-        pop     %ecx
-        subl    %eax,%ecx
-        movl    %ecx,%eax               # %eax := %ecx - %eax
-        push    %eax
-        call    func$fib2_5
-        addl    $4,%esp
-        neg     %eax
-        push    %eax
-        movl    -8(%ebp),%edx
-        movl    8(%edx),%eax            # %eax := x
-        push    %eax
         movl    $1,%eax                 # %eax := 1
         pop     %ecx
         subl    %eax,%ecx
@@ -110,15 +98,13 @@ func$fib2_5:                            # fib2 (level 2)
         movl    -8(%ebp),%edx
         movl    8(%edx),%eax            # %eax := x
         push    %eax
-        movl    $3,%eax                 # %eax := 3
+        movl    $2,%eax                 # %eax := 2
         pop     %ecx
         subl    %eax,%ecx
         movl    %ecx,%eax               # %eax := %ecx - %eax
         push    %eax
         call    func$fib2_5
         addl    $4,%esp
-        pop     %ecx
-        imull   %ecx,%eax
         pop     %ecx
         addl    %ecx,%eax               # %eax := %eax + %ecx
         movl    -8(%ebp),%edx

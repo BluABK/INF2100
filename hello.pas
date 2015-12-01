@@ -35,7 +35,7 @@ begin
     if x <= 2 then
         fib2 := 1
     else
-        fib2 := - fib2(x - 2) + fib2(x - 1) * fib2(x - 3);
+        fib2 := fib2(x - 1) + fib2(x - 2);
     /* fib2 := not (a + b); */
 
 end; {fib2}
