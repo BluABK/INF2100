@@ -32,7 +32,6 @@ public class NameType extends Type {
         if(name.equals("integer"))
             return false;
 
-        System.out.println(name);
         return decl.testString();
     }
 
@@ -41,7 +40,6 @@ public class NameType extends Type {
         if(name.equals("integer"))
             return false;
 
-        System.out.println(name);
         return decl.testChar();
     }
 
