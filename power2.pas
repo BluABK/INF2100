@@ -2,8 +2,7 @@ program Power2;
 
 var v: integer;
 
-/* bla bla bla
-    bla bla jadda jadda jadda. */
+
 function pow2 (x: integer): integer;
 var p2: integer;
 begin

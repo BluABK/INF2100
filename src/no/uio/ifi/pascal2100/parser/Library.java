@@ -75,9 +75,21 @@ public class Library extends Block {
      */
     @Override
     public void genCode(CodeFile code){
+        code.Cifdef("WIN32");
+        code.genDirective(".extern", "_write_char");
+        code.genDirective(".extern", "_write_int");
+        code.genDirective(".extern", "_write_string");
+        code.genLabel("write_char");
+        code.genInstr("jmp", "_write_char");
+        code.genLabel("write_int");
+        code.genInstr("jmp", "_write_int");
+        code.genLabel("write_string");
+        code.genInstr("jmp", "_write_string");
+        code.Celse();
         code.genDirective(".extern", "write_char");
         code.genDirective(".extern", "write_int");
         code.genDirective(".extern", "write_string");
+        code.Cendif();
     }
 
     PascalDecl findDecl(String id, PascalSyntax w) {

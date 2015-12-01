@@ -98,4 +98,15 @@ public class CodeFile {
         genDirective(".align", "2");
         genDirective(".text");
     }
+
+
+    public void Cifdef(String s) {
+        code.println("#ifdef "+s);
+    }
+    public void Celse() {
+        code.println("#else");
+    }
+    public void Cendif() {
+        code.println("#endif");
+    }
 }
