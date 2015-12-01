@@ -32,7 +32,7 @@ public class InnerExpr extends Factor {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        expr.genCode(f);
     }
 
     public static InnerExpr parse(Scanner s, PascalSyntax context) {

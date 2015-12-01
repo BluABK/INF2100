@@ -21,9 +21,7 @@ public class ConstDeclPart extends PascalSyntax {
     }
 
     @Override
-    public void genCode(CodeFile f) {
-        Main.TODO();
-    }
+    public void genCode(CodeFile f) {}
 
     ConstDeclPart(int n, int c) {
         super(n, c);

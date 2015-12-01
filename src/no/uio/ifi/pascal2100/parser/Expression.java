@@ -20,14 +20,10 @@ public class Expression extends PascalSyntax {
 
 
     public boolean testString() {
-        if(op != null)
-            return false;
-        return lhs.testString();
+        return op == null && lhs.testString();
     }
     public boolean testChar() {
-        if(op != null)
-            return false;
-        return lhs.testChar();
+        return op == null && lhs.testChar();
     }
 
     @Override

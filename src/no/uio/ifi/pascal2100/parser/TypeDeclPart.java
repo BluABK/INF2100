@@ -25,9 +25,7 @@ public class TypeDeclPart extends PascalSyntax {
     }
 
     @Override
-    public void genCode(CodeFile f) {
-        Main.TODO();
-    }
+    public void genCode(CodeFile f) {}
 
 
     public static TypeDeclPart parse(Scanner s, PascalSyntax context) {

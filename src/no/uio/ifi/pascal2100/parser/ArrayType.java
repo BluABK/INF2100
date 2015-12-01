@@ -53,9 +53,7 @@ public class ArrayType extends Type {
     }
 
     @Override
-    public void genCode(CodeFile f) {
-        Main.TODO();
-    }
+    public void genCode(CodeFile f) {}
 
     /**
      * @param s : Scanner object

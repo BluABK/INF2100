@@ -59,9 +59,7 @@ public class NameType extends Type {
     }
 
     @Override
-    public void genCode(CodeFile f) {
-        Main.TODO();
-    }
+    public void genCode(CodeFile f) {}
 
     public static NameType parse(Scanner s, PascalSyntax context) {
         enterParser("NameType");

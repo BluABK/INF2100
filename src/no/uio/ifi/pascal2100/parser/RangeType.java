@@ -17,8 +17,7 @@ public class RangeType extends Type {
 
     @Override
     public int getStackSize() {
-        Main.TODO();
-        return 0;
+        return 8;
     }
 
     RangeType(int n, int c) {

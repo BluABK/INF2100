@@ -13,5 +13,7 @@ end;
 
 begin
     v := pow2(1000);
-    write('pow2(1000) = ', v, eol)
+    write('pow2(1000) = ', v, eol);
+    write('not 0 = ', not 0, eol);
+    write('not 37 = ', not 37, eol);
 end.

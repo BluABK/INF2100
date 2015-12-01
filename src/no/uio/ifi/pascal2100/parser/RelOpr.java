@@ -22,19 +22,19 @@ public class RelOpr extends Opr {
         f.genInstr("cmpl", "%eax,%ecx", "%ecx "+op.toString()+" %eax");
         // switch
         if(op == op.equal)
-            f.genInstr("sete", "%al", "^");
+            f.genInstr("sete", "%al");
         else if(op == Op.notEqual)
-            f.genInstr("setne", "%al", "^");
+            f.genInstr("setne", "%al");
         else if(op == Op.less)
-            f.genInstr("setl", "%al", "^");
+            f.genInstr("setl", "%al");
         else if(op == Op.lessEqual)
-            f.genInstr("setle", "%al", "^");
+            f.genInstr("setle", "%al");
         else if(op == Op.greater)
-            f.genInstr("setg", "%al", "^");
+            f.genInstr("setg", "%al");
         else //if(op == Op.greaterEqual)
-            f.genInstr("setge", "%al", "^");
+            f.genInstr("setge", "%al");
 
-        f.genInstr("movzbl", "%al,%eax", "^");
+        f.genInstr("movzbl", "%al,%eax");
     }
 
     public static RelOpr parse(Scanner s, PascalSyntax context) {

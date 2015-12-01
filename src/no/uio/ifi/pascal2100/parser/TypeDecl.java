@@ -78,9 +78,7 @@ public class TypeDecl extends PascalDecl {
     }
 
     @Override
-    public void genCode(CodeFile f) {
-        Main.TODO();
-    }
+    public void genCode(CodeFile f) {}
 
     @Override
     public String identify() {

@@ -75,7 +75,7 @@ public class Library extends Block {
      */
     @Override
     public void genCode(CodeFile code){
-        code.Cifdef("WIN32");
+        code.Cifdef ("WIN32");
         code.genDirective(".extern", "_write_char");
         code.genDirective(".extern", "_write_int");
         code.genDirective(".extern", "_write_string");

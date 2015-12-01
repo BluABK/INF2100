@@ -32,6 +32,14 @@ public class FactorOpr extends Opr {
             f.genInstr("idivl", "%ecx");
             f.genInstr("movl",  "%edx,%eax");
         } else {
+            // Logical AND:
+            f.genInstr("cmpl", "$0,%ecx");
+            f.genInstr("setne", "%cl");
+            f.genInstr("cmpl", "$0,%eax");
+            f.genInstr("setne", "%al");
+            f.genInstr("movzbl", "%al,%eax");
+            f.genInstr("movzbl", "%cl,%ecx");
+            // if bitwise, only use the last part:
             f.genInstr("andl",  "%ecx,%eax");
         }
     }

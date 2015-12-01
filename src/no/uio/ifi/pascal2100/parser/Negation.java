@@ -27,7 +27,10 @@ public class Negation extends Factor {
 
     @Override
     public void genCode(CodeFile f) {
-        Main.TODO();
+        factor.genCode(f);
+        f.genInstr("cmpl", "$0,%eax");
+        f.genInstr("sete", "%al");
+        f.genInstr("movzbl", "%al,%eax");
     }
 
     public static Negation parse(Scanner s, PascalSyntax context) {
