@@ -147,18 +147,28 @@ public class Main {
         String pName = baseFileName;
         String sName = baseFileName + ".S";
 
-        String cmd[] = new String[8];
-        cmd[0] = "gcc";
-        cmd[1] = "-m32";
-        cmd[2] = "-o";
-        cmd[3] = pName;
-        cmd[4] = sName;
-        cmd[5] = "-L.";
-        if (Lpath != null)
+        String cmd[];
+
+        if(Lpath != null) {
+            cmd = new String[8];
+            cmd[0] = "gcc";
+            cmd[1] = "-m32";
+            cmd[2] = "-o";
+            cmd[3] = pName;
+            cmd[4] = sName;
+            cmd[5] = "-L.";
             cmd[6] = Lpath;
-        else
-            cmd[6] = "";
-        cmd[7] = "-lpas2100";
+            cmd[7] = "-lpas2100";
+        } else {
+            cmd = new String[7];
+            cmd[0] = "gcc";
+            cmd[1] = "-m32";
+            cmd[2] = "-o";
+            cmd[3] = pName;
+            cmd[4] = sName;
+            cmd[5] = "-L.";
+            cmd[6] = "-lpas2100";
+        }
 
         System.out.print("Running");
         for (String s : cmd) {

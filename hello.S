@@ -1,4 +1,4 @@
-# Code file created by Pascal2100 compiler 2015-12-01 18:51:53
+# Code file created by Pascal2100 compiler 2015-12-02 07:39:34
 #ifdef WIN32
         .extern _write_char
         .extern _write_int
@@ -40,8 +40,8 @@ func$fib1_2:                            # fib1 (level 2)
         movl    $0,%eax                 # %eax := 0
         pop     %ecx
         cmpl    %eax,%ecx               # %ecx > %eax
-        setg    %al                     # ^
-        movzbl  %al,%eax                # ^
+        setg    %al
+        movzbl  %al,%eax
         cmpl    $0,%eax
         je      .L0004
         movl    -8(%ebp),%edx
@@ -87,8 +87,8 @@ func$fib2_5:                            # fib2 (level 2)
         movl    $2,%eax                 # %eax := 2
         pop     %ecx
         cmpl    %eax,%ecx               # %ecx <= %eax
-        setle   %al                     # ^
-        movzbl  %al,%eax                # ^
+        setle   %al
+        movzbl  %al,%eax
         cmpl    $0,%eax                 # if .L0006
         je      .L0006
         movl    $1,%eax                 # %eax := 1
