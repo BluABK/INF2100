@@ -4,7 +4,7 @@
 .idea.old/
 src/classes
 src/pascal2100.jar
-srv/*.s
+src/*.s
 hello.log
 hello
 *.o
