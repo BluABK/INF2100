@@ -27,6 +27,7 @@ public class Block extends PascalSyntax {
     public boolean hasRet = true;
     public Block outerScope;
     public PascalDecl parent;
+    // @BluABK Poke: This will be in.. Robot because that's where the variables are stored. Hashmap maps from a variable string to the actual reference. k. Parts of this code can basically be copied.. well it's OUR code so.. give credits to yourself properly, allright? wel lnot even a joke might need to give credit to the task ettersom det var 2 stk på den, devilry plaguarsim systemet er alltid en koseklump..... Bare legg inn kommentar dersom du kopierer en full funksjon elns
     HashMap<String, PascalDecl> decls = new HashMap<>();
 
     Block(int n, int c) {
@@ -94,10 +95,15 @@ public class Block extends PascalSyntax {
         return null;
     }
 
+    // poke2? BluABKPoke daddsada :P BluABK.poke()
+    // so check is where it does the same stuff you'll do now:
     @Override
     public void check(Block curScope, Library lib) {
+	// We only have one scope, but that would be something like:
+	// curRobot = robot
         outerScope = curScope;
 
+	// First it adds all the variables into as hashmap so we can look them up later
         if (constants != null)
             for (ConstDecl cd : constants.constants)
                 addDecl(cd.name, cd);
@@ -133,6 +139,7 @@ public class Block extends PascalSyntax {
         for (FuncDecl fd : functions)
             fd.check(this, lib);
 
+	// then it checks the code. since it passed itself down, that code can call back here to retrieve a reference
         statements.check(this, lib);
     }
 
